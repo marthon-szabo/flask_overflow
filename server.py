@@ -11,13 +11,11 @@ def main_page():
 
 @app.route('/list')
 def listing_questions():
-	return render_template('/mainpage.html')
-
+    return render_template("list.html", questions=connection.questions)
 
 @app.route('/question/<int:question_id>', methods=['GET','POST'])
 def display_question(question_id):
 	return render_template('display_question.html', question_id=question_id, questions = connection.questions, anwsers = connection.answers)
-
 
 @app.route('/add-question')
 def add_question():
