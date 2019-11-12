@@ -45,6 +45,17 @@ def add_question(title,message,image):
     questions.append(question)
     write_questions()
 
+def add_answer(message, image):
+    answers = {
+        'id':get_max_question_id(),
+        'submission_time':str(datetime.datetime.now()),
+        'question_id' : '0',
+        'message':message,
+        'image':image
+    }
+    answers.append(answers)
+    write_answers()
+
 def get_max_question_id():
     id = 0
     for record in questions:
