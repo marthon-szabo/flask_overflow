@@ -19,6 +19,12 @@ def vote_anwser(question_id,comment_id):
     display_question(question_id)
     return redirect('/question/'+str(question_id))
 
+@app.route('/devote_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
+def devote_anwser(question_id,comment_id):
+    connection.dislike_post(comment_id)
+    display_question(question_id)
+    return redirect('/question/'+str(question_id))
+
 @app.route('/list')
 def listing_questions():
     return render_template("list.html", questions=connection.questions)

@@ -76,6 +76,12 @@ def like_post(id_):
             record['vote_number'] = str(int(record['vote_number']) + 1)
     write_answers()
 
+def dislike_post(id_):
+    for record in answers:
+        if int(record['id']) == int(id_):
+            record['vote_number'] = str(int(record['vote_number']) - 1)
+    write_answers()
+
 def get_max_voted(question_id):
     max_like = 0
     for record in answers:
