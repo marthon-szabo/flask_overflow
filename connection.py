@@ -2,31 +2,31 @@ import csv
 import datetime
 
 answers = []
-question_head = ['id','submisson_time','view_number','vote_number','title','message','image']
+question_head = ['id','submission_time','view_number','vote_number','title','message','image']
 questions = []
-answer_head = ['id', 'submisson_time','vote_number','question_id','message','image']
+answer_head = ['id', 'submission_time','vote_number','question_id','message','image']
 
 def read_answers():
-    with open('answer.csv', 'r') as csvfile:
+    with open('sample_data/answer.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for record in reader:
             answers.append(record)
 
 def write_answers():
-    with open('answer.csv', 'w') as csvfile:
+    with open('sample_data/answer.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=answer_head)
         writer.writeheader()
         for record in answers:
             writer.writerow(record)
 
 def read_questions():
-    with open('answer.csv', 'r') as csvfile:
+    with open('sample_data/question.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for record in reader:
             questions.append(record)
 
 def write_questions():
-    with open('question.csv', 'w') as csvfile:
+    with open('sample_data/question.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=question_head)
         writer.writeheader()
         for record in questions:
@@ -35,7 +35,7 @@ def write_questions():
 def add_question(title,message,image):
     question = {
         'id':get_max_question_id(),
-        'submisson_time':str(datetime.datetime.now()),
+        'submission_time':str(datetime.datetime.now()),
         'view_number':'0',
         'vote_number':'0',
         'title':title,
@@ -50,3 +50,4 @@ def get_max_question_id():
     for record in questions:
         id = record['id']
     return id
+
