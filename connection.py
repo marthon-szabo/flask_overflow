@@ -50,3 +50,8 @@ def get_max_question_id():
     for record in questions:
         id = record['id']
     return id
+
+def like_post(id_):
+    for record in answers:
+        if int(record['id']) == int(id_):
+            record['vote_number'] = str(int(record['vote_number']) + 1)

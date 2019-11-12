@@ -8,6 +8,10 @@ app = Flask(__name__)
 def main_page():
     return render_template('mainpage.html')
 
+@app.route('/vote_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
+def vote_anwser(question_id,comment_id):
+    connection.like_post(comment_id)
+    return  display_question(question_id)
 
 @app.route('/list')
 def listing_questions():
