@@ -14,12 +14,17 @@
     </table>
     <p>
     <table class="fos">
-        <td class="fos">
+     <td class="fos">
      {% for record in questions %}
         {%if (record['id']|int) == (question_id|int) %}
         <h1>{{record['title']}}</h1>
         <p>{{record['message']}}</p>
         <img align="left" src="{{ record['image'] }}" alt=" ">
+        <img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png" >
+        <img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png">
+            {{ record['vote_number'] }} </br>
+            <img width="16" height="16" src="http://simpleicon.com/wp-content/uploads/active-search.png"> {{ record['view_number'] }}<br>
+            <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}
         {% endif %}
     {%endfor%}
     </td>
