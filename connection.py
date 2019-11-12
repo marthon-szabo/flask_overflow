@@ -1,38 +1,54 @@
-with open("/home/skogmaan/Documents/flask_overflow/sample_data/question.csv", "r+") as text:
+import csv
+import datetime
 
+answers = []
+question_head = ['id','submisson_time','view_number','vote_number','title','message','image']
+questions = []
+answer_head = ['id', 'submisson_time','vote_number','question_id','message','image']
 
-    def read_text(file_name):
-        questions = file_name.readlines()
-        questions = [line.strip("\n") for line in questions]
-        print(questions)
-        question_lines = []
-        for lines in questions:
-            question = lines.split(",")
-            question_lines.append(question)
-        question_lines = [line for line in question_lines if line != ['']]
-        print(question_lines)
+def read_answers():
+    with open('answer.csv', 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for record in reader:
+            answers.append(record)
 
-        titles = question_lines[0]
-        print(titles)
-        titles_with_questions = [(key, value) for key, value in zip(titles, question_lines)]
-        print(titles_with_questions)
+def write_answers():
+    with open('answer.csv', 'w',newline='') as csvfile:
+        writer = csv.DictWriter(csvfile,fieldnames=answer_head)
+        writer.writeheader()
+        for record in answers:
+            writer.writerow(record)
 
+def read_questions():
+    with open('question.csv', 'r', newline='') as csvfile:
+        reader = csv.DictReader(csvfile)
+        for record in reader:
+            questions.append(record)
 
-    read_text(text)
-"""
-    questions = text.readlines()
-    question_lines = []
-    titles = []
-    for lines in questions:
-        questions = lines.split(",")
-        if "\n" in questions:
-            lines.replace("\n", "")
-        question_lines.append(questions)
-    titles.append(question_lines[0])
+def write_questions():
+    with open('question.csv', 'w',newline='') as csvfile:
+        writer = csv.DictWriter(csvfile,fieldnames=question_head)
+        writer.writeheader()
+        for record in questions:
+            writer.writerow(record)
 
-    print(titles)
+def add_question(title,message,image):
+    question = {
+        'id':get_max_question_id(),
+        'submisson_time':str(datetime.datetime.now()),
+        'view_number':'0',
+        'vote_number':'0',
+        'title':title,
+        'message':message,
+        'image':image
+    }
+    questions.append(question)
+    write_questions()
 
+def get_max_question_id():
+    id = 0
+    for record in questions:
+        id = record['id']
+    return id
 
-    questions_with_tags = {key for key in titles[0]}
-    print(questions_with_tags)
-"""
+add_question('asd','asd','asd')
