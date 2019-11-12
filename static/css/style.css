@@ -21,3 +21,7 @@ table.fos{
     width: 100%;
     border-bottom-color:lightgray;
 }
+
+textarea {
+  resize: none;
+}

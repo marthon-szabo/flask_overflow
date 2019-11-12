@@ -45,16 +45,24 @@ def add_question(title,message,image):
     questions.append(question)
     write_questions()
 
-def add_answer(message, image):
-    answers = {
-        'id':get_max_question_id(),
+def add_answer(message, image,question_id):
+    record = {
+        'id':str(int(get_max_anws_id(question_id)) + 1),
         'submission_time':str(datetime.datetime.now()),
-        'question_id' : '0',
+        'question_id' : str(question_id),
+        'vote_number':'0',
         'message':message,
         'image':image
     }
-    answers.append(answers)
+    answers.append(record)
     write_answers()
+
+def get_max_anws_id(question_id):
+    id = 0
+    for record in answers:
+        if record['question_id'] == question_id:
+            id = record['question_id']
+    return id
 
 def get_max_question_id():
     id = 0
@@ -66,3 +74,4 @@ def like_post(id_):
     for record in answers:
         if int(record['id']) == int(id_):
             record['vote_number'] = str(int(record['vote_number']) + 1)
+    write_answers()

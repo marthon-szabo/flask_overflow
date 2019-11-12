@@ -25,15 +25,23 @@
     </td>
     </table>
 
-    {%for record in anwsers%}
+    {%for record in anwsers|reverse %}
         {%if (record['question_id']|int) == (question_id|int) %}
             <p class="comment">
                 <i>"{{ record['message']}}"</i><br>
-                <img src="{{ record['image'] }}"><br>
+                <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                 <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
             </p>
             <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>{{ record['vote_number'] }}
         {%endif%}
     {%endfor%}
+
+    <p>
+        <form action="/send_comment/{{ question_id }}" method="post">
+        <textarea name="my_comment" cols="30" rows="5" placeholder="Comment your opinion"></textarea><br>
+        <input size="18.5" name="image_link" placeholder="Image link( not required)">
+        <button type="submit">Comment</button>
+        </form>
+    </p>
 </body>
 </html>
