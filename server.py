@@ -14,9 +14,8 @@ def listing_questions():
 	return render_template('/mainpage.html')
 
 
-@app.route('/question/<int:question_id>')
+@app.route('/question/<int:question_id>', methods=['GET','POST'])
 def display_question(question_id):
-
 	return render_template('display_question.html', question_id=question_id, questions = connection.questions, anwsers = connection.answers)
 
 
@@ -33,7 +32,6 @@ def add_answer():
 if __name__ == "__main__":
     connection.read_answers()
     connection.read_questions()
-    connection.add_question('asd','keci','fos')
     app.run(
         debug=True, # Allow verbose error reports
         port=6969 # Set custom port

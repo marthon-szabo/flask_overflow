@@ -24,6 +24,18 @@
     {%endfor%}
     </td>
     </table>
-    </p>
+
+    {%for record in anwsers%}
+        {%if (record['question_id']|int) == (question_id|int) %}
+            <p class="comment">
+                <i>"{{ record['message']}}"</i><br>
+                <img src="{{ record['image'] }}"><br>
+                <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
+            </p>
+
+        {%endif%}
+    {%endfor%}
+
+
 </body>
 </html>

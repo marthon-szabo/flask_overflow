@@ -10,6 +10,12 @@ td.header_shit:hover{
         padding: 10px;
 }
 
+p.comment{
+    background-color: lightgray;
+    text-align: left;
+}
+
+
 table.fos{
     border-bottom-style: solid;
     width: 100%;
