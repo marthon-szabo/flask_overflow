@@ -1,10 +1,17 @@
 <!DOCTYPE html>
 <html>
     <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <meta charset="utf-8">
         <title>List</title>
     </head>
     <body>
+    <table class='header_shit' width="100%">
+        <tr align="center">
+            <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
+            <td class="header_shit">Add question</td>
+        </tr>
+    </table>
         <table>
 
         {% for a in questions: %}

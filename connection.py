@@ -13,14 +13,14 @@ def read_answers():
             answers.append(record)
 
 def write_answers():
-    with open('/home/skogmaan/Documents/flask_overflow/sample_data/answer.csv', 'w') as csvfile:
+    with open('sample_data/answer.csv', 'w') as csvfile:
         writer = csv.DictWriter(csvfile,fieldnames=answer_head)
         writer.writeheader()
         for record in answers:
             writer.writerow(record)
 
 def read_questions():
-    with open('/home/skogmaan/Documents/flask_overflow/sample_data/question.csv', 'r') as csvfile:
+    with open('sample_data/question.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for record in reader:
             questions.append(record)
