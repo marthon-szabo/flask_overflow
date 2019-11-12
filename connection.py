@@ -75,3 +75,11 @@ def like_post(id_):
         if int(record['id']) == int(id_):
             record['vote_number'] = str(int(record['vote_number']) + 1)
     write_answers()
+
+def get_max_voted(question_id):
+    max_like = 0
+    for record in answers:
+        if int(question_id) == int(record['question_id']):
+            if int(record['vote_number']) > max_like:
+                max_like = int(record['vote_number'])
+    return max_like

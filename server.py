@@ -25,7 +25,7 @@ def listing_questions():
 
 @app.route('/question/<int:question_id>', methods=['GET','POST'])
 def display_question(question_id):
-	return render_template('display_question.html', question_id=question_id, questions = connection.questions, anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
+	return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
 
 @app.route('/add-question')
 def add_question():
