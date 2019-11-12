@@ -1,0 +1,17 @@
+table.header_shit{
+    background-color: lightgray;
+}
+
+td.header_shit{
+    padding: 10px;
+}
+td.header_shit:hover{
+    background-color: cadetblue;
+        padding: 10px;
+}
+
+table.fos{
+    border-bottom-style: solid;
+    width: 100%;
+    border-bottom-color:lightgray;
+}

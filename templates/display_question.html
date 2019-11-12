@@ -1,10 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta charset="UTF-8">
     <title>Question</title>
 </head>
 <body>
-     {{ question_id }}
+    <table class='header_shit' width="100%">
+        <tr align="center">
+            <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
+            <td class="header_shit">Add question</td>
+        </tr>
+    </table>
+    <p>
+    <table class="fos">
+        <td class="fos">
+     {% for record in questions %}
+        {%if (record['id']|int) == (question_id|int) %}
+        <h1>{{record['title']}}</h1>
+        <p>{{record['message']}}</p>
+        <img align="left" src="{{ record['image'] }}">
+        {% endif %}
+    {%endfor%}
+    </td>
+    </table>
+    </p>
 </body>
 </html>
