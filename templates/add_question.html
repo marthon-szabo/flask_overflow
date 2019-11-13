@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <meta charset="UTF-8">
+    <title>Add a question</title>
+</head>
+<body>
+    <table class='header_shit' width="100%">
+        <tr align="center">
+            <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
+            <td class="header_shit">Add question</td>
+        </tr>
+    </table>
+
+    <form action="/add-question" method="post">
+        <input name="new_question" type="text" required placeholder="Ask me anything!"><br>
+        <textarea name="message" required placeholder="Describe your question!" cols="30" rows="5"></textarea><br>
+        <input name="image" type="text" placeholder="Image link (not required)"><br>
+        <button type="submit">Post Question</button>
+    </form>
+
+</body>
+</html>
