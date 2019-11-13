@@ -35,3 +35,21 @@ table.fos{
 textarea {
   resize: none;
 }
+
+p.questionlist{
+    background-color: #30799B;
+    padding: 10px;
+}
+
+table.commenttable{
+    border-style: solid;
+    border-collapse: collapse;
+    border-color: #86989B;
+    border: 1px solid black;
+}
+
+td.commenttable{
+    border-style:solid;
+    border-color: #86989B;
+    border: 1px solid black;
+}

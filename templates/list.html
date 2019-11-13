@@ -9,22 +9,11 @@
     <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
-            <td class="header_shit">Add question</td>
+            <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
         </tr>
     </table>
-        <table>
-
-        {% for a in questions: %}
-        <tr>
-                {% for key, value in a.items() %}
-                    <td>
-                    {{ value }}
-                    </td>
-                {% endfor %}
-        </tr>
-
-        {% endfor %}
-
-    </table>
+    {% for a in questions %}
+        <p class="questionlist">{{ a['title']}}</p>
+    {% endfor %}
     </body>
 </html>

@@ -35,7 +35,7 @@ def write_questions():
 def add_question(title,message,image):
     question = {
         'id':str(int(get_max_question_id())+1),
-        'submission_time':str(datetime.datetime.now()),
+        'submission_time':str(datetime.datetime.now())[:16],
         'view_number':'0',
         'vote_number':'0',
         'title':title,
@@ -48,7 +48,7 @@ def add_question(title,message,image):
 def add_answer(message, image,question_id):
     record = {
         'id':str(int(get_max_anws_id(question_id)) + 1),
-        'submission_time':str(datetime.datetime.now()),
+        'submission_time':str(datetime.datetime.now())[:16],
         'question_id' : str(question_id),
         'vote_number':'0',
         'message':message,

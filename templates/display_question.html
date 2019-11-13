@@ -35,6 +35,7 @@
         {%if (record['question_id']|int) == (question_id|int) %}
             {% if (record['vote_number']|int) == max_voted %}
                 <p class="max_voted">
+                    
                     Best choise<br>
                     <br>
                     <i>"{{ record['message']}}"</i><br>
