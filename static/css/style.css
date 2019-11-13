@@ -37,7 +37,7 @@ textarea {
 }
 
 p.questionlist{
-    background-color: #30799B;
+    font-style: italic;
     padding: 10px;
 }
 
@@ -46,10 +46,24 @@ table.commenttable{
     border-collapse: collapse;
     border-color: #86989B;
     border: 1px solid black;
+    margin:0%;
 }
 
 td.commenttable{
+    width: 100%;
     border-style:solid;
+    border-color: #86989B;
+    border-collapse: collapse;
+    border: 1px solid black;
+    margin:0%;
+}
+
+table.commenttable2{
+    margin: 0%;
+    width:100%;
+    border-style: solid;
+    border-collapse: collapse;
     border-color: #86989B;
     border: 1px solid black;
 }
+

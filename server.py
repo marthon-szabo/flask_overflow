@@ -1,5 +1,6 @@
 import connection
 from flask import Flask, request, render_template,redirect
+import datetime
 
 app = Flask(__name__)
 
@@ -46,8 +47,11 @@ def downvote_question(question_id):
     #return display_question(question_id,False)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/list')
+@app.route('/list', methods=['GET','POST'])
 def listing_questions():
+    if request.method == 'POST':
+        table = connection.search_table(request.form['search'])
+        return render_template('list.html', questions=table)
     return render_template("list.html", questions=connection.questions)
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])

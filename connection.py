@@ -131,3 +131,14 @@ def delete_question(id_):
     answers = new_table
     write_answers()
     write_questions()
+
+def search_table(searchtag):
+    new_table=[]
+    global questions
+    if searchtag.replace(' ','') == '':
+        return questions
+    else:
+        for record in questions:
+            if record['title'].find(searchtag) >= 0:
+                new_table.append(record)
+        return new_table
