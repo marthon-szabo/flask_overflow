@@ -9,7 +9,7 @@
     <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
-            <td class="header_shit">Add question</td>
+            <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
         </tr>
     </table>
     <p>
@@ -57,7 +57,7 @@
 
     <p>
         <form action="/send_comment/{{ question_id }}" method="post">
-        <textarea name="my_comment" cols="30" rows="5" placeholder="Comment your opinion"></textarea><br>
+        <textarea name="my_comment" cols="30" rows="5" required placeholder="Comment your opinion"></textarea><br>
         <input size="18.5" name="image_link" placeholder="Image link( not required)">
         <button type="submit">Comment</button>
         </form>

@@ -34,7 +34,7 @@ def write_questions():
 
 def add_question(title,message,image):
     question = {
-        'id':get_max_question_id(),
+        'id':str(int(get_max_question_id())+1),
         'submission_time':str(datetime.datetime.now()),
         'view_number':'0',
         'vote_number':'0',

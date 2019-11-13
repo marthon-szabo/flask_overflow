@@ -61,13 +61,12 @@ def display_question(question_id, plus_view=True):
             return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
     return redirect('/list')
 
-@app.route('/add-question')
+@app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
-	pass
-
-@app.route('/question/<question_id>/new-answer')
-def add_answer():
-	pass
+    if request.method == "POST":
+        connection.add_question(request.form["new_question"], request.form["message"], request.form["image"])
+        return redirect("/list")
+    return render_template("add_question.html", questions = connection.questions)
 
 
 if __name__ == "__main__":
