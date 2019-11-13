@@ -60,8 +60,7 @@ def add_answer(message, image,question_id):
 def get_max_anws_id(question_id):
     id = 0
     for record in answers:
-        if record['question_id'] == question_id:
-            id = record['question_id']
+        id = record['id']
     return id
 
 def get_max_question_id():
@@ -89,3 +88,21 @@ def get_max_voted(question_id):
             if int(record['vote_number']) > max_like:
                 max_like = int(record['vote_number'])
     return max_like
+
+def like_question(id_):
+    for record in questions:
+        if int(record['id']) == int(id_):
+            record['vote_number'] = str(int(record['vote_number']) + 1)
+    write_questions()
+
+def dislike_question(id_):
+    for record in questions:
+        if int(record['id']) == int(id_):
+            record['vote_number'] = str(int(record['vote_number']) - 1)
+    write_questions()
+
+def view_question(id_):
+    for record in questions:
+        if int(record['id']) == int(id_):
+            record['view_number'] = str(int(record['view_number']) + 1)
+    write_questions()

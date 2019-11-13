@@ -9,29 +9,44 @@ def main_page():
 
 @app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
 def send_comment(question_id):
-    connection.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
-    display_question(question_id)
-    return redirect('/question/' + str(question_id))
+    if request.form['my_comment'].replace(' ', '') != '':
+        connection.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
+    return display_question(question_id, False)
+    #return redirect('/question/' + str(question_id))
 
 @app.route('/vote_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
 def vote_anwser(question_id,comment_id):
     connection.like_post(comment_id)
-    display_question(question_id)
-    return redirect('/question/'+str(question_id))
+    return display_question(question_id, False)
+    #return redirect('/question/'+str(question_id))
+
+@app.route('/upvote_question<int:question_id>', methods=['GET','POST'])
+def upvote_question(question_id):
+    connection.like_question(question_id)
+    return display_question(question_id, False)
+    #return redirect('/question/'+str(question_id))
 
 @app.route('/devote_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
 def devote_anwser(question_id,comment_id):
     connection.dislike_post(comment_id)
-    display_question(question_id)
-    return redirect('/question/'+str(question_id))
+    return display_question(question_id, False)
+    #return redirect('/question/'+str(question_id))
+
+@app.route('/downvote_question<int:question_id>', methods=['GET','POST'])
+def downvote_question(question_id):
+    connection.dislike_question(question_id)
+    return display_question(question_id,False)
+    #return redirect('/question/'+str(question_id))
 
 @app.route('/list')
 def listing_questions():
     return render_template("list.html", questions=connection.questions)
 
 @app.route('/question/<int:question_id>', methods=['GET','POST'])
-def display_question(question_id):
-	return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
+def display_question(question_id, plus_view=True):
+    if plus_view:
+        connection.view_question(question_id)
+    return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
 
 @app.route('/add-question')
 def add_question():
