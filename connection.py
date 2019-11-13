@@ -106,3 +106,28 @@ def view_question(id_):
         if int(record['id']) == int(id_):
             record['view_number'] = str(int(record['view_number']) + 1)
     write_questions()
+
+def delete_anwser(id_):
+    global answers
+    new_table = []
+    for record in answers:
+        if int(record['id']) != int(id_):
+            new_table.append(record)
+    answers = new_table
+    write_answers()
+
+def delete_question(id_):
+    global questions
+    global answers
+    new_table = []
+    for record in questions:
+        if int(record['id']) != int(id_):
+            new_table.append(record)
+    questions = new_table
+    new_table = []
+    for record in answers:
+        if int(record['question_id']) != int(id_):
+            new_table.append(record)
+    answers = new_table
+    write_answers()
+    write_questions()

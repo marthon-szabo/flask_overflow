@@ -26,6 +26,16 @@ def upvote_question(question_id):
     return display_question(question_id, False)
     #return redirect('/question/'+str(question_id))
 
+@app.route('/delete_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
+def delete_anwser(question_id, comment_id):
+    connection.delete_anwser(comment_id)
+    return display_question(question_id, False)
+
+@app.route('/delete_question<int:question_id>', methods=['GET','POST'])
+def delete_question(question_id):
+    connection.delete_question(question_id)
+    return listing_questions()
+
 @app.route('/devote_anwser<int:question_id><int:comment_id>', methods=['GET','POST'])
 def devote_anwser(question_id,comment_id):
     connection.dislike_post(comment_id)
@@ -44,9 +54,12 @@ def listing_questions():
 
 @app.route('/question/<int:question_id>', methods=['GET','POST'])
 def display_question(question_id, plus_view=True):
-    if plus_view:
-        connection.view_question(question_id)
-    return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
+    for record in connection.questions:
+        if int(record['id']) == question_id:
+            if plus_view:
+                connection.view_question(question_id)
+            return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
+    return redirect('/list')
 
 @app.route('/add-question')
 def add_question():
