@@ -15,9 +15,14 @@
     <p>
     <form action="/list" method="post">
         <input name="search" type="text" placeholder="Search">
-        <select>
-            <option>Heat</option>
-            <option>ABC</option>
+        <select name="sorted">
+            {% if selected == 'Heat' %}
+            <option selected value="Heat">Heat</option>
+            <option value="ABC">ABC</option>
+            {% else %}
+            <option value="Heat">Heat</option>
+            <option selected value="ABC">ABC</option>
+            {% endif %}
         </select><br>
         <button type="submit">Apply</button>
     </form>

@@ -49,19 +49,25 @@ def downvote_question(question_id):
 
 @app.route('/list', methods=['GET','POST'])
 def listing_questions():
+    table = connection.questions
+    sorted_by = "Heat"
     if request.method == 'POST':
+        sorted_by = request.form.get('sorted')
+
         table = connection.search_table(request.form['search'])
-        return render_template('list.html', questions=table)
-    return render_template("list.html", questions=connection.questions)
+    if sorted_by == "Heat":
+        return render_template("list.html", selected=sorted_by, questions=reversed(connection.sort_dict_by_key(table, 'vote_number', True)))
+    else:
+        return render_template("list.html", selected=sorted_by, questions=connection.sort_dict_by_key(table, 'title', False))
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
 def display_question(question_id, plus_view="0"):
+
     for record in connection.questions:
         if int(record['id']) == question_id:
             if plus_view == "0":
                 connection.view_question(question_id)
-
-            return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = sorted(connection.answers, key=lambda k: int(k['vote_number'])) )
+                return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = connection.sort_dict_by_key(connection.answers, "vote_number", True) )
     return redirect('/list')
 
 @app.route('/add-question', methods=['GET', 'POST'])

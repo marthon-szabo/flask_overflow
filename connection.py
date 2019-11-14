@@ -6,6 +6,12 @@ question_head = ['id','submission_time','view_number','vote_number','title','mes
 questions = []
 answer_head = ['id', 'submission_time','vote_number','question_id','message','image']
 
+
+def sort_dict_by_key(table, key_, isint):
+    if isint:
+        return sorted(table, key=lambda k: int(k[key_]))
+    else:
+        return sorted(table, key=lambda k: k[key_].lower())
 def read_answers():
     with open('sample_data/answer.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
