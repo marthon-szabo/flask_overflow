@@ -1,23 +1,38 @@
+body{
+    background:#53595f;
+}
+
+h1.header_shit{
+    color: #FEB06A;
+}
+
 table.header_shit{
-    background-color: lightgray;
+    background-color: #8C93A3;
 }
 
 td.header_shit{
+    width: 33%;
     padding: 10px;
 }
 td.header_shit:hover{
-    background-color: cadetblue;
-        padding: 10px;
+    background-color: #5D6C89;
+    padding: 10px;
 }
 
 p.comment{
     background-color: lightgray;
     text-align: left;
+    font-family: myFirstFont;
+    color: black;
+    padding: 5px;
 }
 
 p.max_voted{
     background-color: #56ce68;
     text-align: left;
+    font-family: myFirstFont;
+    color: white;
+    padding: 5px;
 }
 
 img.like_button:hover{
@@ -44,26 +59,134 @@ p.questionlist{
 table.commenttable{
     border-style: solid;
     border-collapse: collapse;
-    border-color: #86989B;
+    border-color: #FBF6F3;
     border: 1px solid black;
     margin:0%;
 }
 
-td.commenttable{
+td.subtable{
+    color: white;
+    font-family: myFirstFont;
+    font-size: 16px;
+    padding: 3px;
+    text-align: left;
+}
+
+
+button{
+    height: 40px;
+    border-radius: 40px;
+    border-color: transparent;
+    color: white;
+    background-color:#f2c07f;
+    font-family: myFirstFont;
+    font-size: 18px;
+}
+
+select{
+    width: 100px;
+    height: 40px;
+    border-radius: 40px;
+    border-color: transparent;
+    color: white;
+    font-family: myFirstFont;
+    background-color:#f2c07f;
+    font-size: 18px;
+}
+
+select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+    text-align: center;
+}
+
+input{
+    width:200px;
+    height: 35px;
+    border-color: transparent;
+    border-radius: 40px;
+    font-family: myFirstFont;
+    background-color:lightgray;
+    font-size: 18px;
+    color: black;
+    text-align: center;
+}
+
+p.orange{
+    font-family: myFirstFont;
+    font-size: 18px;
+    color:white;
+    background-color:#f2c07f;
+    padding: 10px;
+}
+
+p.display_question{
+    font-family: myFirstFont;
+    font-size: 24px;
+    color: white;
+    margin-top: 0px;
+}
+
+h1.display_question{
+    font-family:myFirstFont;
+    color: white;
+    font-size:36px
+}
+
+table.switching_color{
     width: 100%;
-    border-style:solid;
-    border-color: #86989B;
-    border-collapse: collapse;
-    border: 1px solid black;
-    margin:0%;
+    color: black;
 }
 
-table.commenttable2{
-    margin: 0%;
-    width:100%;
-    border-style: solid;
-    border-collapse: collapse;
-    border-color: #86989B;
-    border: 1px solid black;
+td.switching_color{
+    padding: 50px;
+    color:#101820FF;
 }
 
+tr.switching_color:nth-child(2n+1){
+    background-color: #f2c07f;
+}
+
+tr.switching_color:{
+    background-color: #53595f;
+    color:#f2c07f;
+}
+
+a{
+    font-family: myFirstFont;
+    font-size: 24px;
+    color: white;
+    text-decoration: none;
+}
+
+@font-face {
+
+  font-family: myFirstFont;
+  src: url(Exo-Regular.ttf);
+}
+
+@font-face {
+
+    font-family: breaking;
+    src: url(Heart-Breaking-Bad.otf);
+}
+
+h1.braking{
+    font-size: 85px;
+    font-weight: normal;
+    font-family: breaking;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+
+textarea{
+    border-color: transparent;
+    font-family: myFirstFont;
+    background-color:lightgray;
+    font-size: 18px;
+    color: black;
+    text-align: center;
+}

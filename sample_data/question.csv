@@ -1,6 +1,7 @@
 id,submission_time,view_number,vote_number,title,message,image
-2,1493015432,1409,46,Drawing canvas with an image picked with Cordova Camera Plugin,"I'm getting an image from device and drawing a canvas with filters using Pixi JS. It works all well using computer to get an image. But when I'm on IOS, it throws errors such as cross origin issue, or that I'm trying to use an unknown format.
-
-This is the code I'm using to draw the image (that works on web/desktop but not cordova built ios app)",
-3,2019-11-13 12:00:16.685669,3,-2,sds,asd,
-4,2019-11-14 09:52,0,0,a,asds,
+1,2019-11-14 14:28,7,-1,How to get the form input value?,"My input looks like 
+<input name=""input"" type=""text"">",
+2,2019-11-14 14:35,11,0,How to run terminal in pycharm?,Help,
+3,2019-11-14 14:40,9,1,What was the hardest part of the project?,#unique_question1,https://images-cdn.9gag.com/photo/axzb7EY_460s.jpg
+4,2019-11-14 14:58,2,0,Can you show us the code?,Please?,https://media.tenor.com/images/c7d0f821dac1c646109076cf3d40f845/tenor.gif
+5,2019-11-14 15:03,6,0,Why do the youngsters sitting in their room all day?,They always using their KOMPJUTER masina and they not reading newspaper like we did.,

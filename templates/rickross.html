@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='rick.gif') }}">
+    <meta charset="UTF-8">
+    <style>
+        body
+        {
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-image: url("https://i.ytimg.com/vi/oHg5SJYRHA0/hqdefault.jpg");
+        }
+    </style>
+    <title>You got rick rolled!</title>
+</head>
+<body>
+
+    <center>
+
+    <p class="orange">You got rick rolled!</p>
+    <audio controls autoplay>
+        <source src="{{ url_for('static', filename='horse.mp3')}}" type="audio/mpeg">
+    </audio><br>
+    {% for i in range(5) %}
+        <img width="250" height="200" src="https://media3.giphy.com/media/5kq0GCjHA8Rwc/giphy.gif">
+    {% endfor %}
+    <br>
+            {% for i in range(2) %}
+                 <img width="250" height="200" src="https://media3.giphy.com/media/5kq0GCjHA8Rwc/giphy.gif">
+            {% endfor %}
+        <video width="250" height="200" controls>
+            <source src="{{ url_for('static', filename='rick.mp4') }}" type="video/mp4">
+        </video>
+                {% for i in range(2) %}
+                 <img width="250" height="200" src="https://media3.giphy.com/media/5kq0GCjHA8Rwc/giphy.gif">
+            {% endfor %}
+    <br>
+    {% for i in range(5) %}
+        <img width="250" height="200" src="https://media3.giphy.com/media/5kq0GCjHA8Rwc/giphy.gif">
+    {% endfor %}
+    </center>
+
+</body>
+</html>

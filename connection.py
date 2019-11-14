@@ -88,11 +88,17 @@ def dislike_post(id_):
     write_answers()
 
 def get_max_voted(question_id):
-    max_like = 0
+    if len(answers)>0:
+        max_like = None
+    else:
+        return 0
     for record in answers:
         if int(question_id) == int(record['question_id']):
-            if int(record['vote_number']) > max_like:
+            if not max_like:
                 max_like = int(record['vote_number'])
+            else:
+                if int(record['vote_number']) > max_like:
+                    max_like = int(record['vote_number'])
     return max_like
 
 def like_question(id_):
@@ -145,6 +151,15 @@ def search_table(searchtag):
         return questions
     else:
         for record in questions:
-            if record['title'].find(searchtag) >= 0:
+            if record['title'].lower().find(searchtag) >= 0:
                 new_table.append(record)
         return new_table
+
+def edit_question(id_, title, message, image):
+    global questions
+    for question in questions:
+        if int(question['id']) == int(id_):
+            question['message'] = message
+            question['title'] = title
+            question['image'] = image
+    write_questions()

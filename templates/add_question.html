@@ -3,22 +3,39 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta charset="UTF-8">
-    <title>Add a question</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+    <title>Flask Overflow</title>
 </head>
 <body>
+    <h1 class="braking">Flask Overflow</h1>
     <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
-            <td class="header_shit">Add question</td>
+            <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
+            <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super secret button</a></td>
         </tr>
     </table>
+    <p>
 
-    <form action="/add-question" method="post">
-        <input name="new_question" type="text" required placeholder="Ask me anything!"><br>
-        <textarea name="message" required placeholder="Describe your question!" cols="30" rows="5"></textarea><br>
-        <input name="image" type="text" placeholder="Image link (not required)"><br>
-        <button type="submit">Post Question</button>
-    </form>
+        <form action="/add-question" method="post">
+            <center>
+            <p class="orange">You have a question? Just ask it!</p>
+            <p align="left">
+                <input name="new_question" type="text" required placeholder="Ask me anything!">
+            </p>
 
+            <p align="left">
+                <textarea name="message" required placeholder="Describe your question!" cols="30" rows="5"></textarea>
+            </p>
+            <p align="left">
+                <input name="image" type="text" placeholder="Image link (not required)">
+            </p>
+            <p align="right">
+                <button type="submit">Post Question</button>
+            </p>
+            </center>
+        </form>
+
+    </p>
 </body>
 </html>

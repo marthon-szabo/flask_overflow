@@ -3,13 +3,16 @@
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <meta charset="UTF-8">
-    <title>Question</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+    <title>Flask Overflow</title>
 </head>
 <body>
+    <h1 class="braking">Flask Overflow</h1>
     <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
             <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
+            <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super secret button</a></td>
         </tr>
     </table>
     <p>
@@ -17,16 +20,19 @@
      <td class="fos">
      {% for record in questions %}
         {%if (record['id']|int) == (question_id|int) %}
-        <h1>{{record['title']}}</h1>
-        <p>{{record['message']}}</p>
-        <img align="left" src="{{ record['image'] }}" alt=" ">
+        <h1 class="display_question">{{record['title']}}</h1>
+        <p class="display_question">{{record['message']}}</p>
+        <p><img width="128" height="128" src="{{ record['image'] }}" alt=" "></p>
+        <p class="orange">
         <a href="{{ url_for('upvote_question', question_id=question_id) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png" ></a>
         <a href="{{ url_for('downvote_question', question_id=question_id) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>
             {{ record['vote_number'] }} </br>
             <img width="16" height="16" src="http://simpleicon.com/wp-content/uploads/active-search.png"> {{ record['view_number'] }}<br>
             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}
             <a href="{{ url_for('delete_question',question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+            <a href="{{ url_for('edit_question', question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
         {% endif %}
+        </p>
     {%endfor%}
     </td>
     </table>
@@ -50,9 +56,11 @@
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
                 </p>
             {% endif %}
+            <p class="orange">
             <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
             <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
             <a href="{{ url_for('delete_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+            </p>
         {%endif%}
     {%endfor%}
 

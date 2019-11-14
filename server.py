@@ -62,12 +62,12 @@ def listing_questions():
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
 def display_question(question_id, plus_view="0"):
-
     for record in connection.questions:
         if int(record['id']) == question_id:
             if plus_view == "0":
                 connection.view_question(question_id)
-                return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = connection.sort_dict_by_key(connection.answers, "vote_number", True) )
+            return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = connection.sort_dict_by_key(connection.answers, "vote_number", True) )
+
     return redirect('/list')
 
 @app.route('/add-question', methods=['GET', 'POST'])
@@ -77,6 +77,16 @@ def add_question():
         return redirect("/list")
     return render_template("add_question.html", questions = connection.questions)
 
+@app.route('/edit-question/<int:question_id>', methods=["GET", 'POST'])
+def edit_question(question_id):
+    if request.method == 'POST':
+        connection.edit_question(question_id, request.form["title"], request.form["message"], request.form["image"])
+        return redirect('/question/' + str(question_id) + "/1")
+    return render_template('edit_question.html', question_id=question_id, questions=connection.questions)
+
+@app.route('/super-secret', methods=['GET','POST'])
+def super_secret():
+    return render_template("rickross.html")
 
 if __name__ == "__main__":
     connection.read_answers()
