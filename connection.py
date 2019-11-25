@@ -1,3 +1,49 @@
+import os
+import psycopg2
+import psycopg2.extras
+
+def get_connection_string():
+    # setup connection string
+    # to do this, please define these environment variables first
+    user_name = os.environ.get('peti')
+    password = os.environ.get('peter133')
+    host = os.environ.get('localhost')
+    database_name = os.environ.get('sql_teszt')
+
+    env_variables_defined = user_name and password and host and database_name
+
+
+        # this string describes all info for psycopg2 to connect to the database
+    return 'postgresql://{user_name}:{password}@{host}/{database_name}'.format(
+        user_name='peti',
+        password='peter133',
+        host='localhost',
+        database_name='sql_teszt'
+    )
+
+
+
+def open_database():
+    try:
+        connection_string = get_connection_string()
+        connection = psycopg2.connect(connection_string)
+        connection.autocommit = True
+    except psycopg2.DatabaseError as exception:
+        print('Database connection problem')
+        raise exception
+    return connection
+
+
+def connection_handler(function):
+    def wrapper(*args, **kwargs):
+        connection = open_database()
+        # we set the cursor_factory parameter to return with a RealDictCursor cursor (cursor which provide dictionaries)
+        dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
+        ret_value = function(dict_cur, *args, **kwargs)
+        dict_cur.close()
+
+
+"""
 import csv
 import datetime
 
@@ -163,3 +209,4 @@ def edit_question(id_, title, message, image):
             question['title'] = title
             question['image'] = image
     write_questions()
+"""
