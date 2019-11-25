@@ -44,3 +44,4 @@ def connection_handler(function):
         ret_value = function(dict_cur, *args, **kwargs)
         dict_cur.close()
     return wrapper
+

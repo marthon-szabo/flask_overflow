@@ -1,7 +1,7 @@
 import connection
 from flask import Flask, request, render_template,redirect
 import datetime
-
+import data_manager
 app = Flask(__name__)
 
 @app.route('/')
@@ -11,7 +11,7 @@ def main_page():
 @app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
 def send_comment(question_id):
     if request.form['my_comment'].replace(' ', '') != '':
-        connection.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
+       data_manager.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
     return redirect('/question/' + str(question_id) + "/1")
 
 @app.route('/vote_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
@@ -49,7 +49,7 @@ def downvote_question(question_id):
 
 @app.route('/list', methods=['GET','POST'])
 def listing_questions():
-    table = connection.questions
+    table = data_manager.get_questions()
     sorted_by = "Heat"
     if request.method == 'POST':
         sorted_by = request.form.get('sorted')
