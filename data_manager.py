@@ -150,3 +150,4 @@ def edit_question(cursor, id_, title, message, image):
     WHERE id = %(id)s;
     """,{'title':title, 'message':message, 'image':image, 'id':id_}
     )
+
