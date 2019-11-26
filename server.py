@@ -6,7 +6,7 @@ app = Flask(__name__)
 @app.route('/', methods=['GET','POST'])
 def main_page():
     table = data_manager.get_latest_questions()
-    return render_template('list.html', questions = table, selected = 'Date')
+    return render_template('list.html', questions = table)
 
 @app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
 def send_comment(question_id):

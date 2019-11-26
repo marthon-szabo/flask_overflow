@@ -34,6 +34,7 @@ def get_questions(cursor):
 def get_latest_questions(cursor):
     cursor.execute("""
     SELECT * FROM question
+    ORDER BY submission_time DESC
     LIMIT 5;
     """)
     questions = cursor.fetchall()
