@@ -91,9 +91,7 @@ def display_question(question_id, plus_view="0"):
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
     data_manager.delete_subcomment(comment_id)
-    return render_template('display_question.html', question_id=question_id,
-                           question=data_manager.get_question(question_id), max_voted=1,
-                           anwsers=data_manager.get_answers(question_id), comments=data_manager.get_subcomments())
+    return redirect('/question/' + str(question_id) + '/1')
 
 
 @app.route('/add-question', methods=['GET', 'POST'])

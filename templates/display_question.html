@@ -67,7 +67,7 @@
                                 {% endif %}
                             {% endfor %}
 
-                            <form method="post" action="/send_subcomment_to_answer/{{ question_id }}/{{ record.id }}">
+                            <form method="post" action="/send_subcomment_to_answer/{{ record.id }}/{{ question_id }}">
                                 <input required class="subcomment" type="text" name="message" placeholder="Share your opinion!"><br>
                                 <p>
                                     <button class="subcomment" type="submit">Comment to question</button>
