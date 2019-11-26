@@ -2,17 +2,19 @@
 
 {% block content %}
     <p>
-
-    <form action="/list" method="post">
-        <input name="search" type="text" placeholder="Search">
-        <select name="sorted">
+    <form action="/slist" method="get">
+        <select name="order_by">
             {% if selected == 'Heat' %}
-            <option selected value="Heat">Heat</option>
-            <option value="ABC">ABC</option>
+            <option selected value="vote_number">HEAT</option>
+            <option value="title">ABC</option>
             {% else %}
-            <option value="Heat">Heat</option>
-            <option selected value="ABC">ABC</option>
+            <option value="vote_number">HEAT</option>
+            <option selected value="title">ABC</option>
             {% endif %}
+        </select>
+        <select name="order_direction">
+            <option value="DESC">Descending</option>
+            <option value="ASC">Ascending</option>
         </select>
         <button type="submit">Apply</button>
     </form>

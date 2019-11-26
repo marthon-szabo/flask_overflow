@@ -1,3 +1,5 @@
+from psycopg2 import sql
+
 import connection
 from datetime import datetime
 
@@ -30,12 +32,18 @@ def get_questions(cursor):
 
 @connection.connection_handler
 def sort_question_by(cursor, sort_by, direction):
-    if direction != 'DESC' or direction != 'ASC':
-        direction = 'ASC'
-    cursor.execute("""
-    SELECT * FROM question
-    ORDER BY %(sort_by)s %(direction)s
-     """),{'sort_by':sort_by, 'direction':direction}
+    if direction == 'ASC':
+        cursor.execute(sql.SQL("""
+        SELECT * FROM question
+        ORDER BY {} ASC
+         """).format(sql.Identifier(sort_by)))
+    else:
+        cursor.execute(sql.SQL("""
+        SELECT * FROM question
+        ORDER BY {} DESC
+         """).format(sql.Identifier(sort_by)))
+
+
     questions = cursor.fetchall()
     return questions
 

@@ -48,9 +48,9 @@ def listing_questions():
     table = data_manager.get_questions()
     return render_template('list.html', questions = table, selected = 'Heat')
 
-@app.route('/list?order_by=<column>&order_direction=<direction>', methods=['GET', 'POST'])
-def sort_questions(column, direction):
-    table = data_manager.sort_question_by(column, direction)
+@app.route('/slist', methods=['GET', 'POST'])
+def sort_questions():
+    table = data_manager.sort_question_by(request.args.get('order_by'),request.args.get('order_direction'))
     return render_template('list.html', questions = table, selected = 'Heat')
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
