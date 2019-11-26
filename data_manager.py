@@ -31,6 +31,15 @@ def get_questions(cursor):
     return questions
 
 @connection.connection_handler
+def get_latest_questions(cursor):
+    cursor.execute("""
+    SELECT * FROM question
+    LIMIT 5;
+    """)
+    questions = cursor.fetchall()
+    return questions
+
+@connection.connection_handler
 def sort_question_by(cursor, sort_by, direction):
     if direction == 'ASC':
         cursor.execute(sql.SQL("""
