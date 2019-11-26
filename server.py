@@ -3,9 +3,10 @@ from flask import Flask, request, render_template,redirect
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def main_page():
-    return render_template('mainpage.html')
+    table = data_manager.get_latest_questions()
+    return render_template('list.html', questions = table)
 
 @app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
 def send_comment(question_id):
