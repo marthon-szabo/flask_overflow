@@ -4,13 +4,10 @@
     <p>
     <form action="/slist" method="get">
         <select name="order_by">
-            {% if selected == 'Heat' %}
             <option selected value="vote_number">HEAT</option>
             <option value="title">ABC</option>
-            {% else %}
-            <option value="vote_number">HEAT</option>
-            <option selected value="title">ABC</option>
-            {% endif %}
+            <option value="view_number">Views</option>
+            <option value="submission_time">Date</option>
         </select>
         <select name="order_direction">
             <option value="DESC">Descending</option>
