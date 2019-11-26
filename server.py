@@ -59,14 +59,14 @@ def display_question(question_id, plus_view="0"):
         if int(record['id']) == question_id:
             if plus_view == "0":
                 data_manager.view_question(question_id)
-            return render_template('display_question.html', question_id=question_id, questions = data_manager.get_questions(), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
     return redirect('/list')
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     if request.method == "POST":
         #connection.add_question(request.form["new_question"], request.form["message"], request.form["image"])
-        data_manager.add_question(request.form['new_question'], request.form['message'], request.form['image'])
+        data_manager.add_question(request.form['new_question'], request.form['message'], request.form['image'], data_manager.get_time())
         return redirect("/list")
     return render_template("add_question.html", questions = data_manager.get_questions())
 

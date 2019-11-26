@@ -18,7 +18,7 @@ def get_question(cursor,id_):
     SELECT * FROM question
     WHERE id = %(id)s;
     """,{'id':id_})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 @connection.connection_handler
 def get_questions(cursor):
@@ -43,7 +43,8 @@ def sort_question_by(cursor, sort_by, direction):
 def get_answers(cursor,question_id):
     cursor.execute("""
     SELECT * FROM answer
-    WHERE  question_id = %(id)s;
+    WHERE  question_id = %(id)s
+    ORDER BY vote_number ASC;
     """,{'id':question_id})
     return cursor.fetchall()
 
@@ -115,20 +116,34 @@ def delete_anwser(cursor,id_):
 
 @connection.connection_handler
 def delete_question(cursor, id_):
-    cursor.execute("""
-        DELETE FROM answer
-        WHERE question_id = %(id)s
-    """, {'id':id_})
 
-    cursor.execute("""
-    DELETE FROM comment
-    WHERE question_id = %(id)s
-    """, {'id':id_})
+    cursor.execute("""ALTER TABLE question DISABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment DISABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE answer DISABLE TRIGGER ALL;""")
 
     cursor.execute("""
     DELETE FROM question
     WHERE id = %(id)s;
     """,{'id':id_})
+
+
+    cursor.execute("""
+    DELETE FROM comment
+    WHERE question_id = %(cid)s
+    """, {'cid':id_})
+
+    cursor.execute("""
+        DELETE FROM answer
+        WHERE question_id = %(id)s
+    """, {'id':id_})
+
+    cursor.execute("""ALTER TABLE answer ENABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment ENABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE question ENABLE TRIGGER ALL;""")
+
+
+
+
 
 @connection.connection_handler
 def search_table(cursor, searchtag):

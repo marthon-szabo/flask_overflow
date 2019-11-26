@@ -1,20 +1,6 @@
-<!DOCTYPE html>
-<html>
-    <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-        <meta charset="utf-8">
-        <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
-        <title>Flask Overflow</title>
-    </head>
-    <body>
-    <h1 class="braking">Flask Overflow</h1>
-    <table class='header_shit' width="100%">
-        <tr align="center">
-            <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
-            <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
-            <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super secret button</a></td>
-        </tr>
-    </table>
+{% extends "layout.html" %}
+
+{% block content %}
     <p>
 
     <form action="/list" method="post">
@@ -40,7 +26,7 @@
                     <table>
                         <tr>
                             <td class="subtable" width="80"><img width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png">&nbsp;&nbsp;&nbsp;{{ question['vote_number'] }}</td>
-                            <td class="subtable" width="80"><img width="16" height="16" title="{{ question['submission_time'] }}" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png">&nbsp;&nbsp;&nbsp;{{ question['submission_time']}}</td>
+                            <td class="subtable" width="80"><img width="16" height="16" title="{{ question['submission_time'] }}" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png">&nbsp;&nbsp;&nbsp;{{ (question['submission_time'] | string)[:4] }}</td>
                             <td class="subtable" width="80"><img width="16" height="16" src="http://simpleicon.com/wp-content/uploads/active-search.png">&nbsp;&nbsp;&nbsp;{{ question['view_number'] }}</td>
                         </tr>
                     </table>
@@ -49,5 +35,4 @@
         {% endfor %}
     </table>
     </p>
-    </body>
-</html>
+{% endblock %}

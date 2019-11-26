@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+        <title>Flask Overflow</title>
+</head>
+<body>
+    <div>
+        <h1 class="braking">Flask Overflow</h1>
+        <table class='header_shit' width="100%">
+        <tr align="center">
+            <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Main page</a></td>
+            <td class="header_shit"><a href="{{ url_for('add_question') }}">Add question</a></td>
+            <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super secret button</a></td>
+        </tr>
+    </table>
+    </div>
+    <div class="content-wrapper">
+        {% block content %} {% endblock %}
+    </div>
+</body>
+</html>
