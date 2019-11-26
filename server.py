@@ -85,7 +85,7 @@ def display_question(question_id, plus_view="0"):
                 max_vote = int(data_manager.get_max_like(question_id))
             except:
                 max_vote = 0
-            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = 0 ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments())
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments())
     return redirect('/list')
 
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
