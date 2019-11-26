@@ -1,12 +1,12 @@
 import os
 import psycopg2
 import psycopg2.extras
+import data_manager
 
 def get_connection_string():
     # setup connection string
     # to do this, please define these environment variables first
     user_name = os.environ.get('PSQL_USER_NAME')
-    print(user_name)
     password = os.environ.get('PSQL_PASSWORD')
     host = os.environ.get('PSQL_HOST')
     database_name = os.environ.get('PSQL_DB_NAME')
@@ -43,5 +43,6 @@ def connection_handler(function):
         dict_cur = connection.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         ret_value = function(dict_cur, *args, **kwargs)
         dict_cur.close()
+        return ret_value
     return wrapper
 
