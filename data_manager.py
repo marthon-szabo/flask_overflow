@@ -6,6 +6,12 @@ def get_timestamp():
     timestamp = datetime.timestamp(now)
     return timestamp
 
+def get_time():
+    return datetime.today()
+
+def numbert_to_timestamp(submission_time):
+    return datetime.datetime.fromtimestamp(submission_time / 1e3)
+
 @connection.connection_handler
 def get_question(cursor,id_):
     cursor.execute("""
@@ -41,6 +47,7 @@ def add_question(cursor,title,message,image,submission_time):
 
 @connection.connection_handler
 def add_answer(cursor,message, image,question_id,submission_time):
+    #submission_time = timestamp_to_number(submission_time)
     cursor.execute("""
         INSERT INTO answer
         (submission_time, vote_number, question_id, message, image)
@@ -91,24 +98,24 @@ def view_question(cursor, id_):
 @connection.connection_handler
 def delete_anwser(cursor,id_):
     cursor.execute("""
-    DELETE * FROM answer
+    DELETE FROM answer
     WHERE id = %(id)s;
     """, {'id': id_})
 
 @connection.connection_handler
 def delete_question(cursor, id_):
     cursor.execute("""
-        DELETE * FROM answer
+        DELETE FROM answer
         WHERE question_id = %(id)s
     """, {'id':id_})
 
     cursor.execute("""
-    DELETE * FROM comment
+    DELETE FROM comment
     WHERE question_id = %(id)s
     """, {'id':id_})
 
     cursor.execute("""
-    DELETE * FROM question
+    DELETE FROM question
     WHERE id = %(id)s;
     """,{'id':id_})
 
