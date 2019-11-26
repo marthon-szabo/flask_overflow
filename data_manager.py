@@ -29,6 +29,17 @@ def get_questions(cursor):
     return questions
 
 @connection.connection_handler
+def sort_question_by(cursor, sort_by, direction):
+    if direction != 'DESC' or direction != 'ASC':
+        direction = 'ASC'
+    cursor.execute("""
+    SELECT * FROM question
+    ORDER BY %(sort_by)s %(direction)s
+     """),{'sort_by':sort_by, 'direction':direction}
+    questions = cursor.fetchall()
+    return questions
+
+@connection.connection_handler
 def get_answers(cursor,question_id):
     cursor.execute("""
     SELECT * FROM answer

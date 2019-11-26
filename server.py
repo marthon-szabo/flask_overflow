@@ -47,7 +47,11 @@ def downvote_question(question_id):
 def listing_questions():
     table = data_manager.get_questions()
     return render_template('list.html', questions = table, selected = 'Heat')
-    #sort ide
+
+@app.route('/list?order_by=<column>&order_direction=<direction>', methods=['GET', 'POST'])
+def sort_questions(column, direction):
+    table = data_manager.sort_question_by(column, direction)
+    return render_template('list.html', questions = table, selected = 'Heat')
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
 def display_question(question_id, plus_view="0"):
