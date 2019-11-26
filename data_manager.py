@@ -18,7 +18,7 @@ def get_question(cursor,id_):
     SELECT * FROM question
     WHERE id = %(id)s;
     """,{'id':id_})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 @connection.connection_handler
 def get_questions(cursor):

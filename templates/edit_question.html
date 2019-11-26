@@ -1,12 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <meta charset="UTF-8">
-    <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
-    <title>Flask Overflow</title>
-</head>
-<body>
+{% extends "layout.html" %}
+
+{% block content %}
     <h1 class="braking">Flask Overflow</h1>
     <table class='header_shit' width="100%">
         <tr align="center">
@@ -35,5 +29,4 @@
  </form>
 </p>
 </center>
-</body>
-</html>
+{% endblock %}

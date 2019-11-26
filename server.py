@@ -55,7 +55,7 @@ def display_question(question_id, plus_view="0"):
         if int(record['id']) == question_id:
             if plus_view == "0":
                 data_manager.view_question(question_id)
-            return render_template('display_question.html', question_id=question_id, questions = data_manager.get_questions(), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
     return redirect('/list')
 
 @app.route('/add-question', methods=['GET', 'POST'])
