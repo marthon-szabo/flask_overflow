@@ -62,7 +62,7 @@ def display_question(question_id, plus_view="0"):
 def add_question():
     if request.method == "POST":
         #connection.add_question(request.form["new_question"], request.form["message"], request.form["image"])
-        data_manager.add_question(request.form['new_question'], request.form['message'], request.form['image'])
+        data_manager.add_question(request.form['new_question'], request.form['message'], request.form['image'], data_manager.get_time())
         return redirect("/list")
     return render_template("add_question.html", questions = data_manager.get_questions())
 
