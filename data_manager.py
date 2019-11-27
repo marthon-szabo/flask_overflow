@@ -82,6 +82,15 @@ def get_subcomments(cursor):
     return cursor.fetchall()
 
 @connection.connection_handler
+def get_question_subcomments(cursor,question_id):
+    cursor.execute("""
+        SELECT * FROM comment
+        WHERE NOT (question_id IS NULL)
+        AND question_id = %(id)s
+    """, {'id':question_id})
+    return cursor.fetchall()
+
+@connection.connection_handler
 def add_subbcomment_to_question(cursor, question_id, message):
     cursor.execute("""
     INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)

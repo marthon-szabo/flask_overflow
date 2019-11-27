@@ -21,7 +21,7 @@
         <td>
             <p class="subcomment">
                 Comments<br>
-                {% for comment in comments %}
+                {% for comment in qcomments %}
                     {% if (comment.question_id|int) == (question_id|int) %}
                         <p class="subcomment_text">
                             <i>"{{ comment.message }}"</i><br>
@@ -80,7 +80,7 @@
                     <i>"{{ record['message']}}"</i><br>
                     <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
-                                        <p class="subcomment">
+                        <p class="subcomment">
                             Comments<br>
                             {% for comment in comments %}
                                 {% if (comment.answer_id|int) == (record.id|int) %}
