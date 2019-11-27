@@ -282,7 +282,7 @@ def view_tags(cursor, question_id):
     cursor.execute("""
                     SELECT name FROM tag 
                     WHERE id = %(id)s""", {"id": tag_id})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 @connection.connection_handler
 def add_tag_to_question(cursor,question_id,tag_id):
