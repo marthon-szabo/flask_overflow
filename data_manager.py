@@ -66,7 +66,8 @@ def get_answers(cursor,question_id):
     return cursor.fetchall()
 
 @connection.connection_handler
-def add_question(cursor,title,message,image,submission_time):
+def add_question(cursor,title,message,image):
+    submission_time = get_time()
     cursor.execute("""
         INSERT INTO question
         (title, message, image, submission_time, view_number, vote_number)
@@ -79,6 +80,15 @@ def get_subcomments(cursor):
     cursor.execute("""
         SELECT * FROM comment
     """)
+    return cursor.fetchall()
+
+@connection.connection_handler
+def get_question_subcomments(cursor,question_id):
+    cursor.execute("""
+        SELECT * FROM comment
+        WHERE NOT (question_id IS NULL)
+        AND question_id = %(id)s
+    """, {'id':question_id})
     return cursor.fetchall()
 
 @connection.connection_handler
@@ -113,8 +123,9 @@ def edit_subcomment(cursor,id_,message):
     """, {'id':id_, 'msg':message})
 
 @connection.connection_handler
-def add_answer(cursor,message, image,question_id,submission_time):
-    #submission_time = timestamp_to_number(submission_time)
+def add_answer(cursor,message, image,question_id):
+
+    submission_time = get_time()
     cursor.execute("""
         INSERT INTO answer
         (submission_time, vote_number, question_id, message, image)
@@ -164,10 +175,20 @@ def view_question(cursor, id_):
 
 @connection.connection_handler
 def delete_anwser(cursor,id_):
+    cursor.execute("""ALTER TABLE answer DISABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment DISABLE TRIGGER ALL;""")
     cursor.execute("""
-    DELETE FROM answer
-    WHERE id = %(id)s;
-    """, {'id': id_})
+        DELETE FROM answer
+        WHERE id = %(id)s;
+        """, {'id': id_})
+
+    cursor.execute("""
+        DELETE FROM comment
+        WHERE answer_id = %(id)s;
+    """, {'id':id_})
+
+    cursor.execute("""ALTER TABLE answer ENABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment ENABLE TRIGGER ALL;""")
 
 @connection.connection_handler
 def delete_subcomment(cursor,id_):
