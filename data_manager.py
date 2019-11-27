@@ -175,10 +175,20 @@ def view_question(cursor, id_):
 
 @connection.connection_handler
 def delete_anwser(cursor,id_):
+    cursor.execute("""ALTER TABLE answer DISABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment DISABLE TRIGGER ALL;""")
     cursor.execute("""
-    DELETE FROM answer
-    WHERE id = %(id)s;
-    """, {'id': id_})
+        DELETE FROM answer
+        WHERE id = %(id)s;
+        """, {'id': id_})
+
+    cursor.execute("""
+        DELETE FROM comment
+        WHERE answer_id = %(id)s;
+    """, {'id':id_})
+
+    cursor.execute("""ALTER TABLE answer ENABLE TRIGGER ALL;""")
+    cursor.execute("""ALTER TABLE comment ENABLE TRIGGER ALL;""")
 
 @connection.connection_handler
 def delete_subcomment(cursor,id_):
