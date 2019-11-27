@@ -1,3 +1,4 @@
+from psycopg2 import sql
 import connection
 from datetime import datetime
 
@@ -18,13 +19,30 @@ def get_question(cursor,id_):
     SELECT * FROM question
     WHERE id = %(id)s;
     """,{'id':id_})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 @connection.connection_handler
 def get_questions(cursor):
     cursor.execute("""
-    SELECT * FROM question
+    SELECT * FROM question;
     """)
+    questions = cursor.fetchall()
+    return questions
+
+@connection.connection_handler
+def sort_question_by(cursor, sort_by, direction):
+    if direction == 'ASC':
+        cursor.execute(sql.SQL("""
+        SELECT * FROM question
+        ORDER BY {} ASC
+         """).format(sql.Identifier(sort_by)))
+    else:
+        cursor.execute(sql.SQL("""
+        SELECT * FROM question
+        ORDER BY {} DESC
+         """).format(sql.Identifier(sort_by)))
+
+
     questions = cursor.fetchall()
     return questions
 
@@ -134,6 +152,8 @@ def delete_question(cursor, id_):
 
 
 
+
+
 @connection.connection_handler
 def search_table(cursor, searchtag):
     cursor.execute("""
@@ -151,3 +171,12 @@ def edit_question(cursor, id_, title, message, image):
     """,{'title':title, 'message':message, 'image':image, 'id':id_}
     )
 
+@connection.connection_handler
+def search_engine(cursor, search_phrase):
+    cursor.execute("""
+    SELECT * FROM question
+    WHERE question.title ILIKE %(object)s OR question.message ILIKE %(object)s;
+    """,
+                   {'object': f'%{search_phrase}%'})
+    searched_questions = cursor.fetchall()
+    return searched_questions

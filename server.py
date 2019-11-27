@@ -47,18 +47,41 @@ def downvote_question(question_id):
     #return display_question(question_id,False)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/list', methods=['GET','POST'])
+
+@app.route('/list', methods=['GET', 'POST'])
 def listing_questions():
-    list_of_questions = data_manager.get_questions()
-    return render_template('list.html', list_of_questions=list_of_questions)
+    if request.method == 'POST':
+        search = request.form.get('search-field')
+        if search:
+            searched_questions = data_manager.search_engine(search)
+            print(searched_questions)
+            return render_template('list.html', searched_questions=searched_questions)
+
+    table = data_manager.get_questions()
+    return render_template('list.html', questions=table, selected='Heat')
+
+
+
+@app.route('/slist', methods=['GET', 'POST'])
+def sort_questions():
+    table = data_manager.sort_question_by(request.args.get('order_by'),request.args.get('order_direction'))
+    return render_template('list.html', questions = table, selected = 'Heat')
+
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
 def display_question(question_id, plus_view="0"):
-    for record in connection.questions:
+    get_answers = data_manager.get_answers(question_id)
+    print(get_answers)
+    questions = data_manager.get_questions()
+    for record in questions:
         if int(record['id']) == question_id:
             if plus_view == "0":
-                connection.view_question(question_id)
-            return render_template('display_question.html', question_id=question_id, questions = connection.questions, max_voted = connection.get_max_voted(question_id) ,anwsers = connection.sort_dict_by_key(connection.answers, "vote_number", True) )
+                data_manager.view_question(question_id)
+            return render_template('display_question.html', question_id=question_id, questions = data_manager.get_questions, max_voted = data_manager.sort_question_by('vote_number', 'DESC') ,anwsers = data_manager.sort_question_by(get_answers['vote_number'], 'DESC') )
+
+
+            data_manager.view_question(question_id)
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
 
     return redirect('/list')
 
@@ -81,9 +104,7 @@ def super_secret():
     return render_template("rickross.html")
 
 if __name__ == "__main__":
-    connection.get_connection_string()
-    connection.open_database()
-    connection.connection_handler()
+
     app.run(
         debug=True, # Allow verbose error reports
         port=6969 # Set custom port
