@@ -83,6 +83,16 @@ button{
     font-size: 18px;
 }
 
+button.delbutton{
+    height: 40px;
+    border-radius: 40px;
+    border-color: transparent;
+    color: white;
+    background-color:#f2c07f;
+    font-family: myFirstFont;
+    font-size: 18px;
+}
+
 select{
     width: 100px;
     height: 40px;
@@ -112,6 +122,11 @@ input{
     font-size: 18px;
     color: black;
     text-align: center;
+}
+
+input.checkbox{
+    width: 10px;
+    height: 10px;
 }
 
 p.orange{
@@ -195,6 +210,15 @@ p.subcomment{
     background-color: darkgrey;
     margin-left: 5%;
     font-family: myFirstFont;
+}
+
+form.subcomment{
+    background-color: #f2c07f;
+    margin-left: 5%;
+    font-family: myFirstFont;
+    font-size: 12px;
+    padding: 5px;
+    color: white;
 }
 
 button.subcomment{

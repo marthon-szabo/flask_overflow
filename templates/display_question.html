@@ -27,7 +27,7 @@
                             <i>"{{ comment.message }}"</i><br>
                             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ (comment['submission_time']|string)[:10] }}
                             <a href="{{ url_for('delete_subcomment', comment_id = comment.id, question_id = question_id) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
-                            <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+                            <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img title="{{ comment.edited_count }}" class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
                         </p>
                     {% endif %}
                 {% endfor %}
@@ -62,7 +62,7 @@
                                         <i>"{{ comment.message }}"</i><br>
                                         <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ (comment['submission_time']|string)[:10] }}
                                         <a href="{{ url_for('delete_subcomment', comment_id = comment.id, question_id = question_id) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
-                                        <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+                                        <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img title="{{ comment.edited_count }}" class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png">
                                     </p>
                                 {% endif %}
                             {% endfor %}
@@ -87,8 +87,10 @@
                                     <p class="subcomment_text">
                                         <i>"{{ comment.message }}"</i><br>
                                         <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ (comment['submission_time']|string)[:10] }}
+                                        <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img title="{{ comment.edited_count }}" class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+
                                         <a href="{{ url_for('delete_subcomment', comment_id = comment.id, question_id = question_id) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
-                                        <a href="{{ url_for('edit_subcomment',comment_id = comment.id, question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+
                                     </p>
                                 {% endif %}
                             {% endfor %}

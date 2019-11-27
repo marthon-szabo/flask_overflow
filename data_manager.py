@@ -66,7 +66,8 @@ def get_answers(cursor,question_id):
     return cursor.fetchall()
 
 @connection.connection_handler
-def add_question(cursor,title,message,image,submission_time):
+def add_question(cursor,title,message,image):
+    submission_time = get_time()
     cursor.execute("""
         INSERT INTO question
         (title, message, image, submission_time, view_number, vote_number)
@@ -122,8 +123,9 @@ def edit_subcomment(cursor,id_,message):
     """, {'id':id_, 'msg':message})
 
 @connection.connection_handler
-def add_answer(cursor,message, image,question_id,submission_time):
-    #submission_time = timestamp_to_number(submission_time)
+def add_answer(cursor,message, image,question_id):
+
+    submission_time = get_time()
     cursor.execute("""
         INSERT INTO answer
         (submission_time, vote_number, question_id, message, image)
