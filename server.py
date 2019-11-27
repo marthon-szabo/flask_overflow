@@ -121,9 +121,9 @@ def delete_subcomment(comment_id, question_id):
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     if request.method == "POST":
-        data_manager.add_question(request.form["new_question"], request.form["message"], request.form["image"])
+        data_manager.add_question(request.form["new_question"], request.form["message"], request.form["image"], request.form['title'])
         return redirect("/list")
-    return render_template("add_question.html", questions = data_manager.get_questions())
+    return render_template("add_question.html", questions = data_manager.get_questions(), tags = data_manager.view_all_tags())
 
 @app.route('/edit-question/<int:question_id>', methods=["GET", 'POST'])
 def edit_question(question_id):
@@ -146,6 +146,17 @@ def add_tag(question_id):
         return redirect('/question/' + str(question_id) + '/1')
     return render_template('new_tag.html', question_id=question_id, tags=data_manager.view_all_tags())
 
+
+@app.route('/create-tag-then-return', methods = ['POST'])
+def create_and_return():
+    data_manager.add_tag(request.form['title'])
+    return redirect('/add-question')
+
+@app.route('/create-tag', methods=["POST"])
+def create_tag():
+    data_manager.add_tag(request.form['title'])
+    question_id = request.form['question_id']
+    return redirect('/question/' + str(question_id) + '/new-tag')
 
 
 

@@ -66,7 +66,7 @@ def get_answers(cursor,question_id):
     return cursor.fetchall()
 
 @connection.connection_handler
-def add_question(cursor,title,message,image):
+def add_question(cursor,title,message,image,tagid):
     submission_time = get_time()
     cursor.execute("""
         INSERT INTO question
@@ -74,6 +74,16 @@ def add_question(cursor,title,message,image):
         VALUES (%(title)s,%(message)s,%(image)s,%(submission_time)s,0,0)
     """,{'title':title, 'message':message, 'image':image, 'submission_time':submission_time}
     )
+    cursor.execute("""
+        SELECT MAX(id) FROM question
+    """)
+    question_id = cursor.fetchone()['max']
+
+    cursor.execute("""
+        INSERT INTO question_tag
+        (question_id, tag_id)
+        VALUES(%(qid)s, %(tid)s) 
+    """, {'qid':question_id, 'tid':tagid})
 
 @connection.connection_handler
 def get_subcomments(cursor):

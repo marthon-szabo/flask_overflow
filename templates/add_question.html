@@ -16,11 +16,26 @@
             <p align="left">
                 <input name="image" type="text" placeholder="Image link (not required)">
             </p>
+
+            <p align="left">
+                <select name="title">
+                    {% for tag in tags %}
+                        <option value="{{ tag.id }}">{{ tag.name }}</option>
+                    {% endfor %}
+                </select>
+            </p>
+
             <p align="right">
                 <button type="submit">Post Question</button>
             </p>
             </center>
         </form>
+        <p>
+            <form action="/create-tag-then-return" method="post">
+                <input type="text" name="title" placeholder="New tag">
+                <button type="submit">Add tag</button>
+            </form>
+        </p>
 
     </p>
 {% endblock %}
