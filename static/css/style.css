@@ -263,3 +263,33 @@ input.edit_subcomment{
     color: black;
     text-align: center;
 }
+
+.search_bar {
+
+}
+
+#search_parent {
+    display: table;
+    width: 100%;
+
+}
+#search_bar {
+    margin-top: 50%;
+    display: table-cell;
+    display: inline;
+    padding: 0%;
+    margin: 59%;
+}
+
+#search_parent span {
+    display: inline;
+    font-family: breaking;
+    src: url(Heart-Breaking-Bad.otf);
+    font-size: 85px;
+    font-weight: normal;
+    font-family: breaking;
+    color: white;
+    padding: 0px;
+    margin: 0px;
+}
+

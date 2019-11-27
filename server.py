@@ -74,10 +74,14 @@ def downvote_question(question_id):
 def listing_questions():
     if request.method == 'POST':
         search = request.form.get('search-field')
-        if search:
-            searched_questions = data_manager.search_engine(search)
-            print(searched_questions)
-            return render_template('list.html', searched_questions=searched_questions)
+        if " " in search:
+            table = data_manager.get_questions()
+            return render_template('list.html', questions=table, selected='Heat')
+        else:
+            if search:
+                searched_questions = data_manager.search_engine(search)
+                print(searched_questions)
+                return render_template('list.html', searched_questions=searched_questions)
 
     table = data_manager.get_questions()
     return render_template('list.html', questions=table, selected='Heat')

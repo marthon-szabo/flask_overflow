@@ -245,7 +245,7 @@ def edit_question(cursor, id_, title, message, image):
 def search_engine(cursor, search_phrase):
     cursor.execute("""
     SELECT * FROM question
-    WHERE question.title ILIKE %(object)s OR question.message ILIKE %(object)s;
+    WHERE title ILIKE %(object)s OR message ILIKE %(object)s;
     """,
                    {'object': f'%{search_phrase}%'})
     searched_questions = cursor.fetchall()
