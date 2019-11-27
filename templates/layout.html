@@ -4,15 +4,17 @@
         <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
         <meta charset="utf-8">
         <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
-        <form action="/list" method="post">
-            <input name="search-field">
-            <button type="submit">Search</button>
-        </form>
         <title>Flask Overflow</title>
 </head>
 <body>
-    <div>
-        <h1 class="braking">Flask Overflow</h1>
+    <div id="search_parent">
+        <span>Flask Overflow</span>
+        <form id="search_bar" action="/list" method="post">
+            <input name="search-field">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <br>
         <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('main_page') }}">Main page</a></td>
@@ -21,7 +23,6 @@
             <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super Secret Button</a></td>
         </tr>
     </table>
-    </div>
     <div class="content-wrapper">
         {% block content %} {% endblock %}
     </div>
