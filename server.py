@@ -4,15 +4,30 @@ import datetime
 import data_manager
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def main_page():
-    return render_template('mainpage.html')
+    table = data_manager.get_latest_questions()
+    return render_template('list.html', questions = table)
 
 @app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
 def send_comment(question_id):
     if request.form['my_comment'].replace(' ', '') != '':
        data_manager.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
     return redirect('/question/' + str(question_id) + "/1")
+
+@app.route('/send_subcomment_to_question/<int:question_id>', methods = ['POST'])
+def send_subcomment_to_question(question_id):
+    if request.method == 'POST':
+        message = request.form['message']
+        data_manager.add_subbcomment_to_question(question_id, message)
+    return redirect('/question/' + str(question_id) + "/1")
+
+@app.route('/send_subcomment_to_answer/<int:answer_id>/<int:question_id>', methods = ['POST'])
+def send_subcomment_to_anwser(answer_id, question_id):
+    if request.method == 'POST':
+        message = request.form['message']
+        data_manager.add_subbcomment_to_answer(answer_id,message)
+    return redirect('/question/' + str(question_id) + '/1')
 
 @app.route('/vote_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
 def vote_anwser(question_id,comment_id):
@@ -34,6 +49,13 @@ def delete_anwser(question_id, comment_id):
 def delete_question(question_id):
     connection.delete_question(question_id)
     return listing_questions()
+
+@app.route('/edit_subcomment/<int:comment_id>/<int:question_id>', methods=['GET', 'POST'])
+def edit_subcomment(comment_id, question_id):
+    if request.method == 'POST':
+        data_manager.edit_subcomment(comment_id, request.form['message'])
+        return redirect('/question/' + str(question_id) + '/1')
+    return render_template('edit_subcomment.html', comment_id = comment_id, question_id = question_id, subcomments = data_manager.get_subcomments())
 
 @app.route('/devote_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
 def devote_anwser(question_id,comment_id):
@@ -77,13 +99,18 @@ def display_question(question_id, plus_view="0"):
         if int(record['id']) == question_id:
             if plus_view == "0":
                 data_manager.view_question(question_id)
-            return render_template('display_question.html', question_id=question_id, questions = data_manager.get_questions, max_voted = data_manager.sort_question_by('vote_number', 'DESC') ,anwsers = data_manager.sort_question_by(get_answers['vote_number'], 'DESC') )
-
-
-            data_manager.view_question(question_id)
-            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = 1 ,anwsers = data_manager.get_answers(question_id) )
-
+            try:
+                max_vote = int(data_manager.get_max_like(question_id))
+            except:
+                max_vote = 0
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments())
     return redirect('/list')
+
+@app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
+def delete_subcomment(comment_id, question_id):
+    data_manager.delete_subcomment(comment_id)
+    return redirect('/question/' + str(question_id) + '/1')
+
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():

@@ -11,7 +11,7 @@ table.header_shit{
 }
 
 td.header_shit{
-    width: 33%;
+    width: 25%;
     padding: 10px;
 }
 td.header_shit:hover{
@@ -187,6 +187,55 @@ textarea{
     font-family: myFirstFont;
     background-color:lightgray;
     font-size: 18px;
+    color: black;
+    text-align: center;
+}
+
+p.subcomment{
+    background-color: darkgrey;
+    margin-left: 5%;
+    font-family: myFirstFont;
+}
+
+button.subcomment{
+    border-radius: 10px;
+    border-color: transparent;
+    color: white;
+    background-color:#f2c07f;
+    font-family: myFirstFont;
+    font-size: 12px;
+    margin-left: 5%;
+}
+
+input.subcomment{
+    height: 15px;
+    border-color: transparent;
+    border-radius: 40px;
+    font-family: myFirstFont;
+    background-color:lightgray;
+    font-size: 12px;
+    color: black;
+    text-align: center;
+    margin-left: 5%;
+}
+
+p.subcomment_text{
+    background-color: #f2c07f;
+    font-family: myFirstFont;
+    font-size: 12px;
+    margin-left: 5%;
+    color: white;
+    padding: 5px;
+}
+
+input.edit_subcomment{
+    width: 200px;
+    height: 30px;
+    border-color: transparent;
+    border-radius: 40px;
+    font-family: myFirstFont;
+    background-color:lightgray;
+    font-size: 12px;
     color: black;
     text-align: center;
 }
