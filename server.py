@@ -103,7 +103,7 @@ def display_question(question_id, plus_view="0"):
                 max_vote = int(data_manager.get_max_like(question_id))
             except:
                 max_vote = 0
-            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments(), qcomments = data_manager.get_question_subcomments(question_id))
+            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments(), qcomments = data_manager.get_question_subcomments(question_id), tags = data_manager.view_tags(question_id))
     return redirect('/list')
 
 
@@ -131,6 +131,19 @@ def edit_question(question_id):
 @app.route('/super-secret', methods=['GET','POST'])
 def super_secret():
     return render_template("rickross.html")
+
+
+@app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
+def add_tag(question_id):
+    if request.method == 'POST':
+        tag_id = request.form['tagid']
+        #tag_name = data_manager.add_tag(name)
+        data_manager.edit_question_tag(question_id,tag_id)
+        return redirect('/question/' + str(question_id) + '/1')
+    return render_template('new_tag.html', question_id=question_id, tags=data_manager.view_all_tags())
+
+
+
 
 if __name__ == "__main__":
 

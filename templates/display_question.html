@@ -15,6 +15,10 @@
             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ question['submission_time'] }}
             <a href="{{ url_for('delete_question',question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
             <a href="{{ url_for('edit_question', question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+            <a href="{{ url_for('add_tag', question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="/static/tag-16.ico"></a>
+            {% for tag in tags %}
+                {{ tag.name }}
+            {% endfor %}
         </p>
     </td>
     <tr>

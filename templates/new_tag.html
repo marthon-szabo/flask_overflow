@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <p>
+    <center>
+    <p class="orange">Add a tag to your question!</p>
+    <form action="/question/{{ question_id }}/new-tag" method="post">
+        <select name="tagid">
+        {% for tag in tags %}
+            <option value ={{ tag.id }}>{{ tag.name }}</option>
+        {% endfor %}
+        </select>
+    <button type="submit">Choose tag</button>
+    </form>
+    <form>
+        <input
+    </form>
+    </p>
+    </center>
+{% endblock %}

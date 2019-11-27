@@ -250,3 +250,54 @@ def search_engine(cursor, search_phrase):
                    {'object': f'%{search_phrase}%'})
     searched_questions = cursor.fetchall()
     return searched_questions
+
+
+@connection.connection_handler
+def add_tag(cursor, name):
+    cursor.execute("""
+                    INSERT INTO tag (name) VALUES  (%(name)s)
+                    """, {"name": name})
+
+
+@connection.connection_handler
+def view_tags(cursor, question_id):
+    cursor.execute("""
+        SELECT tag_id FROM question_tag
+        WHERE question_id = %(id)s
+    """, {'id':question_id})
+
+    finded = cursor.fetchone()
+    tag_id = finded['tag_id']
+
+    cursor.execute("""
+                    SELECT name FROM tag 
+                    WHERE id = %(id)s""", {"id": tag_id})
+    return cursor.fetchall()
+
+@connection.connection_handler
+def add_tag_to_question(cursor,question_id,tag_id):
+    cursor.execute("""
+                    INSERT INTO question_tag (tag_id,question_id)
+                    VALUES(%(tid)s, %(qid)s)
+                    """, {"tid": tag_id, "qid": question_id})
+
+@connection.connection_handler
+def edit_question_tag(cursor,question_id,tag_id):
+    cursor.execute("""
+    UPDATE question_tag
+    SET tag_id = %(id)s
+    WHERE question_id = %(qid)s
+    """, {'id':tag_id, 'qid':question_id})
+
+
+@connection.connection_handler
+def view_all_tags(cursor):
+    cursor.execute("""
+                    SELECT * FROM tag""")
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def delete_question_tag(cursor, id):
+    cursor.execute("""
+                    DELETE FROM public.question_tag WHERE id = """)
