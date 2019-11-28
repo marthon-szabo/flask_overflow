@@ -13,7 +13,7 @@
             {{ question['vote_number'] }} </br>
             <img width="16" height="16" src="http://simpleicon.com/wp-content/uploads/active-search.png"> {{ question['view_number'] }}<br>
             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ question['submission_time'] }}
-            <a href="{{ url_for('delete_question',question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+            <a href="{{ url_for('delete_question',question_id=question_id, question_id_edit=question['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
             <a href="{{ url_for('edit_question', question_id=question_id ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
         </p>
     </td>
@@ -43,23 +43,27 @@
     </tr>
     </table>
 
-    {%for record in anwsers|reverse %}
-        {%if (record['question_id']|int) == (question_id|int) %}
+    {% for record in anwsers|reverse %}
+        {% if (record['question_id']|int) == (question_id|int) %}
             {% if (record['vote_number']|int) == (max_voted|int) %}
                 <p class="max_voted">
 
                     Best choice<br>
                     <br>
+
                     <i>"{{ record['message']}}"</i><br>
                     <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png">
-                    {{ record['submission_time'] }}<br>
+                    {{ record['submission_time'] }}
                                     <p class="orange">
-                        <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
-                        <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
-                        <a href="{{ url_for('delete_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+                    <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
+                    <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
+                    <a href="{{ url_for('delete_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+                    <a href="{{ url_for('edit_answer', question_id=question_id, answer_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+
+                    <br>
                     </p>
-                <p class="subcomment">
+                    <p class="subcomment">
                             Comments<br>
                             {% for comment in comments %}
                                 {% if (comment.answer_id|int) == (record.id|int) %}
@@ -73,7 +77,7 @@
                             {% endfor %}
 
                             <form method="post" action="/send_subcomment_to_answer/{{ record.id }}/{{ question_id }}">
-                                <input required class="subcomment" type="text" name="message" placeholder="Share your opinion!"><br>
+                                  <input required class="subcomment" type="text" name="message" placeholder="Share your opinion!"><br>
                                 <p>
                                     <button class="subcomment" type="submit">Comment to question</button>
                                 </p>
@@ -89,6 +93,7 @@
                         <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
                         <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
                         <a href="{{ url_for('delete_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+                        <a href="{{ url_for('edit_answer', question_id=question_id, answer_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
                     </p>
                     <p class="subcomment">
                             Comments<br>

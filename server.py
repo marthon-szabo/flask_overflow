@@ -74,17 +74,31 @@ def downvote_question(question_id):
 def listing_questions():
     if request.method == 'POST':
         search = request.form.get('search-field')
+        search = search.lower()
         if " " in search:
             table = data_manager.get_questions()
-            return render_template('list.html', questions=table, selected='Heat')
-        else:
-            if search:
-                searched_questions = data_manager.search_engine(search)
-                print(searched_questions)
-                return render_template('list.html', searched_questions=searched_questions)
+            return render_template('list.html', questions=table, search=search, selected='Heat')
+        elif search:
+            searched_questions = data_manager.search_engine(search)
+            marked = []
+            for word in searched_questions:
+                lowered = word['title'].lower()
+                for i in lowered.split():
+                    if search == i:
+                        print('True')
 
-    table = data_manager.get_questions()
-    return render_template('list.html', questions=table, selected='Heat')
+
+
+                    print(searched_questions)
+                    return render_template('list.html', searched_questions=searched_questions)
+        else:
+            searched_questions = data_manager.search_engine(search)
+            print(searched_questions)
+            return render_template('list.html', searched_questions=searched_questions)
+
+    else:
+        table = data_manager.get_questions()
+        return render_template('list.html', questions=table, selected='Heat')
 
 
 
@@ -135,6 +149,14 @@ def edit_question(question_id):
 @app.route('/super-secret', methods=['GET','POST'])
 def super_secret():
     return render_template("rickross.html")
+
+@app.route('/edit-answer/<int:question_id>/<int:answer_id>', methods=["GET", 'POST'])
+def edit_answer(question_id, answer_id):
+    answer = data_manager.get_answer(answer_id)
+    if request.method == 'POST':
+        data_manager.edit_answer(answer_id, request.form["message"], request.form["image"])
+        return redirect('/question/' + str(question_id) + "/1")
+    return render_template('edit-answer.html', answer_id=answer_id, answer=answer, question_id=question_id)
 
 if __name__ == "__main__":
 

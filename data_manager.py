@@ -241,12 +241,32 @@ def edit_question(cursor, id_, title, message, image):
     """,{'title':title, 'message':message, 'image':image, 'id':id_}
     )
 
+
 @connection.connection_handler
 def search_engine(cursor, search_phrase):
+
     cursor.execute("""
-    SELECT * FROM question
+    SELECT * FROM question 
     WHERE title ILIKE %(object)s OR message ILIKE %(object)s;
     """,
                    {'object': f'%{search_phrase}%'})
     searched_questions = cursor.fetchall()
     return searched_questions
+
+@connection.connection_handler
+def edit_answer(cursor, id_, message, image):
+    cursor.execute("""
+    UPDATE answer 
+    SET  message = %(message)s, image = %(image)s
+    WHERE id = %(id)s;
+    """,{'message':message, 'image':image, 'id':id_}
+    )
+
+
+@connection.connection_handler
+def get_answer(cursor, id_):
+    cursor.execute("""
+    SELECT * FROM answer
+    WHERE id = %(id)s;
+    """,{'id':id_})
+    return cursor.fetchone()

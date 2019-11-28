@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <p>
+    <center>
+    <p class="orange">Edit your answer!</p>
+ {{ question_id }}
+ <form action="/edit-answer/{{ question_id }}/{{ answer_id }}" method="post">
+
+         <p align="left">
+     <textarea cols="50" rows="6" required name="message" placeholder="description">{{ answer['message']}}</textarea><br></p>
+         <p align="left">
+     <input type="text" name="image" placeholder="image link" value={{ answer['image'] }}><br></p>
+         <p align="right">
+             <input type="hidden" value="{{ question_id }} name="quest">
+     <button type="submit">Edit answer</button></p>
+
+ </form>
+</p>
+</center>
+{% endblock %}

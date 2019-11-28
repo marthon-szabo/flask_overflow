@@ -274,7 +274,7 @@ input.edit_subcomment{
 
 }
 #search_bar {
-    margin-top: 50%;
+    top: 50%;
     display: table-cell;
     display: inline;
     padding: 0%;

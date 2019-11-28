@@ -8,6 +8,7 @@
  <form action="/edit-question/{{ question_id }}" method="post">
      {% for record in questions %}
      {% if (record['id']|int) == (question_id|int)  %}
+
          <p align="left">
      <input required type="text" name="title" placeholder="title" value={{ record['title'] }}><br>
          </p>
