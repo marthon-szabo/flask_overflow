@@ -66,7 +66,7 @@ def get_answers(cursor,question_id):
     return cursor.fetchall()
 
 @connection.connection_handler
-def add_question(cursor,title,message,image):
+def add_question(cursor,title,message,image,tagid):
     submission_time = get_time()
     cursor.execute("""
         INSERT INTO question
@@ -74,6 +74,16 @@ def add_question(cursor,title,message,image):
         VALUES (%(title)s,%(message)s,%(image)s,%(submission_time)s,0,0)
     """,{'title':title, 'message':message, 'image':image, 'submission_time':submission_time}
     )
+    cursor.execute("""
+        SELECT MAX(id) FROM question
+    """)
+    question_id = cursor.fetchone()['max']
+
+    cursor.execute("""
+        INSERT INTO question_tag
+        (question_id, tag_id)
+        VALUES(%(qid)s, %(tid)s) 
+    """, {'qid':question_id, 'tid':tagid})
 
 @connection.connection_handler
 def get_subcomments(cursor):
@@ -270,3 +280,55 @@ def get_answer(cursor, id_):
     WHERE id = %(id)s;
     """,{'id':id_})
     return cursor.fetchone()
+
+
+@connection.connection_handler
+def add_tag(cursor, name):
+    cursor.execute("""
+                    INSERT INTO tag (name) VALUES  (%(name)s)
+                    """, {"name": name})
+
+
+@connection.connection_handler
+def view_tags(cursor, question_id):
+    cursor.execute("""
+        SELECT tag_id FROM question_tag
+        WHERE question_id = %(id)s
+    """, {'id':question_id})
+
+    finded = cursor.fetchone()
+    tag_id = finded['tag_id']
+
+    cursor.execute("""
+                    SELECT name FROM tag 
+                    WHERE id = %(id)s""", {"id": tag_id})
+    return cursor.fetchone()
+
+@connection.connection_handler
+def add_tag_to_question(cursor,question_id,tag_id):
+    cursor.execute("""
+                    INSERT INTO question_tag (tag_id,question_id)
+                    VALUES(%(tid)s, %(qid)s)
+                    """, {"tid": tag_id, "qid": question_id})
+
+@connection.connection_handler
+def edit_question_tag(cursor,question_id,tag_id):
+    cursor.execute("""
+    UPDATE question_tag
+    SET tag_id = %(id)s
+    WHERE question_id = %(qid)s
+    """, {'id':tag_id, 'qid':question_id})
+
+
+@connection.connection_handler
+def view_all_tags(cursor):
+    cursor.execute("""
+                    SELECT * FROM tag""")
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def delete_question_tag(cursor, id):
+    cursor.execute("""
+    DELETE FROM public.question_tag WHERE id = """)
+
