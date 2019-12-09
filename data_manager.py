@@ -333,4 +333,4 @@ def delete_question_tag(cursor, id):
     DELETE FROM public.question_tag WHERE id = """)
 
 #Test for git flow/feature/test1
-
+#Test for git flow/feature/test2
