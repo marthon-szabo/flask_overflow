@@ -1,7 +1,7 @@
 from psycopg2 import sql
 import connection
 from datetime import datetime
-
+import server
 import bcrypt
 
 def hash_password(plain_text_password):
@@ -79,12 +79,14 @@ def get_answers(cursor,question_id):
 
 @connection.connection_handler
 def add_question(cursor,title,message,image,tagid):
+
     submission_time = get_time()
+    user_id = server.get_user_id()
     cursor.execute("""
         INSERT INTO question
-        (title, message, image, submission_time, view_number, vote_number)
-        VALUES (%(title)s,%(message)s,%(image)s,%(submission_time)s,0,0)
-    """,{'title':title, 'message':message, 'image':image, 'submission_time':submission_time}
+        (title, message, image, submission_time, view_number, vote_number,user_id)
+        VALUES (%(title)s,%(message)s,%(image)s,%(submission_time)s,0,0,%(user_id)s)
+    """,{'title':title, 'message':message, 'image':image, 'submission_time':submission_time,'user_id':user_id}
     )
     cursor.execute("""
         SELECT MAX(id) FROM question
@@ -115,10 +117,11 @@ def get_question_subcomments(cursor,question_id):
 
 @connection.connection_handler
 def add_subbcomment_to_question(cursor, question_id, message):
+    user_id = server.get_user_id()
     cursor.execute("""
-    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
-    VALUES (%(question_id)s, NULL, %(message)s, %(timenow)s, 0 )
-    """, {'question_id':question_id, 'message':message, 'timenow':get_time()})
+    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count,user_id)
+    VALUES (%(question_id)s, NULL, %(message)s, %(timenow)s, 0 ,%(user_id)s)
+    """, {'question_id':question_id, 'message':message, 'timenow':get_time(), 'user_id':user_id})
 
 @connection.connection_handler
 def get_max_like(cursor,question_id):
@@ -131,10 +134,11 @@ def get_max_like(cursor,question_id):
 
 @connection.connection_handler
 def add_subbcomment_to_answer(cursor, answer_id, message):
+    user_id = server.get_user_id()
     cursor.execute("""
-    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count)
-    VALUES (NULL, %(id_)s, %(msg)s, %(timenow)s, 0)
-    """, {'id_':answer_id, 'msg':message, 'timenow':get_time()})
+    INSERT INTO comment (question_id, answer_id, message, submission_time, edited_count,user_id)
+    VALUES (NULL, %(id_)s, %(msg)s, %(timenow)s, 0,%(user_id)s)
+    """, {'id_':answer_id, 'msg':message, 'timenow':get_time(), 'user_id':user_id})
 
 @connection.connection_handler
 def edit_subcomment(cursor,id_,message):
@@ -146,13 +150,13 @@ def edit_subcomment(cursor,id_,message):
 
 @connection.connection_handler
 def add_answer(cursor,message, image,question_id):
-
+    user_id = server.get_user_id()
     submission_time = get_time()
     cursor.execute("""
         INSERT INTO answer
-        (submission_time, vote_number, question_id, message, image)
-        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s);
-    """,{'submission_time':submission_time,'question_id':question_id, 'message':message,'image':image})
+        (submission_time, vote_number, question_id, message, image,user_id)
+        VALUES (%(submission_time)s, 0, %(question_id)s, %(message)s, %(image)s, %(user_id)s);
+    """,{'submission_time':submission_time,'question_id':question_id, 'message':message,'image':image, 'user_id':user_id})
 
 @connection.connection_handler
 def like_post(cursor,id_): #like answer
