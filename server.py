@@ -15,8 +15,7 @@ def login():
     verification = data_manager.verify_password(pw, hashed_pw)
     if verification:
         session['username'] = request.form['username']
-        session['theme'] = request.form['']
-        cookies = data_manager.cookie_insertion()
+        session['theme'] = request.form['theme']
         return redirect(url_for('main_page'))
 
 
