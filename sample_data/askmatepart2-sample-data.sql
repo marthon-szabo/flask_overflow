@@ -42,6 +42,9 @@ CREATE TABLE users (
     reputation integer
 );
 
+
+
+
 DROP TABLE IF EXISTS public.accepted_answers
 CREATE TABLE accepted_answers(
     question_id integer NOT NULL,

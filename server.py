@@ -1,75 +1,99 @@
-from flask import Flask, request, render_template,redirect,session,escape,url_for
+from flask import Flask, request, render_template, redirect, session, escape, url_for
 import data_manager
+
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
 
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    return render_template('login.html')
+    if request.method == 'GET':
+        return render_template('login.html')
+    uname = request.form['username']
+    pw = request.form['password']
+    hashed_pw = data_manager.get_hash_pw(uname, pw)
+    verification = data_manager.verify_password(pw, hashed_pw)
+    if verification:
+        session['username'] = request.form['username']
+        session['theme'] = request.form['']
+        cookies = data_manager.cookie_insertion()
+        return redirect(url_for('main_page'))
 
-@app.route('/', methods=['GET','POST'])
+
+@app.route('/', methods=['GET', 'POST'])
 def main_page():
     table = data_manager.get_latest_questions()
-    return render_template('list.html', questions = table)
+    return render_template('list.html', questions=table)
 
-@app.route('/send_comment/<int:question_id>', methods=['GET','POST'])
+
+@app.route('/send_comment/<int:question_id>', methods=['GET', 'POST'])
 def send_comment(question_id):
     if request.form['my_comment'].replace(' ', '') != '':
-       data_manager.add_answer(request.form['my_comment'],request.form['image_link'],question_id)
+        data_manager.add_answer(request.form['my_comment'], request.form['image_link'], question_id)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/send_subcomment_to_question/<int:question_id>', methods = ['POST'])
+
+@app.route('/send_subcomment_to_question/<int:question_id>', methods=['POST'])
 def send_subcomment_to_question(question_id):
     if request.method == 'POST':
         message = request.form['message']
         data_manager.add_subbcomment_to_question(question_id, message)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/send_subcomment_to_answer/<int:answer_id>/<int:question_id>', methods = ['POST'])
+
+@app.route('/send_subcomment_to_answer/<int:answer_id>/<int:question_id>', methods=['POST'])
 def send_subcomment_to_anwser(answer_id, question_id):
     if request.method == 'POST':
         message = request.form['message']
-        data_manager.add_subbcomment_to_answer(answer_id,message)
+        data_manager.add_subbcomment_to_answer(answer_id, message)
     return redirect('/question/' + str(question_id) + '/1')
 
-@app.route('/vote_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
-def vote_anwser(question_id,comment_id):
+
+@app.route('/vote_anwser<int:question_id>/<int:comment_id>', methods=['GET', 'POST'])
+def vote_anwser(question_id, comment_id):
     data_manager.like_post(comment_id)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/upvote_question<int:question_id>', methods=['GET','POST'])
+
+@app.route('/upvote_question<int:question_id>', methods=['GET', 'POST'])
 def upvote_question(question_id):
     data_manager.like_question(question_id)
     return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/delete_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
+
+@app.route('/delete_anwser<int:question_id>/<int:comment_id>', methods=['GET', 'POST'])
 def delete_anwser(question_id, comment_id):
     data_manager.delete_anwser(comment_id)
-    #return display_question(question_id, False)
-    return redirect('/question/'+str(question_id)  + "/1")
+    # return display_question(question_id, False)
+    return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/delete_question<int:question_id>', methods=['GET','POST'])
+
+@app.route('/delete_question<int:question_id>', methods=['GET', 'POST'])
 def delete_question(question_id):
     data_manager.delete_question(question_id)
     return listing_questions()
+
 
 @app.route('/edit_subcomment/<int:comment_id>/<int:question_id>', methods=['GET', 'POST'])
 def edit_subcomment(comment_id, question_id):
     if request.method == 'POST':
         data_manager.edit_subcomment(comment_id, request.form['message'])
         return redirect('/question/' + str(question_id) + '/1')
-    return render_template('edit_subcomment.html', comment_id = comment_id, question_id = question_id, subcomments = data_manager.get_subcomments())
+    return render_template('edit_subcomment.html', comment_id=comment_id, question_id=question_id,
+                           subcomments=data_manager.get_subcomments())
 
-@app.route('/devote_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
-def devote_anwser(question_id,comment_id):
+
+@app.route('/devote_anwser<int:question_id>/<int:comment_id>', methods=['GET', 'POST'])
+def devote_anwser(question_id, comment_id):
     data_manager.dislike_post(comment_id)
-    #return display_question(question_id, False)
-    return redirect('/question/'+str(question_id) + "/1")
+    # return display_question(question_id, False)
+    return redirect('/question/' + str(question_id) + "/1")
 
-@app.route('/downvote_question<int:question_id>', methods=['GET','POST'])
+
+@app.route('/downvote_question<int:question_id>', methods=['GET', 'POST'])
 def downvote_question(question_id):
     data_manager.dislike_question(question_id)
-    #return display_question(question_id,False)
+    # return display_question(question_id,False)
     return redirect('/question/' + str(question_id) + "/1")
 
 
@@ -90,8 +114,6 @@ def listing_questions():
                     if search == i:
                         print('True')
 
-
-
                     print(searched_questions)
                     return render_template('list.html', searched_questions=searched_questions)
         else:
@@ -103,12 +125,14 @@ def listing_questions():
         table = data_manager.get_questions()
         return render_template('list.html', questions=table, selected='Heat')
 
+
 @app.route('/slist', methods=['GET', 'POST'])
 def sort_questions():
-    table = data_manager.sort_question_by(request.args.get('order_by'),request.args.get('order_direction'))
-    return render_template('list.html', questions = table, selected = 'Heat')
+    table = data_manager.sort_question_by(request.args.get('order_by'), request.args.get('order_direction'))
+    return render_template('list.html', questions=table, selected='Heat')
 
-@app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
+
+@app.route('/question/<int:question_id>/<plus_view>', methods=['GET', 'POST'])
 def display_question(question_id, plus_view="0"):
     get_answers = data_manager.get_answers(question_id)
     print(get_answers)
@@ -121,12 +145,16 @@ def display_question(question_id, plus_view="0"):
                 max_vote = int(data_manager.get_max_like(question_id))
             except:
                 max_vote = 0
-            return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments(), qcomments = data_manager.get_question_subcomments(question_id), tag = data_manager.view_tags(question_id))
+            return render_template('display_question.html', question_id=question_id,
+                                   question=data_manager.get_question(question_id), max_voted=max_vote,
+                                   anwsers=data_manager.get_answers(question_id),
+                                   comments=data_manager.get_subcomments(),
+                                   qcomments=data_manager.get_question_subcomments(question_id),
+                                   tag=data_manager.view_tags(question_id))
     return redirect('/list')
 
 
-
-@app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
+@app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods=['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
     data_manager.delete_subcomment(comment_id)
     return redirect('/question/' + str(question_id) + '/1')
@@ -135,9 +163,12 @@ def delete_subcomment(comment_id, question_id):
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
     if request.method == "POST":
-        data_manager.add_question(request.form["new_question"], request.form["message"], request.form["image"], request.form['title'])
+        data_manager.add_question(request.form["new_question"], request.form["message"], request.form["image"],
+                                  request.form['title'])
         return redirect("/list")
-    return render_template("add_question.html", questions = data_manager.get_questions(), tags = data_manager.view_all_tags())
+    return render_template("add_question.html", questions=data_manager.get_questions(),
+                           tags=data_manager.view_all_tags())
+
 
 @app.route('/edit-question/<int:question_id>', methods=["GET", 'POST'])
 def edit_question(question_id):
@@ -146,16 +177,19 @@ def edit_question(question_id):
         return redirect('/question/' + str(question_id) + "/1")
     return render_template('edit_question.html', question_id=question_id, questions=data_manager.get_questions())
 
-@app.route('/super-secret', methods=['GET','POST'])
+
+@app.route('/super-secret', methods=['GET', 'POST'])
 def super_secret():
     session['user_id'] = 1
     session['theme'] = 'Terraria'
-    #return render_template("rickross.html")
+    # return render_template("rickross.html")
+
 
 def get_user_id():
     if session['user_id']:
         return session['user_id']
     return 0
+
 
 @app.route('/edit-answer/<int:question_id>/<int:answer_id>', methods=["GET", 'POST'])
 def edit_answer(question_id, answer_id):
@@ -165,20 +199,22 @@ def edit_answer(question_id, answer_id):
         return redirect('/question/' + str(question_id) + "/1")
     return render_template('edit-answer.html', answer_id=answer_id, answer=answer, question_id=question_id)
 
+
 @app.route('/question/<question_id>/new-tag', methods=['GET', 'POST'])
 def add_tag(question_id):
     if request.method == 'POST':
         tag_id = request.form['tagid']
-        #tag_name = data_manager.add_tag(name)
-        data_manager.edit_question_tag(question_id,tag_id)
+        # tag_name = data_manager.add_tag(name)
+        data_manager.edit_question_tag(question_id, tag_id)
         return redirect('/question/' + str(question_id) + '/1')
     return render_template('new_tag.html', question_id=question_id, tags=data_manager.view_all_tags())
 
 
-@app.route('/create-tag-then-return', methods = ['POST'])
+@app.route('/create-tag-then-return', methods=['POST'])
 def create_and_return():
     data_manager.add_tag(request.form['title'])
     return redirect('/add-question')
+
 
 @app.route('/create-tag', methods=["POST"])
 def create_tag():
@@ -189,6 +225,6 @@ def create_tag():
 
 if __name__ == "__main__":
     app.run(
-        debug=True, # Allow verbose error reports
-        port=6969 # Set custom port
+        debug=True,  # Allow verbose error reports
+        port=6969  # Set custom port
     )

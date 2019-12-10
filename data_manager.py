@@ -1,6 +1,7 @@
 from psycopg2 import sql
 import connection
 from datetime import datetime
+from flask import redirect, make_response
 
 import bcrypt
 
@@ -13,6 +14,13 @@ def hash_password(plain_text_password):
 def verify_password(plain_text_password, hashed_password):
     hashed_bytes_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+def cookie_insertion(*args, **kwargs):
+    redirect_to_index = redirect('/')
+    response = make_response(redirect_to_index)
+    response.set_cookie(*args, **kwargs)
+    return response
 
 def get_timestamp():
     now = datetime.now()
@@ -343,3 +351,12 @@ def delete_question_tag(cursor, id):
     cursor.execute("""
     DELETE FROM public.question_tag WHERE id = """)
 
+
+@connection.connection_handler
+def get_hash_pw(cursor, uname, pw):
+    cursor.execute("""
+                    SELECT password FROM users
+                    WHERE username IN %(uname)s AND password IN %(pw)s;
+                    """)
+    hashed_pw = cursor.fetchone()
+    return hashed_pw
