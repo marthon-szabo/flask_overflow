@@ -2,6 +2,18 @@ from psycopg2 import sql
 import connection
 from datetime import datetime
 
+import bcrypt
+
+def hash_password(plain_text_password):
+    # By using bcrypt, the salt is saved into the hash itself
+    hashed_bytes = bcrypt.hashpw(plain_text_password.encode('utf-8'), bcrypt.gensalt())
+    return hashed_bytes.decode('utf-8')
+
+
+def verify_password(plain_text_password, hashed_password):
+    hashed_bytes_password = hashed_password.encode('utf-8')
+    return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
 def get_timestamp():
     now = datetime.now()
     timestamp = datetime.timestamp(now)
@@ -326,10 +338,8 @@ def view_all_tags(cursor):
                     SELECT * FROM tag""")
     return cursor.fetchall()
 
-
 @connection.connection_handler
 def delete_question_tag(cursor, id):
     cursor.execute("""
     DELETE FROM public.question_tag WHERE id = """)
-
 
