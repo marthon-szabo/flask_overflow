@@ -4,6 +4,10 @@ import datetime
 import data_manager
 app = Flask(__name__)
 
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+    pass
+
 @app.route('/', methods=['GET','POST'])
 def main_page():
     table = data_manager.get_latest_questions()
