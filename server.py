@@ -5,7 +5,7 @@ app.secret_key = 'Tilted Towers'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
-    pass
+    return render_template('login.html')
 
 @app.route('/', methods=['GET','POST'])
 def main_page():
