@@ -1,8 +1,7 @@
-import connection
-from flask import Flask, request, render_template,redirect
-import datetime
+from flask import Flask, request, render_template,redirect,session,escape,url_for
 import data_manager
 app = Flask(__name__)
+app.secret_key = 'Tilted Towers'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -104,13 +103,10 @@ def listing_questions():
         table = data_manager.get_questions()
         return render_template('list.html', questions=table, selected='Heat')
 
-
-
 @app.route('/slist', methods=['GET', 'POST'])
 def sort_questions():
     table = data_manager.sort_question_by(request.args.get('order_by'),request.args.get('order_direction'))
     return render_template('list.html', questions = table, selected = 'Heat')
-
 
 @app.route('/question/<int:question_id>/<plus_view>', methods=['GET','POST'])
 def display_question(question_id, plus_view="0"):
@@ -152,8 +148,14 @@ def edit_question(question_id):
 
 @app.route('/super-secret', methods=['GET','POST'])
 def super_secret():
-    return render_template("rickross.html")
+    session['user_id'] = 1
+    session['theme'] = 'Terraria'
+    #return render_template("rickross.html")
 
+def get_user_id():
+    if session['user_id']:
+        return session['user_id']
+    return 0
 
 @app.route('/edit-answer/<int:question_id>/<int:answer_id>', methods=["GET", 'POST'])
 def edit_answer(question_id, answer_id):
@@ -185,10 +187,7 @@ def create_tag():
     return redirect('/question/' + str(question_id) + '/new-tag')
 
 
-
-
 if __name__ == "__main__":
-
     app.run(
         debug=True, # Allow verbose error reports
         port=6969 # Set custom port
