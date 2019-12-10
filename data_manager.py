@@ -356,7 +356,8 @@ def delete_question_tag(cursor, id):
 def get_hash_pw(cursor, uname, pw):
     cursor.execute("""
                     SELECT password FROM users
-                    WHERE username IN %(uname)s AND password IN %(pw)s;
-                    """)
-    hashed_pw = cursor.fetchone()
+                    WHERE username IN ( %(uname)s ) AND password IN ( %(pw)s );
+                    """,
+                   {'uname': uname, 'pw': pw})
+    hashed_pw = cursor.fetchall()
     return hashed_pw

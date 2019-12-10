@@ -9,14 +9,29 @@ app.secret_key = 'Tilted Towers'
 def login():
     if request.method == 'GET':
         return render_template('login.html')
-    uname = request.form['username']
-    pw = request.form['password']
-    hashed_pw = data_manager.get_hash_pw(uname, pw)
-    verification = data_manager.verify_password(pw, hashed_pw)
-    if verification:
-        session['username'] = request.form['username']
-        session['theme'] = request.form['theme']
-        return redirect(url_for('main_page'))
+    else:
+        uname = request.form['uname']
+        print(uname)
+        pw = request.form['pw']
+        print(pw)
+        hashed_pw = data_manager.get_hash_pw(uname, pw)
+        verification = None
+        if verification == None:
+            verification = False
+        else:
+            verification = data_manager.verify_password(pw, hashed_pw)
+        print(verification)
+        if verification:
+            session['username'] = request.form['username']
+            session['theme'] = request.form['theme']
+            return redirect(url_for('main_page'))
+        else:
+            return render_template('login.html', verification=verification)
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'GET':
+        return render_template('register.html')
 
 
 @app.route('/', methods=['GET', 'POST'])
