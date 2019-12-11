@@ -1,1 +1,10 @@
 {% extends "layout.html" %}
+
+{% block content %}
+{% for tag in tags %}
+    <tr>
+        <td>{{ tag.name }}</td><br>
+    </tr>
+{% endfor %}
+
+{%  endblock %}

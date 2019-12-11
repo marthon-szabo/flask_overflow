@@ -50,6 +50,14 @@ def get_users(cursor):
     return users
 
 @connection.connection_handler
+def get_tags(cursor):
+    cursor.execute("""
+     SELECT name FROM tag
+     """)
+    tag = cursor.fetchall()
+    return tag
+
+@connection.connection_handler
 def get_latest_questions(cursor):
     cursor.execute("""
     SELECT * FROM question
