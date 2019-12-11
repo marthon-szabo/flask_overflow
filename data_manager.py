@@ -343,3 +343,11 @@ def delete_question_tag(cursor, id):
     cursor.execute("""
     DELETE FROM public.question_tag WHERE id = """)
 
+
+@connection.connection_handler
+def view_user_page(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM users
+                    WHERE id = %(id)s
+                    """, {'id': user_id})
+    return cursor.fetchall()

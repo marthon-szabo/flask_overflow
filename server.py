@@ -236,6 +236,16 @@ def create_tag():
     return redirect('/question/' + str(question_id) + '/new-tag')
 
 
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
+def display_user(user_id):
+    # user_id = request.form['id']
+    if get_user_id() > 0:
+        data_manager.view_user_page(user_id)
+        # return redirect('/user/' + str(user_id))
+        render_template('display_user.html', user_id=user_id, user=data_manager.view_user_page(user_id))
+    return redirect(url_for('login'))
+
+
 if __name__ == "__main__":
     app.run(
         debug=True, # Allow verbose error reports
