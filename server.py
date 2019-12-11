@@ -11,7 +11,8 @@ def list_users():
 @app.route('/tags', methods=['GET'])
 def list_tags():
     table = data_manager.get_tags()
-    return render_template('tag_page.html',tags=table)
+    count = data_manager.get_tag_count()
+    return render_template('tag_page.html',count=count,tags=table)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
