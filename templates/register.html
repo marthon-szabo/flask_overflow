@@ -1,0 +1,91 @@
+
+{% extends 'layout.html' %}
+{% block content %}
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+    {% if request.method == 'GET' %}
+        <div class="login-register">
+            <table class="login/register">
+                <tbody>
+                    <tr>
+                        <form action="/register" method="post">
+                            <td><input value="username" name="uname"></td><br>
+                    <tr><td><input type="password" value="password" name="pw"></td></tr>
+                            <tr><td style="color: #30799B">* Confirm password!</td></tr>
+                            <tr><td><input type="password" value="password" name="c_pw"></td></tr>
+                            <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                            <tr><td><input type="checkbox" value="Gender" name="gender" class="gender1"></td></tr>
+                            <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender2"></td></tr>
+                           <tr><td><button type="submit">Registration</button></td></tr>
+                        </form>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    {% elif request.method == 'POST' %}
+        {% if is_same_pw %}
+            <div class="login-register">
+                <table class="login-register">
+                    <tbody>
+                        <tr>
+                            <form action="/register" method="post">
+                                <tr><td><input value="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" value="password" name="pw"></td></tr>
+                                <tr><td  style="color: red">* Password doesen't match!</td></tr>
+                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
+                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><button type="submit">Registration</button></td></tr>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        {% elif is_username %}
+            <div class="login-register">
+                <table class="login-register">
+                    <tbody>
+                        <tr>
+                            <form action="/register" method="post">
+                                <tr><td><h3 style="color: darkred">This username is taken!</h3></td></tr>
+                                <tr><td><input value="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" value="password" name="pw"></td></tr>
+                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
+                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><button type="submit">Registration</button></td>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% elif is_email %}
+            <div class="login-register">
+                <table>
+                    <tbody>
+                        <tr>
+                            <form action="/register" method="post">
+                                <tr><td><input value="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" value="password" name="pw"></td></tr>
+                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
+                                <tr><td><h3 style="color: darkred">This e-mail adress has already been used!</h3></td></tr>
+                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
+                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><button type="submit">Registration</button></td></tr>
+                            </form>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        {% endif %}
+    {% endif %}
+</body>
+
+{% endblock %}

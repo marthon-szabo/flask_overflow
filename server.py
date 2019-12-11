@@ -32,6 +32,33 @@ def login():
 def register():
     if request.method == 'GET':
         return render_template('register.html')
+    else:
+        uname = request.form['uname']
+        pw = request.form['pw']
+        c_pw = request.form['c_pw']
+        email = request.form['email']
+        users_and_emails = data_manager.get_email()
+        is_email = data_manager.is_same_email(email, users_and_emails)
+        is_same_pw = data_manager.is_same_pw(pw, c_pw)
+        is_username = data_manager.is_same_username(uname, users_and_emails)
+        if is_same_pw == 'True':
+            return render_template('register.html', is_same_pw=is_same_pw)
+        if is_username == 'True':
+            return render_template('register.html', is_username=is_username)
+
+        if is_email == 'True':
+            return render_template('register.html', is_email=is_email)
+        else:
+            hashed_pw = data_manager.hash_password(pw)
+            if request.form.get('gender'):
+                gender = 'Male'
+                data_manager.add_user(uname, hashed_pw, email, gender)
+                return redirect(url_for('login'))
+            else:
+                gender = 'Female'
+                data_manager.add_user(uname, hashed_pw, email, gender)
+                return redirect(url_for('login'))
+
 
 
 @app.route('/', methods=['GET', 'POST'])

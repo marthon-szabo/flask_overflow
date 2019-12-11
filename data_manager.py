@@ -1,7 +1,7 @@
 from psycopg2 import sql
 import connection
 from datetime import datetime
-from flask import redirect, make_response
+from flask import redirect, make_response, render_template
 
 import bcrypt
 
@@ -361,3 +361,54 @@ def get_hash_pw(cursor, uname, pw):
                    {'uname': uname, 'pw': pw})
     hashed_pw = cursor.fetchall()
     return hashed_pw
+
+@connection.connection_handler
+def add_user(cursor, uname, hashed_pw, email, gender):
+    cursor.execute("""
+                    INSERT INTO users (username, password, email, gender)
+                    VALUES ( %(uname)s, %(hashed_pw)s, %(email)s, %(gender)s );
+                    """,
+                   {'uname': uname, 'hashed_pw': hashed_pw, 'email': email, 'gender': gender})
+
+
+@connection.connection_handler
+def get_email(cursor):
+    cursor.execute("""
+                    SELECT email, username FROM users;
+                    """)
+    emails = cursor.fetchall()
+    return emails
+
+
+def is_same_pw(pw, c_pw):
+    if c_pw != pw:
+        invalid = 'True'
+        return invalid
+    else:
+        invalid = 'False'
+        return invalid
+
+def is_same_email(f_email, u_email):
+    print(u_email)
+    for dict in u_email:
+        if f_email == dict['email']:
+            print(dict['email'])
+            print('True')
+            is_email = True
+            if is_email:
+               is_email = 'True'
+               return is_email
+        else:
+            is_email = 'False'
+            return is_email
+
+def is_same_username(username, u_email):
+    for dict in u_email:
+        if username == dict['username']:
+            is_user = True
+            if is_user:
+               return is_user
+        else:
+            is_user = 'False'
+            return is_user
+
