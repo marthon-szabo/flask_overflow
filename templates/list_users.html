@@ -3,7 +3,7 @@
 {% block content %}
 {% for user in users %}
     <tr>
-    <td>{{ user.username }}</td>
+    <td>{{ user.username }} {{ user.email }} {{ user.gender }} {{ user.reputation }}</td>
     </tr>
 
 {% endfor %}

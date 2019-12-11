@@ -44,7 +44,7 @@ def get_questions(cursor):
 @connection.connection_handler
 def get_users(cursor):
     cursor.execute("""
-     SELECT username FROM users
+     SELECT * FROM users
      """)
     users = cursor.fetchall()
     return users
