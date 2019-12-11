@@ -1,9 +1,15 @@
 {% extends "layout.html" %}
 
 {% block content %}
-{% for tag in tags %}
+{% for tag in count %}
     <tr>
-        <td>{{ tag.name }}</td><br>
+        <td>{% for tag_2 in tags%}
+            {% if tag_2.id == tag.tag_id  %}
+            {{ tag_2.name}}
+            {% endif %}
+            {% endfor %}
+            </td>
+        <td>{{ tag.count }}</td><br>
     </tr>
 {% endfor %}
 

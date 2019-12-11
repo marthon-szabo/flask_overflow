@@ -52,10 +52,19 @@ def get_users(cursor):
 @connection.connection_handler
 def get_tags(cursor):
     cursor.execute("""
-     SELECT name FROM tag
+     SELECT * FROM tag
      """)
     tag = cursor.fetchall()
     return tag
+
+@connection.connection_handler
+def get_tag_count(cursor):
+    cursor.execute("""
+     SELECT tag_id,Count(tag_id) FROM question_tag
+     GROUP BY tag_id
+     """)
+    tag_count = cursor.fetchall()
+    return tag_count
 
 @connection.connection_handler
 def get_latest_questions(cursor):
