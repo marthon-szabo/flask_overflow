@@ -6,7 +6,12 @@ app.secret_key = 'Tilted Towers'
 @app.route('/list_users', methods=['GET'])
 def list_users():
     table = data_manager.get_users()
-    return render_template('list_users.html', users=table)
+    return render_template('list_users.html',users=table)
+
+@app.route('/tags', methods=['GET'])
+def list_tags():
+    table = data_manager.get_tags()
+    return render_template('tag_page.html',tags=table)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
