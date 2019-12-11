@@ -1,7 +1,6 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
     {% if request.method == 'POST' %}
         <table class="switching_color">
             {% for record in searched_questions %}
@@ -21,8 +20,8 @@
         </table>
 
     {% else %}
-    <p>
 
+        <div class="search_div">
         <form action="/slist" method="get">
             <select name="order_by">
                 <option selected value="vote_number">HEAT</option>
@@ -36,7 +35,7 @@
             </select>
             <button type="submit">Apply</button>
         </form>
-        </p>
+        </div>
         <table class="switching_color">
             {% for question in questions %}
                 <tr class="switching_color">
