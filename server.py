@@ -14,7 +14,8 @@ def login():
 
 @app.route('/', methods=['GET','POST'])
 def main_page():
-
+    if get_user_id() == 0:
+        return redirect(url_for('login'))
     table = data_manager.get_latest_questions()
     return render_template('list.html', questions = table)
 
@@ -195,7 +196,7 @@ def edit_question(question_id):
 def super_secret():
     session['user_id'] = 1
     session['theme'] = 'Terraria'
-    #return render_template("rickross.html")
+    return redirect(url_for('main_page'))
 
 def get_user_id():
     if 'user_id' in session:
