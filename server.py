@@ -3,6 +3,11 @@ import data_manager
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
 
+@app.route('/list_users', methods=['GET'])
+def list_users():
+    table = data_manager.get_users()
+    return render_template('list_users.html', users=table)
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     return render_template('login.html')
