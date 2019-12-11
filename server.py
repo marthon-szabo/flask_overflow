@@ -48,7 +48,7 @@ def vote_anwser(question_id,comment_id):
     if get_user_id() == 0:
         return redirect(url_for('login'))
 
-    data_manager.like_post(comment_id)
+    data_manager.like_post(comment_id, session['user_id'])
     return redirect('/question/' + str(question_id) + "/1")
 
 @app.route('/upvote_question<int:question_id>', methods=['GET','POST'])
@@ -56,7 +56,7 @@ def upvote_question(question_id):
     if get_user_id() == 0:
         return redirect(url_for('login'))
 
-    data_manager.like_question(question_id)
+    data_manager.like_question(question_id,get_user_id())
     return redirect('/question/' + str(question_id) + "/1")
 
 @app.route('/delete_anwser<int:question_id>/<int:comment_id>', methods=['GET','POST'])
@@ -91,7 +91,7 @@ def devote_anwser(question_id,comment_id):
     if get_user_id() == 0:
         return redirect(url_for('login'))
 
-    data_manager.dislike_post(comment_id)
+    data_manager.dislike_post(comment_id, session['user_id'])
     #return display_question(question_id, False)
     return redirect('/question/'+str(question_id) + "/1")
 
@@ -100,7 +100,7 @@ def downvote_question(question_id):
     if get_user_id() == 0:
         return redirect(url_for('login'))
 
-    data_manager.dislike_question(question_id)
+    data_manager.dislike_question(question_id, session['user_id'])
     #return display_question(question_id,False)
     return redirect('/question/' + str(question_id) + "/1")
 
@@ -147,16 +147,13 @@ def display_question(question_id, plus_view="0"):
     questions = data_manager.get_questions()
     for record in questions:
         if int(record['id']) == question_id:
-            if plus_view == "0":
-                data_manager.view_question(question_id)
+            data_manager.view_question(question_id, get_user_id())
             try:
                 max_vote = int(data_manager.get_max_like(question_id))
             except:
                 max_vote = 0
             return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments(), qcomments = data_manager.get_question_subcomments(question_id), tag = data_manager.view_tags(question_id))
     return redirect('/list')
-
-
 
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
@@ -165,7 +162,6 @@ def delete_subcomment(comment_id, question_id):
 
     data_manager.delete_subcomment(comment_id)
     return redirect('/question/' + str(question_id) + '/1')
-
 
 @app.route('/add-question', methods=['GET', 'POST'])
 def add_question():
@@ -221,7 +217,6 @@ def add_tag(question_id):
         return redirect('/question/' + str(question_id) + '/1')
     return render_template('new_tag.html', question_id=question_id, tags=data_manager.view_all_tags())
 
-
 @app.route('/create-tag-then-return', methods = ['POST'])
 def create_and_return():
     if get_user_id() == 0:
@@ -235,7 +230,6 @@ def create_tag():
     data_manager.add_tag(request.form['title'])
     question_id = request.form['question_id']
     return redirect('/question/' + str(question_id) + '/new-tag')
-
 
 if __name__ == "__main__":
     app.run(

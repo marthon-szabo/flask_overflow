@@ -159,45 +159,150 @@ def add_answer(cursor,message, image,question_id):
     """,{'submission_time':submission_time,'question_id':question_id, 'message':message,'image':image, 'user_id':user_id})
 
 @connection.connection_handler
-def like_post(cursor,id_): #like answer
+def get_user_answer_likes(cursor,answer_id,user_id):
     cursor.execute("""
-        UPDATE answer
-        SET vote_number = vote_number + 1
-        WHERE id = %(id)s;
-    """,{'id':id_})
+        SELECT * FROM user_votes
+        WHERE answer_id = %(aid)s
+        AND user_id = %(uid)s
+    """, {'aid':answer_id, 'uid':user_id})
+    return cursor.fetchone()
 
 @connection.connection_handler
-def dislike_post(cursor,id_): #dislike answer
+def add_vote_to_answer(cursor, answer_id, value):
     cursor.execute("""
         UPDATE answer
-        SET vote_number = vote_number - 1
+        SET vote_number = vote_number + %(v)s
         WHERE id = %(id)s
-    """, {'id':id_})
-
-
-@connection.connection_handler
-def like_question(cursor,id_):
-    cursor.execute("""
-        UPDATE question
-        SET vote_number = vote_number + 1
-        WHERE id = %(id)s;
-    """, {'id':id_})
+    """,{'v':value, 'id':answer_id})
 
 @connection.connection_handler
-def dislike_question(cursor, id_):
-    cursor.execute("""
-        UPDATE question
-        SET vote_number = vote_number - 1
-        WHERE id = %(id)s;
-    """, {'id':id_})
+def like_post(cursor,id_, user_id): #like answer
+    like = get_user_answer_likes(id_, user_id)
+    if like:
+        if like['vote_type'] == 1: #Ha már likeolta
+            add_vote_to_answer(id_, -1)
+            remove_user_vote(user_id, 0, id_)
+        else: #Ha downvoteolta
+            add_vote_to_answer(id_, 2) #Downvote disable + 1 vote
+            update_user_vote_type(user_id, 1, 0, id_)
+    else:
+        add_vote_to_answer(id_, 1)
+        add_user_vote(user_id,0,id_,1)
 
 @connection.connection_handler
-def view_question(cursor, id_):
+def dislike_post(cursor,answer_id, user_id): #dislike answer
+    like = get_user_answer_likes(answer_id, user_id)
+    if like:
+        if like['vote_type'] == -1:
+            add_vote_to_answer(answer_id, 1)
+            remove_user_vote(user_id, 0, answer_id)
+        else:
+            add_vote_to_answer(answer_id, -2)
+            update_user_vote_type(user_id, -1, 0, answer_id)
+    else:
+        add_user_vote(user_id, 0, answer_id, -1)
+        add_vote_to_answer(answer_id, -1)
+
+@connection.connection_handler
+def add_vote_to_question(cursor, question_id, value):
     cursor.execute("""
         UPDATE question
-        SET view_number = view_number + 1
-        WHERE id = %(id)s;
-    """, {'id':id_})
+        SET vote_number = vote_number + %(value)s
+        WHERE id = %(qid)s
+    """, {'value':value, 'qid':question_id})
+
+@connection.connection_handler
+def remove_user_vote(cursor, user_id, question_id,answer_id):
+    cursor.execute("""
+        DELETE FROM user_votes
+        WHERE user_id = %(id)s
+        AND question_id = %(qid)s
+        AND answer_id = %(aid)s
+    """, {'id':user_id, 'qid':question_id, 'aid':answer_id})
+
+@connection.connection_handler
+def update_user_vote_type(cursor, user_id, type, question_id, answer_id):
+    cursor.execute("""
+        UPDATE user_votes
+        SET vote_type = %(type)s
+        WHERE user_id = %(uid)s
+        AND question_id = %(qid)s
+        AND answer_id = %(aid)s   
+    """, {'type':type, 'qid':question_id, 'aid':answer_id, 'uid':user_id})
+
+@connection.connection_handler
+def add_user_vote(cursor,user_id, question_id, answer_id, vote_type):
+    cursor.execute("""
+        INSERT INTO user_votes
+        (user_id, answer_id, question_id, vote_type)
+        VALUES(%(uid)s,%(answer_id)s, %(qid)s, %(vtype)s) 
+    """, {'uid':user_id, 'answer_id':answer_id ,'qid':int(question_id), 'vtype':int(vote_type)})
+
+@connection.connection_handler
+def like_question(cursor,id_, user_id):
+    if user_id > 0:
+        cursor.execute("""
+            SELECT * FROM user_votes
+            WHERE question_id = %(id)s
+            AND user_id = %(userid)s
+        """, {'id':id_, 'userid':user_id})
+        likes = cursor.fetchone()
+
+        if likes:
+            if int(likes['vote_type']) == 1:  #Ha már van rajta egy like
+                add_vote_to_question(id_, -1)  #Szedje le róla
+                remove_user_vote(user_id, id_, 0) # Törölje a user vote-ját
+            else:  # HA downvote van rajta
+                add_vote_to_question(id_, 2) #Adjon hozzá 2 lájkot ( downvote eltüntetés + 1 like )
+                update_user_vote_type(user_id,1,id_,0)
+        else:
+            add_vote_to_question(id_, 1)
+            add_user_vote(user_id, id_,0, 1)
+
+@connection.connection_handler
+def dislike_question(cursor, id_, user_id):
+    if user_id > 0:
+        cursor.execute("""
+            SELECT * FROM user_votes
+            WHERE question_id = %(id)s
+            AND user_id = %(userid)s
+        """, {'id':id_, 'userid':user_id})
+        likes = cursor.fetchone()
+        if likes:
+            if likes['vote_type'] == -1: #Ha dislikeolta
+                remove_user_vote(user_id, id_, 0)  #Törölje a dbből
+                add_vote_to_question(id_, 1) #Nullázza a downvote-t
+            else:  #Ha likeolta
+                update_user_vote_type(user_id, -1,id_,0) #Downvotera állitsa
+                add_vote_to_question(id_, -2) # Vegye le likeot + dislike
+        else:
+            add_user_vote(user_id, id_,0, -1)
+            add_vote_to_question(id_, -1)
+
+@connection.connection_handler
+def view_question(cursor, id_, user_id):
+    if user_id == 0:
+        return
+
+    cursor.execute("""
+        SELECT * FROM user_views
+        WHERE user_id = %(user)s
+        AND question_id = %(id)s
+    """,{'user':user_id, 'id':id_})
+
+    views = cursor.fetchall()
+    if len(views) == 0:
+        cursor.execute("""
+            UPDATE question
+            SET view_number = view_number + 1
+            WHERE id = %(id)s;
+        """, {'id':id_})
+
+        cursor.execute("""
+        INSERT INTO user_views
+        (user_id, question_id)
+        VALUES (%(user_id)s, %(id)s) 
+        """, {'user_id':user_id, 'id':id_})
 
 @connection.connection_handler
 def delete_anwser(cursor,id_):
