@@ -156,7 +156,7 @@ def display_question(question_id, plus_view="0"):
     return redirect('/list')
 
 
-
+x
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
     if get_user_id() == 0:
@@ -239,7 +239,7 @@ def create_tag():
 @app.route('/user/<user_id>', methods=['GET', 'POST'])
 def display_user(user_id):
     # user_id = request.form['id']
-    if get_user_id() > 0:
+    if get_user_id() == 0:
         data_manager.view_user_page(user_id)
         # return redirect('/user/' + str(user_id))
         render_template('display_user.html', user_id=user_id, user=data_manager.view_user_page(user_id))

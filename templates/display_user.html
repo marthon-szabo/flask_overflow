@@ -1,13 +1,17 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
     <p>
         <table class="fos">
             <td class="fos">
                 <h1 class="display_question">{{ users['username'] }}</h1>
+                <form action="/change_nick" method="post"></form>
 
-                    <!-- class="user">{{ users['email'] }} -->
+
 
             </td>
         </table>
     </p>
+
+{% endblock %}
