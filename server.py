@@ -165,6 +165,11 @@ def display_question(question_id, plus_view="0"):
             return render_template('display_question.html', question_id=question_id, question = data_manager.get_question(question_id), max_voted = max_vote ,anwsers = data_manager.get_answers(question_id), comments = data_manager.get_subcomments(), qcomments = data_manager.get_question_subcomments(question_id), tag = data_manager.view_tags(question_id))
     return redirect('/list')
 
+<<<<<<< HEAD
+=======
+
+x
+>>>>>>> feature/userpage
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
     if get_user_id() == 0:
@@ -241,6 +246,20 @@ def create_tag():
     question_id = request.form['question_id']
     return redirect('/question/' + str(question_id) + '/new-tag')
 
+<<<<<<< HEAD
+=======
+
+@app.route('/user/<user_id>', methods=['GET', 'POST'])
+def display_user(user_id):
+    # user_id = request.form['id']
+    if get_user_id() == 0:
+        data_manager.view_user_page(user_id)
+        # return redirect('/user/' + str(user_id))
+        render_template('display_user.html', user_id=user_id, user=data_manager.view_user_page(user_id))
+    return redirect(url_for('login'))
+
+
+>>>>>>> feature/userpage
 if __name__ == "__main__":
     app.run(
         debug=True, # Allow verbose error reports

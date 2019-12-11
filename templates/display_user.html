@@ -1,10 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>$Title$</title>
-</head>
-<body>
-$END$
-</body>
-</html>
+{% extends "layout.html" %}
+
+{% block content %}
+
+    <p>
+        <table class="fos">
+            <td class="fos">
+                <h1 class="display_question">{{ users['username'] }}</h1>
+                <form action="/change_nick" method="post"></form>
+
+
+
+            </td>
+        </table>
+    </p>
+
+{% endblock %}
