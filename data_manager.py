@@ -42,6 +42,14 @@ def get_questions(cursor):
     return questions
 
 @connection.connection_handler
+def get_users(cursor):
+    cursor.execute("""
+     SELECT * FROM users
+     """)
+    users = cursor.fetchall()
+    return users
+
+@connection.connection_handler
 def get_latest_questions(cursor):
     cursor.execute("""
     SELECT * FROM question
