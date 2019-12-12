@@ -17,6 +17,7 @@ ALTER TABLE IF EXISTS ONLY public.tag DROP CONSTRAINT IF EXISTS pk_tag_id CASCAD
 ALTER TABLE IF EXISTS ONLY public.question_tag DROP CONSTRAINT IF EXISTS fk_tag_id CASCADE;
 
 
+
 DROP TABLE IF EXISTS public.question;
 DROP SEQUENCE IF EXISTS public.question_id_seq;
 CREATE TABLE question (
@@ -42,10 +43,24 @@ CREATE TABLE users (
     reputation integer
 );
 
-DROP TABLE IF EXISTS public.accepted_answers
+DROP TABLE IF EXISTS public.accepted_answers;
 CREATE TABLE accepted_answers(
     question_id integer NOT NULL,
     answer_id integer DEFAULT 0
+);
+
+DROP TABLE if exists public.user_votes;
+CREATE TABLE user_votes(
+    user_id integer NOT NULL,
+    answer_id integer DEFAULT 0,
+    question_id integer DEFAULT 0,
+    vote_type integer
+);
+
+DROP TABLE if exists public.user_views;
+CREATE TABLE user_views(
+    user_id integer NOT NULL,
+    question_id integer DEFAULT 0
 );
 
 DROP TABLE IF EXISTS public.answer;

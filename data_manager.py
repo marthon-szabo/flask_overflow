@@ -2,6 +2,7 @@ from psycopg2 import sql
 import connection
 from datetime import datetime
 import server
+from flask import redirect, make_response, render_template
 import bcrypt
 
 def hash_password(plain_text_password):
@@ -13,6 +14,13 @@ def hash_password(plain_text_password):
 def verify_password(plain_text_password, hashed_password):
     hashed_bytes_password = hashed_password.encode('utf-8')
     return bcrypt.checkpw(plain_text_password.encode('utf-8'), hashed_bytes_password)
+
+
+def cookie_insertion(*args, **kwargs):
+    redirect_to_index = redirect('/')
+    response = make_response(redirect_to_index)
+    response.set_cookie(*args, **kwargs)
+    return response
 
 def get_timestamp():
     now = datetime.now()
@@ -52,10 +60,19 @@ def get_users(cursor):
 @connection.connection_handler
 def get_tags(cursor):
     cursor.execute("""
-     SELECT name FROM tag
+     SELECT * FROM tag
      """)
     tag = cursor.fetchall()
     return tag
+
+@connection.connection_handler
+def get_tag_count(cursor):
+    cursor.execute("""
+     SELECT tag_id,Count(tag_id) FROM question_tag
+     GROUP BY tag_id
+     """)
+    tag_count = cursor.fetchall()
+    return tag_count
 
 @connection.connection_handler
 def get_latest_questions(cursor):
@@ -463,11 +480,6 @@ def view_all_tags(cursor):
                     SELECT * FROM tag""")
     return cursor.fetchall()
 
-@connection.connection_handler
-def delete_question_tag(cursor, id):
-    cursor.execute("""
-    DELETE FROM public.question_tag WHERE id = """)
-
 
 @connection.connection_handler
 def view_user_page(cursor, user_id):
@@ -476,3 +488,73 @@ def view_user_page(cursor, user_id):
                     WHERE id = %(id)s
                     """, {'id': user_id})
     return cursor.fetchall()
+
+@connection.connection_handler
+def get_hash_pw(cursor, id_):
+    cursor.execute("""
+                    SELECT password FROM users
+                    WHERE id = %(id)s;
+                    """,
+                   {'id':id_})
+    hashed_pw = cursor.fetchone()
+    return hashed_pw
+
+@connection.connection_handler
+def add_user(cursor, uname, hashed_pw, email, gender):
+    cursor.execute("""
+                    INSERT INTO users (username, password, email, gender, reputation)
+                    VALUES ( %(uname)s, %(hashed_pw)s, %(email)s, %(gender)s,0 );
+                    """,
+                   {'uname': uname, 'hashed_pw': hashed_pw, 'email': email, 'gender': gender})
+
+
+@connection.connection_handler
+def get_email(cursor):
+    cursor.execute("""
+                    SELECT email, username FROM users;
+                    """)
+    emails = cursor.fetchall()
+    return emails
+
+
+def is_same_pw(pw, c_pw):
+    if c_pw != pw:
+        invalid = 'True'
+        return invalid
+    else:
+        invalid = 'False'
+        return invalid
+
+def is_same_email(f_email, u_email):
+    print(u_email)
+    for dict in u_email:
+        if f_email == dict['email']:
+            print(dict['email'])
+            print('True')
+            is_email = True
+            if is_email:
+               is_email = 'True'
+               return is_email
+        else:
+            is_email = 'False'
+            return is_email
+
+def is_same_username(username, u_email):
+    for dict in u_email:
+        if username == dict['username']:
+            is_user = True
+            if is_user:
+               return is_user
+        else:
+            is_user = 'False'
+            return is_user
+
+@connection.connection_handler
+def get_id(cursor, uname):
+    cursor.execute("""
+                    SELECT id FROM users
+                    WHERE username = %(uname)s
+                    """, {'uname':uname})
+    u_id = cursor.fetchone()
+    return u_id
+

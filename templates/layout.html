@@ -1,20 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
         <meta charset="utf-8">
         <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+        <script type="text/javascript" defer src="{{ url_for('static', filename='javascript.js') }}"></script>
         <title>Flask Overflow</title>
+        Hello {{ session['user'] }}
 </head>
 <body>
-    <div id="search_parent">
-        <span>Flask Overflow</span>
+    <div id="layouthead">
+    <div align="right" class="searchbar">
         <form id="search_bar" action="/list" method="post">
-            <input name="search-field">
+            <input name="search-field" placeholder="Search Something!">
             <button type="submit">Search</button>
         </form>
     </div>
-    <br>
+    <div id="search_parent">
+        <span>Flask Overflow</span>
+    </div>
+        <br>
         <table class='header_shit' width="100%">
         <tr align="center">
             <td class="header_shit"><a href="{{ url_for('main_page') }}">Main page</a></td>
@@ -23,8 +28,12 @@
             <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super Secret Button</a></td>
         </tr>
     </table>
-    <div class="content-wrapper">
-        {% block content %} {% endblock %}
     </div>
+
+
+        <div id="content" class="content-wrapper">
+            {% block content %} {% endblock %}
+        </div>
+
 </body>
 </html>

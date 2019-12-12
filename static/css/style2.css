@@ -1,5 +1,11 @@
 body{
-    background:#53595f;
+    background:#f7f7f7;
+}
+
+#layouthead{
+    background-color: #559ccd;
+    padding: 10px;
+
 }
 
 h1.header_shit{
@@ -7,16 +13,24 @@ h1.header_shit{
 }
 
 table.header_shit{
-    background-color: #8C93A3;
+    background-color: white;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.5);
 }
 
 td.header_shit{
     width: 25%;
     padding: 10px;
+    color: #53595f;
 }
+
+.header_shit a{
+    color: #53595f;
+}
+
 td.header_shit:hover{
-    background-color: #5D6C89;
+    background-color: #9fcfd5;
     padding: 10px;
+    transition: background-color 0.2s;
 }
 
 p.comment{
@@ -75,10 +89,9 @@ td.subtable{
 
 button{
     height: 40px;
-    border-radius: 40px;
     border-color: transparent;
     color: white;
-    background-color:#f2c07f;
+    background-color:#5D6C89;
     font-family: myFirstFont;
     font-size: 18px;
 }
@@ -96,11 +109,10 @@ button.delbutton{
 select{
     width: 100px;
     height: 40px;
-    border-radius: 40px;
     border-color: transparent;
     color: white;
     font-family: myFirstFont;
-    background-color:#f2c07f;
+    background-color:#9ec4e2;
     font-size: 18px;
 }
 
@@ -116,12 +128,12 @@ input{
     width:200px;
     height: 35px;
     border-color: transparent;
-    border-radius: 40px;
     font-family: myFirstFont;
-    background-color:lightgray;
+    background-color:#559ccd;
     font-size: 18px;
-    color: black;
+    color: white;
     text-align: center;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
 }
 
 input.checkbox{
@@ -133,40 +145,62 @@ p.orange{
     font-family: myFirstFont;
     font-size: 18px;
     color:white;
-    background-color:#f2c07f;
+    background-color:#559ccd;
     padding: 10px;
 }
 
 p.display_question{
     font-family: myFirstFont;
     font-size: 24px;
-    color: white;
+    color: black;
     margin-top: 0px;
 }
 
 h1.display_question{
     font-family:myFirstFont;
-    color: white;
+    color: black;
     font-size:36px
 }
 
 table.switching_color{
     width: 100%;
     color: black;
+    background-color: #3775a7;
+
 }
 
 td.switching_color{
-    padding: 50px;
+    padding: 10px;
     color:#101820FF;
+
 }
 
 tr.switching_color:nth-child(2n+1){
-    background-color: #f2c07f;
+    background-color: #559ccd;
+
 }
 
 tr.switching_color:{
     background-color: #53595f;
     color:#f2c07f;
+
+}
+
+#post_question{
+    position: absolute;
+    z-index: 10;
+    right: 15%;
+}
+
+.search_div{
+    padding: 10px;
+    background-color: #559ccd;
+}
+
+
+
+body{
+    margin:0;
 }
 
 a{
@@ -207,9 +241,10 @@ textarea{
 }
 
 p.subcomment{
-    background-color: darkgrey;
+    background-color: #8C93A3;
     margin-left: 5%;
     font-family: myFirstFont;
+    color: white;
 }
 
 form.subcomment{
@@ -222,10 +257,9 @@ form.subcomment{
 }
 
 button.subcomment{
-    border-radius: 10px;
     border-color: transparent;
     color: white;
-    background-color:#f2c07f;
+    background-color:#5D6C89;
     font-family: myFirstFont;
     font-size: 12px;
     margin-left: 5%;
@@ -234,17 +268,22 @@ button.subcomment{
 input.subcomment{
     height: 15px;
     border-color: transparent;
-    border-radius: 40px;
     font-family: myFirstFont;
     background-color:lightgray;
     font-size: 12px;
     color: black;
     text-align: center;
     margin-left: 5%;
+    transition: height 1s;
+}
+
+input.subcomment:focus{
+    height: 25px;
+    transition: height 1s;
 }
 
 p.subcomment_text{
-    background-color: #f2c07f;
+    background-color: #3775a7;
     font-family: myFirstFont;
     font-size: 12px;
     margin-left: 5%;
@@ -270,12 +309,18 @@ input.edit_subcomment{
     width: 100%;
 
 }
-#search_bar {
-    top: 50%;
-    display: table-cell;
-    display: inline;
-    padding: 0%;
-    margin: 59%;
+
+.searchbar{
+    position: absolute;
+    right:5%;
+    padding: 25px;
+    z-index: 10;
+}
+
+
+#search_parent{
+    position: relative;
+
 }
 
 #search_parent span {
@@ -290,3 +335,11 @@ input.edit_subcomment{
     margin: 0px;
 }
 
+#add_question_div{
+    margin-left:10%;
+    margin-right: 10%;
+    margin-top:2%; margin-bottom:2%;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,.2);
+}

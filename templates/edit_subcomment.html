@@ -1,5 +1,7 @@
 {% extends "layout.html" %}
 {% block content %}
+
+    <div id="add_question_div">
     {% for subcomment in subcomments %}
         {% if (subcomment.id|int) == (comment_id|int) %}
             <form action="/edit_subcomment/{{ comment_id }}/{{ question_id }}" method="post">
@@ -12,4 +14,5 @@
             </form>
         {% endif %}
     {% endfor %}
+    </div>
 {% endblock %}
