@@ -156,7 +156,7 @@ def display_question(question_id, plus_view="0"):
     return redirect('/list')
 
 
-x
+
 @app.route('/delete-subcomment/<int:comment_id>/<int:question_id>', methods = ['GET', 'POST'])
 def delete_subcomment(comment_id, question_id):
     if get_user_id() == 0:
@@ -245,7 +245,8 @@ def display_user(user_id):
         answers = data_manager.view_user_answers(user_id)
         comments = data_manager.view_user_comments(user_id)
         # return redirect('/user/' + str(user_id))
-        render_template('display_user.html', user_id=user_id, user=user, questions=questions, answers=answers, comments=comments)
+        render_template('display_user.html', user_id=user_id, user=user, questions=questions, answers=answers,
+                        comments=comments)
     return redirect(url_for('login'))
 
 

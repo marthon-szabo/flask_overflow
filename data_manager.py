@@ -350,7 +350,7 @@ def view_user_page(cursor, user_id):
                     SELECT * FROM users
                     WHERE id = %(id)s
                     """, {'id': user_id})
-    return cursor.fetchall()
+    return cursor.fetchone()
 
 
 @connection.connection_handler
