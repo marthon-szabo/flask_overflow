@@ -59,29 +59,22 @@ def register():
         is_email = data_manager.is_same_email(email)
         is_same_pw = data_manager.is_same_pw(pw, c_pw)
         is_username = data_manager.is_same_username(uname)
-
-        #render_template('register.html', email= 'EMAIL:'+ str(is_email) + ' ,UN ' + str(is_username) + ' + MATCH' + str(is_same_pw))
         if is_username != None:
             return render_template('register.html', is_username = True)
-        if is_email != None:
+        elif is_email != None:
             return  render_template('register.html', is_email = True)
-        if not is_same_pw:
+        elif not is_same_pw:
             return render_template('register.html', is_same_pw=not is_same_pw)
-        """
-        if not is_same_pw:
-            return render_template('register.html', is_same_pw=not is_same_pw,email='TESZT2')
-        if is_username != False:
-            if len(is_username) > 0:
-                return render_template('register.html', is_username=is_username, email = 'TESZT2')
-        if is_email != False:
-            if len(is_email) > 0:
-                return render_template('register.html', is_email=True, email = 'Teszt') """
-        hashed_pw = data_manager.hash_password(pw)
-        gender = 'Female'
-        if request.form.get('gender'):
-            gender = 'Male'
-        data_manager.add_user(uname, hashed_pw, email, gender)
-        return redirect(url_for('login'))
+        else:
+            hashed_pw = data_manager.hash_password(pw)
+            if request.form.get('heli'):
+                gender = 'Helicopter'
+            if request.form.get('gender2'):
+                gender = 'Female'
+            if request.form.get('gender'):
+                gender = 'Male'
+                data_manager.add_user(uname, hashed_pw, email, gender)
+                return redirect(url_for('login'))
 
 
 

@@ -1,35 +1,53 @@
 
 <html>
+{% block content %}
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+        <script type="text/javascript" defer src="{{ url_for('static', filename='javascript.js') }}"></script>
+        <title>Flask Overflow</title>
     <meta charset="UTF-8">
     <title>Register</title>
-</head>
-<body>
 
-        <div class="login-register">
+</head>
+
+<body style="background-color: #30799B">
+
+
+        <div id="add_question_div">
+            <p>
+                <h1 align="center" style="color: black; font-family: myFirstFont">Registration</h1>
+            </p>
             {% if is_email %}
-                <h1> Van már email</h1>
+                <h1 style="color: red; font-family: myFirstFont" class="login_link"> * This e-mail adress is already used!</h1>
             {% elif is_same_pw %}
-                <h1>Nem egyezik</h1>
+                <h1 style="color: red; font-family: myFirstFont" class="login_link">* Password doesen't match!</h1>
                 {% elif is_username %}
-                <h1>HAsználatban van az username</h1>
+                <h1 style="color: red; font-family: myFirstFont" class="login_link">* This username has been already taken!</h1>
             {% endif %}
-            <table class="login/register">
+            <table align="center">
                 <tbody>
                     <tr>
                         <form action="/register" method="post">
-                            <td><input value="username" name="uname"></td><br>
-                    <tr><td><input type="password" value="password" name="pw"></td></tr>
-                            <tr><td style="color: #30799B">* Confirm password!</td></tr>
-                            <tr><td><input type="password" value="password" name="c_pw"></td></tr>
-                            <tr><td><input type="email" value="E-mail" name="email"></td></tr>
-                            <tr><td><input type="checkbox" value="Gender" name="gender" class="gender1"></td></tr>
-                            <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender2"></td></tr>
+                            <td><input placeholder="username" name="uname"></td><br>
+                    <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
+                            <tr style="font-family: myFirstFont"><td style="color: #30799B">* Confirm password!</td></trstyle>
+                            <tr><td><input type="password" placeholder="password" name="c_pw"></tdsty></tr>
+                            <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
+                            <tr><td><select name="heli">
+                                <option value="Female">Female</option>
+                                <option value="Male">Male</option>
+                                <option value="Helicopter">Helicopter</option>
+                            </select></td></tr>
                            <tr><td><button type="submit">Registration</button></td></tr>
                         </form>
                     </tr>
                 </tbody>
             </table>
+            <centerp><a class="login_link" style="color: black; vertical-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
         </div>
 </body>
 </html>
+
+{% endblock %}

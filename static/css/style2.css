@@ -345,6 +345,7 @@ input.edit_subcomment{
     box-shadow: 0 0 5px 5px rgba(0,0,0,.2);
 }
 
+
 .login_link{
     align:"center";
     color:black;
@@ -363,4 +364,10 @@ a.subcomment_text{
 table.user_page_table{
     width: 80%;
     border-bottom-style: groove;
+}
+
+.login-register td {
+    padding: 5%;
+    margin-right: 100%;
+    padding-left: 400%;
 }
