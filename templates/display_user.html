@@ -10,7 +10,21 @@
             <tbody>
                 {% for question in questions %}
                     <tr>
-                        <td><a href="{{ url_for('display_question', question_id = question.id) }}">{{ question.title }}</a></td>
+                        <td><a class='userpagelink' href="{{ url_for('display_question', question_id = question.id, plus_view = '1') }}">{{ question.title }}</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </p>
+    <p>
+        <table>
+            <thead>
+                <td>Answers</td>
+            </thead>
+            <tbody>
+                {% for question in answers %}
+                    <tr>
+                        <td><a class='userpagelink' href="{{ url_for('display_question', question_id = question.id, plus_view = '1') }}">{{ question.title }}</a></td>
                     </tr>
                 {% endfor %}
             </tbody>

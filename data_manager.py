@@ -487,7 +487,7 @@ def view_user_page(cursor, user_id):
                     SELECT * FROM users
                     WHERE id = %(id)s
                     """, {'id': user_id})
-    return cursor.fetcone()
+    return cursor.fetchone()
 
 @connection.connection_handler
 def get_hash_pw(cursor, id_):
