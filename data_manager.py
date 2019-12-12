@@ -481,12 +481,6 @@ def view_all_tags(cursor):
     return cursor.fetchall()
 
 @connection.connection_handler
-def delete_question_tag(cursor, id):
-    cursor.execute("""
-    DELETE FROM public.question_tag WHERE id = """)
-
-
-@connection.connection_handler
 def get_hash_pw(cursor, id_):
     cursor.execute("""
                     SELECT password FROM users
