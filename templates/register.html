@@ -21,31 +21,32 @@
             </p>
             {% if is_email %}
                 <h1 style="color: red; font-family: myFirstFont" class="login_link"> * This e-mail adress is already used!</h1>
-            {% elif is_same_pw %}
+            {% elif is_same_pw == False %}
                 <h1 style="color: red; font-family: myFirstFont" class="login_link">* Password doesen't match!</h1>
                 {% elif is_username %}
                 <h1 style="color: red; font-family: myFirstFont" class="login_link">* This username has been already taken!</h1>
             {% endif %}
+        <form action="/register" method="post">
             <table align="center">
                 <tbody>
                     <tr>
-                        <form action="/register" method="post">
                             <td><input placeholder="username" name="uname"></td><br>
                     <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
                             <tr style="font-family: myFirstFont"><td style="color: #30799B">* Confirm password!</td></trstyle>
                             <tr><td><input type="password" placeholder="password" name="c_pw"></tdsty></tr>
                             <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
-                            <tr><td><select name="heli">
+                            </tbody>
+                        </table>
+                            <p align="center"><select name="heli">
                                 <option value="Female">Female</option>
                                 <option value="Male">Male</option>
                                 <option value="Helicopter">Helicopter</option>
-                            </select></td></tr>
-                           <tr><td><button type="submit">Registration</button></td></tr>
-                        </form>
-                    </tr>
-                </tbody>
-            </table>
-            <centerp><a class="login_link" style="color: black; vertical-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
+                            </select></p>
+                            <p align="center">
+                            <button type="submit">Registration</button>
+                            </p>
+            <p align="center"><a class="login_link" style="color: black; vertical-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></p>
+            </form>
         </div>
 </body>
 </html>

@@ -12,6 +12,7 @@ def before_request():
     return g.user """
 
 
+
 @app.route('/list_users', methods=['GET'])
 def list_users():
     table = data_manager.get_users()
@@ -51,7 +52,6 @@ def register():
         return render_template('register.html', email = 'Nem post')
     else:
         uname = request.form['uname']
-        print(uname)
         pw = request.form['pw']
         c_pw = request.form['c_pw']
         email = request.form['email']
@@ -61,16 +61,20 @@ def register():
         is_username = data_manager.is_same_username(uname)
         if is_username != None:
             return render_template('register.html', is_username = True)
+        elif is_same_pw == False:
+            return render_template('register.html', is_same_pw=is_same_pw)
         elif is_email != None:
             return  render_template('register.html', is_email = True)
-        elif not is_same_pw:
-            return render_template('register.html', is_same_pw=not is_same_pw)
         else:
             hashed_pw = data_manager.hash_password(pw)
             if request.form.get('heli'):
                 gender = 'Helicopter'
+                data_manager.add_user(uname, hashed_pw, email, gender)
+                return redirect(url_for('login'))
             if request.form.get('gender2'):
                 gender = 'Female'
+                data_manager.add_user(uname, hashed_pw, email, gender)
+                return redirect(url_for('login'))
             if request.form.get('gender'):
                 gender = 'Male'
                 data_manager.add_user(uname, hashed_pw, email, gender)
@@ -338,6 +342,11 @@ def display_user(user_id):
                         comments=comments, all_questions = all_questions, all_answers = all_answers )
     return redirect(url_for('login'))
 
+
+@app.route('/logout')
+def logout():
+    session.pop('username', None)
+    return redirect(url_for('login'))
 
 if __name__ == "__main__":
     app.run(

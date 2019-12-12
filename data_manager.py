@@ -558,13 +558,7 @@ def get_email(cursor):
 
 
 def is_same_pw(pw, c_pw):
-
-    if c_pw != pw:
-        invalid = 'True'
-        return invalid
-    else:
-        invalid = 'False'
-        return invalid
+    return pw == c_pw
 
 def is_same_email(f_email, u_email):
     for dict in u_email:
