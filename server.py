@@ -244,7 +244,7 @@ def display_question(question_id, plus_view="0"):
                                    anwsers=data_manager.get_answers(question_id),
                                    comments=data_manager.get_subcomments(),
                                    qcomments=data_manager.get_question_subcomments(question_id),
-                                   tag=data_manager.view_tags(question_id),users=data_manager.get_users())
+                                   tag=data_manager.view_tags(question_id), users=data_manager.get_users(), accepted_answers=data_manager.get_accepted_answers(question_id))
     return redirect('/list')
 
 
@@ -346,6 +346,14 @@ def display_user(user_id):
         return render_template('display_user.html', user_id=user_id, user=user, questions=questions, answers=answers,
                         comments=comments, all_questions = all_questions, all_answers = all_answers )
     return redirect(url_for('login'))
+
+
+@app.route('/accept_answer<int:question_id>/<int:answer_id>', methods=['GET', 'POST'])
+def accept_answer(question_id, answer_id):
+    if get_user_id() == 0:
+        return redirect(url_for('login'))
+    data_manager.accept_answer(question_id, answer_id)
+    return redirect('/question/'+str(question_id)+'/1')
 
 
 if __name__ == "__main__":

@@ -180,12 +180,6 @@ tr.switching_color:nth-child(2n+1){
 
 }
 
-tr.switching_color:{
-    background-color: #53595f;
-    color:#f2c07f;
-
-}
-
 #post_question{
     position: absolute;
     z-index: 10;
@@ -196,7 +190,6 @@ tr.switching_color:{
     padding: 10px;
     background-color: #559ccd;
 }
-
 
 
 body{
@@ -359,7 +352,11 @@ td.user_page_td{
 
 a.userpagelink{
     color:black;
+}
 
+img.accept_answer_button:hover {
+    width: 24px;
+    height: 24px;
 }
 
 a.subcomment_text{
