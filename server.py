@@ -3,13 +3,13 @@ import data_manager
 
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
-
+"""
 @app.before_request
 def before_request():
     g.user = None
     if 'username' in session:
         g.user = session['username']
-    return g.user
+    return g.user """
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -19,19 +19,20 @@ def login():
     else:
         uname = request.form['uname']
         pw = request.form['pw']
-        hashed_pw = data_manager.get_hash_pw(uname, pw)
         user_id = data_manager.get_id(uname)
-        verification = None
-        if verification == None:
-            verification = False
-        else:
+        if user_id:
+            user_id = user_id['id']
+            hashed_pw = data_manager.get_hash_pw(user_id)
+            hashed_pw = hashed_pw['password']
             verification = data_manager.verify_password(pw, hashed_pw)
-        if verification:
-            session['user_id'] = user_id
-            session['theme'] = request.form['theme']
-            return redirect(url_for('main_page'))
+            if verification:
+                session['user_id'] = user_id
+                #session['theme'] = request.form['theme']
+                return redirect(url_for('main_page'))
+            else:
+                return render_template('login.html', verification=verification)
         else:
-            return render_template('login.html', verification=verification)
+            return render_template('login.html', verification = False)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -55,22 +56,18 @@ def register():
             return render_template('register.html', is_email=is_email)
         else:
             hashed_pw = data_manager.hash_password(pw)
+            gender = 'Female'
             if request.form.get('gender'):
                 gender = 'Male'
-                data_manager.add_user(uname, hashed_pw, email, gender)
-                return redirect(url_for('login'))
-            else:
-                gender = 'Female'
-                data_manager.add_user(uname, hashed_pw, email, gender)
-                return redirect(url_for('login'))
+            data_manager.add_user(uname, hashed_pw, email, gender)
+            return redirect(url_for('login'))
 
 
 
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
     table = data_manager.get_latest_questions()
-    user_s = escape(session['username'])
-    return render_template('list.html', questions=table, user_s=user_s)
+    return render_template('list.html', questions=table, user_id = get_user_id())
 
 
 @app.route('/send_comment/<int:question_id>', methods=['GET', 'POST'])

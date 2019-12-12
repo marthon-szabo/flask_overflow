@@ -353,20 +353,20 @@ def delete_question_tag(cursor, id):
 
 
 @connection.connection_handler
-def get_hash_pw(cursor, uname, pw):
+def get_hash_pw(cursor, id_):
     cursor.execute("""
                     SELECT password FROM users
-                    WHERE username IN ( %(uname)s ) AND password IN ( %(pw)s );
+                    WHERE id = %(id)s;
                     """,
-                   {'uname': uname, 'pw': pw})
-    hashed_pw = cursor.fetchall()
+                   {'id':id_})
+    hashed_pw = cursor.fetchone()
     return hashed_pw
 
 @connection.connection_handler
 def add_user(cursor, uname, hashed_pw, email, gender):
     cursor.execute("""
-                    INSERT INTO users (username, password, email, gender)
-                    VALUES ( %(uname)s, %(hashed_pw)s, %(email)s, %(gender)s );
+                    INSERT INTO users (username, password, email, gender, reputation)
+                    VALUES ( %(uname)s, %(hashed_pw)s, %(email)s, %(gender)s,0 );
                     """,
                    {'uname': uname, 'hashed_pw': hashed_pw, 'email': email, 'gender': gender})
 
@@ -417,6 +417,6 @@ def get_id(cursor, uname):
     cursor.execute("""
                     SELECT id FROM users
                     WHERE username = %(uname)s
-                    """)
+                    """, {'uname':uname})
     u_id = cursor.fetchone()
     return u_id
