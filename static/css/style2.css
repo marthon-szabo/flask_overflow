@@ -317,14 +317,11 @@ input.edit_subcomment{
 .right_td{
     right: 5%;
 }
-
 .header_table{
     width:100%;
 }
-
 #search_parent{
     position: relative;
-
 }
 
 #search_parent span {
