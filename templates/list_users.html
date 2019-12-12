@@ -1,16 +1,26 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
-    <div id="add_question_div">
-{% for user in users %}
-    <td><a style="color: black" href="/user/{{ user.id }}">{{ user.username }}</a></td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.gender }}</td>
-        <td>{{ user.reputation }}</td>
-        <br>
+<div id="add_question_div">
+    <table>
+    <thead>
+    <tr>
+        <td><a class="userpagelink">Username</a></td>
+        <td><a class="userpagelink">Email-adress</a></td>
+        <td><a class="userpagelink">Gender</a></td>
+        <td><a class="userpagelink">Reputation</a></td>
     </tr>
-
-{% endfor %}
-    </div>
+    </thead>
+    <tbody>
+    {% for user in users %}
+        <tr class="user_page_tr">
+            <td class="user_page_td"><a class="userpagea" style="color: black" href="/user/{{ user.id }}">{{ user.username }}</a></td>
+            <td class="user_page_td">{{ user.email }}</td>
+            <td class="user_page_td">{{ user.gender }}</td>
+            <td class="user_page_td">{{ user.reputation }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+    </table>
+</div>
 {%  endblock %}

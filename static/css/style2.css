@@ -337,12 +337,19 @@ input.edit_subcomment{
 }
 
 #add_question_div{
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
     margin-left:10%;
     margin-right: 10%;
     margin-top:2%; margin-bottom:2%;
     background-color: white;
     padding: 10px;
     box-shadow: 0 0 5px 5px rgba(0,0,0,.2);
+}
+
+td.user_page_td{
+    width: 25%;
 }
 
 .login_link{
@@ -363,4 +370,13 @@ a.subcomment_text{
 table.user_page_table{
     width: 80%;
     border-bottom-style: groove;
+}
+
+.userpagea{
+    font-size: 16px;
+    color: black;
+}
+
+tr.user_page_tr{
+
 }

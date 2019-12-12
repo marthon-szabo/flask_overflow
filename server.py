@@ -3,13 +3,15 @@ import data_manager
 
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
-"""
+
 @app.before_request
 def before_request():
-    g.user = None
-    if 'username' in session:
-        g.user = session['username']
-    return g.user """
+    if get_user_id() > 0:
+        users = data_manager.get_users()
+        for user in users:
+            if user['id'] == session['user_id']:
+                session['uname'] = user['username']
+
 
 
 @app.route('/list_users', methods=['GET'])
@@ -287,6 +289,7 @@ def super_secret():
 def get_user_id():
     if 'user_id' in session:
         return session['user_id']
+    session['user_id'] = 0
     return 0
 
 @app.route('/edit-answer/<int:question_id>/<int:answer_id>', methods=["GET", 'POST'])
