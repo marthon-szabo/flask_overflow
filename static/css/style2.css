@@ -311,12 +311,16 @@ input.edit_subcomment{
 }
 
 .searchbar{
-    position: absolute;
     right:5%;
-    padding: 25px;
-    z-index: 10;
 }
 
+.right_td{
+    right: 5%;
+}
+
+.header_table{
+    width:100%;
+}
 
 #search_parent{
     position: relative;
@@ -342,4 +346,9 @@ input.edit_subcomment{
     background-color: white;
     padding: 10px;
     box-shadow: 0 0 5px 5px rgba(0,0,0,.2);
+}
+
+.login_link{
+    align:"center";
+    color:black;
 }

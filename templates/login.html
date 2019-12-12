@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-{% extends 'layout.html' %}
-{% block content %}
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
     <meta charset="UTF-8">
     <title>Login</title>
 </head>
 <body>
-    {% if request.method == 'GET' %}
-        <div>
-                <table>
+    <div id="add_question_div">
+        {% if not verification %}
+           <h1 style="color: red" align="center">*Invalid username or password!</h1>
+        {% endif %}
+            <div>
+                <form action="/login" method="post">
+                    <table align="center">
                     <tbody>
+                    <p>
+                        <h1 align="center">Login</h1>
+                    </p>
                     <tr>
                         <form action="/login" method="post">
-                            <td><input value="username" name="uname"></td><br>
-                            <td><input type="password" value="password" name="pw"></td>
-                            <td><button type="submit">Login</button></td>
+                            <tr><td><input placeholder="username" name="uname"></td></tr>
+                            <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
+                            <tr><td align="center"><button type="submit">Login</button></td></tr>
                         </form>
                     </tr>
                     </tbody>
                 </table>
-        </div>
-    {% else %}
-        {% if not verification %}
-            <div>
-                <form action="/" method="post">
-                    <table>
-                        <head><h1 style="color: red">*Invalid username or password!</h1></head>
-                        <tbody>
-                        <tr>
-                            <td><input value="username"></td><br>
-                            <td><input type="password" value="password"></td>
-                            <td><button type="submit">Try again</button></td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    </table>
                 </form>
+                <p align="center">
+                <a class="login_link" href="{{ url_for('super_secret') }}">I don't want to login</a><br>
+                <a class="login_link" href="{{ url_for('register') }}">I don't have an account yet</a>
+                </p>
             </div>
-        {% endif %}
-    {% endif %}
 </body>
 </html>
-{% endblock %}
