@@ -56,6 +56,7 @@
         {% if (record['question_id']|int) == (question_id|int) %}
                 <p class="comment">
                     <i>"{{ record['message']}}"</i><br>
+                    <a href="{{ url_for('accept_answer'), answer_id=answer_id, comment_id=record['id']}}"><img class="accept_answer_button" width="='16" height="16" align="right" src="https://icons-for-free.com/iconfiles/png/512/checkmark-131964752499076639.png"></a>
                     <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
                     <p class="orange">

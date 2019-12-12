@@ -333,6 +333,13 @@ def display_user(user_id):
     return redirect(url_for('login'))
 
 
+@app.route('/accept_answer<int:question_id>/<int:comment_id>', methods=['GET', 'POST'])
+def accept_answer(question_id, comment_id):
+    if get_user_id() == 0:
+        return redirect(url_for('login'))
+    data_manager.accept_answer(question_id, comment_id)
+
+
 if __name__ == "__main__":
     app.run(
         debug=True,  # Allow verbose error reports
