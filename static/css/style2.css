@@ -345,10 +345,19 @@ input.edit_subcomment{
 
 a.userpagelink{
     color:black;
-
 }
 
-img.accept_answer_button:hover{
+img.accept_answer_button:hover {
     width: 24px;
     height: 24px;
+}
+
+a.subcomment_text{
+    color: white;
+    font-size:14px;
+}
+
+table.user_page_table{
+    width: 80%;
+    border-bottom-style: groove;
 }

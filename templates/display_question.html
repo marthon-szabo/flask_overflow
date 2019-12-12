@@ -6,6 +6,11 @@
     <p>
     <table class="fos">
      <td class="fos">
+        {% for user in users %}
+            {% if user.id == question.user_id %}
+                <a class="userpagelink" href="{{ url_for('display_user', user_id = user.id) }}">{{ user.username }}'s question:</a>
+            {% endif %}
+        {% endfor %}
         <h1 class="display_question">{{question['title']}}</h1>
         <p class="display_question">{{question['message']}}</p>
         <p><img width="128" height="128" src="{{ question['image'] }}" alt=" "></p>
@@ -22,6 +27,7 @@
                 <a href="{{ url_for('add_tag', question_id=question_id ) }}"><img title="{{ tag.name }}" class="like_button" align="right" width="16" height="16" src="https://icon-library.net/images/tag-icon-png/tag-icon-png-16.jpg"></a>
             {% endif %}
         </p>
+
     </td>
     <tr>
         <td>
@@ -29,7 +35,13 @@
                 Comments<br>
                 {% for comment in qcomments %}
                     {% if (comment.question_id|int) == (question_id|int) %}
+
                         <p class="subcomment_text">
+                            {% for user in users %}
+                                {% if user.id == comment.user_id %}
+                                    <a class="subcomment_text" href="{{ url_for('display_user', user_id = user.id) }}">{{ user.username }}'s subcomment:</a><br>
+                                {% endif %}
+                            {% endfor %}
                             <i>"{{ comment.message }}"</i><br>
                             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ (comment['submission_time']|string)[:10] }}
                             {% if comment.user_id == session.user_id %}
@@ -54,9 +66,22 @@
 
     {% for record in anwsers|reverse %}
         {% if (record['question_id']|int) == (question_id|int) %}
-                <p class="comment">
+            {% for accepted_anwser in accepted_answers %}
+                {% if accepted_anwser.answer_id != record.id %}
+                    <p class="comment">
+                    {% else %}
+                    <p class="max_voted">
+                {% endif %}
+            {% endfor %}
+
+                    {% for user in users %}
+                        {% if user.id == record.user_id %}
+                            <a font-size="10px" class="userpagelink" href="{{ url_for('display_user', user_id = user.id) }}">{{ user.username }}'s answer:</a><br>
+                            <a href="{{ url_for('accept_answer', answer_id=record.id, question_id=question_id ) }}"><img class="accept_answer_button" align="right" width="16" height="16" src="https://icons-for-free.com/iconfiles/png/512/checkmark-131964752499076639.png"></a>
+                        {% endif %}
+                    {% endfor %}
                     <i>"{{ record['message']}}"</i><br>
-                    <a href="{{ url_for('accept_answer'), answer_id=answer_id, comment_id=record['id']}}"><img class="accept_answer_button" width="='16" height="16" align="right" src="https://icons-for-free.com/iconfiles/png/512/checkmark-131964752499076639.png"></a>
+
                     <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
                     <p class="orange">
@@ -72,6 +97,11 @@
                             {% for comment in comments %}
                                 {% if (comment.answer_id|int) == (record.id|int) %}
                                     <p class="subcomment_text">
+                                        {% for user in users %}
+                                            {% if user.id == comment.user_id %}
+                                                <a class="subcomment_text" href="{{ url_for('display_user', user_id = user.id) }}">{{ user.username }}'s subcomment:</a><br>
+                                            {% endif %}
+                                        {% endfor %}
                                         <i>"{{ comment.message }}"</i><br>
                                         <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ (comment['submission_time']|string)[:10] }}
                                         {% if session.user_id == comment.user_id %}

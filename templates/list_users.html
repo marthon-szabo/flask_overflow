@@ -4,8 +4,7 @@
 
     <div id="add_question_div">
 {% for user in users %}
-    <tr>
-        <td>{{ user.username }}</td>
+    <td><a style="color: black" href="/user/{{ user.id }}">{{ user.username }}</a></td>
         <td>{{ user.email }}</td>
         <td>{{ user.gender }}</td>
         <td>{{ user.reputation }}</td>
