@@ -232,7 +232,7 @@ def display_question(question_id, plus_view="0"):
                                    anwsers=data_manager.get_answers(question_id),
                                    comments=data_manager.get_subcomments(),
                                    qcomments=data_manager.get_question_subcomments(question_id),
-                                   tag=data_manager.view_tags(question_id))
+                                   tag=data_manager.view_tags(question_id),users=data_manager.get_users())
     return redirect('/list')
 
 

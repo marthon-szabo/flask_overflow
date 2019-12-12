@@ -354,3 +354,8 @@ a.userpagelink{
     color:black;
 
 }
+
+a.subcomment_text{
+    color: white;
+    font-size:14px;
+}
