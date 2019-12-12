@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+<head>{{ user_s }}</head>
     {% if request.method == 'POST' %}
         <table class="switching_color">
             {% for record in searched_questions %}
