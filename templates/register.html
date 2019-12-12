@@ -1,11 +1,25 @@
 
-{% extends 'layout.html' %}
 {% block content %}
 <head>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style2.css') }}">
+        <meta charset="utf-8">
+        <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
+        <script type="text/javascript" defer src="{{ url_for('static', filename='javascript.js') }}"></script>
+        <title>Flask Overflow</title>
     <meta charset="UTF-8">
     <title>Register</title>
 </head>
 <body>
+      <div id="layouthead">
+    <div align="right" class="searchbar">
+        <form id="search_bar" action="/list" method="post">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div id="search_parent">
+        <span>Flask Overflow</span>
+    </div>
+        <
     {% if request.method == 'GET' %}
         <div class="login-register">
             <table class="login/register">
