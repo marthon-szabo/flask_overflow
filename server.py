@@ -36,12 +36,12 @@ def login():
             hashed_pw = data_manager.get_hash_pw(user_id)
             hashed_pw = hashed_pw['password']
             verification = data_manager.verify_password(pw, hashed_pw)
+
             if verification:
                 session['user_id'] = user_id
-                #session['theme'] = request.form['theme']
                 return redirect(url_for('main_page'))
             else:
-                return render_template('login.html', verification=verification)
+                return render_template('login.html', verification=not verification)
         else:
             return render_template('login.html', verification = False)
 
@@ -77,8 +77,6 @@ def register():
 
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
-    if get_user_id() == 0:
-        return redirect(url_for('login'))
     table = data_manager.get_latest_questions()
     return render_template('list.html', questions=table, user_id = get_user_id())
 
@@ -272,7 +270,7 @@ def edit_question(question_id):
 
 @app.route('/super-secret', methods=['GET', 'POST'])
 def super_secret():
-    session['user_id'] = 1
+    session['user_id'] = 0
     session['theme'] = 'Terraria'
     return redirect(url_for('main_page'))
 

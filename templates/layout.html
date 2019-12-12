@@ -6,11 +6,11 @@
         <link rel="shortcut icon" href="{{ url_for('static', filename='padlizsan.png') }}">
         <script type="text/javascript" defer src="{{ url_for('static', filename='javascript.js') }}"></script>
         <title>Flask Overflow</title>
-        Hello {{ session['user'] }}
+
 </head>
 <body>
     <div id="layouthead">
-    <div align="right" class="searchbar">
+    <!--<div align="right" class="searchbar">
         <form id="search_bar" action="/list" method="post">
             <input name="search-field" placeholder="Search Something!">
             <button type="submit">Search</button>
@@ -18,7 +18,31 @@
     </div>
     <div id="search_parent">
         <span>Flask Overflow</span>
-    </div>
+    </div> -->
+        <table class="header_table">
+            <td>
+                <div id = "search_parent">
+                    <span>Flask Overflow</span>
+                </div>
+            </td>
+
+            <td>
+                {% if session['user_id'] == 0 %}
+                Vendégként bejelentkezve
+                {% else %}
+                    Bejelentkezve mint {{ session['user_id'] }}
+                {% endif %}
+            </td>
+
+            <td class="right_td" align="right">
+                <div align="right" class="searchbar">
+                        <form id="search_bar" action="/list" method="post">
+                            <input name="search-field" placeholder="Search Something!">
+                            <button type="submit">Search</button>
+                        </form>
+                    </div>
+            </td>
+        </table>
         <br>
         <table class='header_shit' width="100%">
         <tr align="center">
