@@ -354,3 +354,13 @@ a.userpagelink{
     color:black;
 
 }
+
+a.subcomment_text{
+    color: white;
+    font-size:14px;
+}
+
+table.user_page_table{
+    width: 80%;
+    border-bottom-style: groove;
+}

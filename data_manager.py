@@ -215,26 +215,32 @@ def like_post(cursor,id_, user_id): #like answer
         if like['vote_type'] == 1: #Ha már likeolta
             add_vote_to_answer(id_, -1)
             remove_user_vote(user_id, 0, id_)
+            add_reputation_to_user(user_by_answerid(id_), -10)
         else: #Ha downvoteolta
             add_vote_to_answer(id_, 2) #Downvote disable + 1 vote
             update_user_vote_type(user_id, 1, 0, id_)
+            add_reputation_to_user(user_by_answerid(id_), 12)
     else:
         add_vote_to_answer(id_, 1)
         add_user_vote(user_id,0,id_,1)
+        add_reputation_to_user(user_by_answerid(id_), 10)
 
 @connection.connection_handler
 def dislike_post(cursor,answer_id, user_id): #dislike answer
     like = get_user_answer_likes(answer_id, user_id)
     if like:
-        if like['vote_type'] == -1:
+        if like['vote_type'] == -1: # Ha már dislike
             add_vote_to_answer(answer_id, 1)
             remove_user_vote(user_id, 0, answer_id)
+            add_reputation_to_user(user_by_answerid(answer_id), 2)
         else:
             add_vote_to_answer(answer_id, -2)
             update_user_vote_type(user_id, -1, 0, answer_id)
+            add_reputation_to_user(user_by_answerid(answer_id), -12)
     else:
         add_user_vote(user_id, 0, answer_id, -1)
         add_vote_to_answer(answer_id, -1)
+        add_reputation_to_user(user_by_answerid(answer_id), -2)
 
 @connection.connection_handler
 def add_vote_to_question(cursor, question_id, value):
@@ -272,6 +278,28 @@ def add_user_vote(cursor,user_id, question_id, answer_id, vote_type):
     """, {'uid':user_id, 'answer_id':answer_id ,'qid':int(question_id), 'vtype':int(vote_type)})
 
 @connection.connection_handler
+def add_reputation_to_user(cursor,user_id,value):
+    cursor.execute("""
+        UPDATE users
+        SET reputation = reputation + %(value)s
+        WHERE id = %(id)s
+    """,{'value':value, 'id':user_id})
+
+@connection.connection_handler
+def user_by_questionid(cursor,question_id):
+    cursor.execute("""SELECT user_id FROM question
+    WHERE id = %(id)s""",{'id':question_id})
+    dict = cursor.fetchone()
+    return int(dict['user_id'])
+
+@connection.connection_handler
+def user_by_answerid(cursor,answer_id):
+    cursor.execute("""SELECT user_id FROM answer
+    WHERE id = %(id)s""",{'id':answer_id})
+    dict = cursor.fetchone()
+    return int(dict['user_id'])
+
+@connection.connection_handler
 def like_question(cursor,id_, user_id):
     if user_id > 0:
         cursor.execute("""
@@ -285,12 +313,15 @@ def like_question(cursor,id_, user_id):
             if int(likes['vote_type']) == 1:  #Ha már van rajta egy like
                 add_vote_to_question(id_, -1)  #Szedje le róla
                 remove_user_vote(user_id, id_, 0) # Törölje a user vote-ját
+                add_reputation_to_user(user_by_questionid(id_), -5)
             else:  # HA downvote van rajta
                 add_vote_to_question(id_, 2) #Adjon hozzá 2 lájkot ( downvote eltüntetés + 1 like )
                 update_user_vote_type(user_id,1,id_,0)
+                add_reputation_to_user(user_by_questionid(id_), 7)
         else:
             add_vote_to_question(id_, 1)
             add_user_vote(user_id, id_,0, 1)
+            add_reputation_to_user(user_by_questionid(id_), 5)
 
 @connection.connection_handler
 def dislike_question(cursor, id_, user_id):
@@ -305,12 +336,15 @@ def dislike_question(cursor, id_, user_id):
             if likes['vote_type'] == -1: #Ha dislikeolta
                 remove_user_vote(user_id, id_, 0)  #Törölje a dbből
                 add_vote_to_question(id_, 1) #Nullázza a downvote-t
+                add_reputation_to_user(user_by_questionid(id_), 2)
             else:  #Ha likeolta
                 update_user_vote_type(user_id, -1,id_,0) #Downvotera állitsa
                 add_vote_to_question(id_, -2) # Vegye le likeot + dislike
+                add_reputation_to_user(user_by_questionid(id_), -7)
         else:
             add_user_vote(user_id, id_,0, -1)
             add_vote_to_question(id_, -1)
+            add_reputation_to_user(user_by_questionid(id_), -2)
 
 @connection.connection_handler
 def view_question(cursor, id_, user_id):
@@ -435,6 +469,12 @@ def get_answer(cursor, id_):
     """,{'id':id_})
     return cursor.fetchone()
 
+@connection.connection_handler
+def get_all_answers(cursor):
+    cursor.execute("""
+    SELECT * FROM answer""")
+    return cursor.fetchall()
+
 
 @connection.connection_handler
 def add_tag(cursor, name):
@@ -518,6 +558,7 @@ def get_email(cursor):
 
 
 def is_same_pw(pw, c_pw):
+
     if c_pw != pw:
         invalid = 'True'
         return invalid
@@ -547,6 +588,19 @@ def is_same_username(username, u_email):
         else:
             is_user = 'False'
             return is_user
+
+
+
+@connection.connection_handler
+def is_same_email(cursor,email):
+    cursor.execute("""SELECT * FROM users WHERE email = %(email)s""", {'email':email})
+    return cursor.fetchone()
+
+@connection.connection_handler
+def is_same_username(cursor,uname):
+    cursor.execute("""SELECT * FROM users WHERE username = %(uname)s""", {'uname':uname})
+    return cursor.fetchone()
+
 
 @connection.connection_handler
 def get_id(cursor, uname):
