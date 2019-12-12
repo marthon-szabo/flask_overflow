@@ -1,5 +1,5 @@
 body{
-    background:white;
+    background:#f7f7f7;
 }
 
 #layouthead{
@@ -14,7 +14,7 @@ h1.header_shit{
 
 table.header_shit{
     background-color: white;
-
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.5);
 }
 
 td.header_shit{
@@ -26,8 +26,6 @@ td.header_shit{
 .header_shit a{
     color: #53595f;
 }
-
-
 
 td.header_shit:hover{
     background-color: #9fcfd5;
@@ -131,11 +129,11 @@ input{
     height: 35px;
     border-color: transparent;
     font-family: myFirstFont;
-    background-color:#9ec4e2;
-    margin-left: 5px;
+    background-color:#559ccd;
     font-size: 18px;
     color: white;
     text-align: center;
+    box-shadow: 0 0 2px 2px rgba(0,0,0,.2);
 }
 
 input.checkbox{
@@ -188,11 +186,11 @@ tr.switching_color:{
 
 }
 
-
-
-
-
-
+#post_question{
+    position: absolute;
+    z-index: 10;
+    right: 15%;
+}
 
 .search_div{
     padding: 10px;
@@ -337,3 +335,11 @@ input.edit_subcomment{
     margin: 0px;
 }
 
+#add_question_div{
+    margin-left:10%;
+    margin-right: 10%;
+    margin-top:2%; margin-bottom:2%;
+    background-color: white;
+    padding: 10px;
+    box-shadow: 0 0 5px 5px rgba(0,0,0,.2);
+}

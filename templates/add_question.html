@@ -3,6 +3,7 @@
 {% block content %}
     <p>
 
+    <div id="add_question_div">
         <form action="/add-question" method="post">
             <center>
             <p class="orange">You have a question? Just ask it!</p>
@@ -25,17 +26,19 @@
                 </select>
             </p>
 
+
+
             <p align="right">
-                <button type="submit">Post Question</button>
+                <button id="post_question" type="submit">Post Question</button>
             </p>
             </center>
         </form>
-        <p>
-            <form action="/create-tag-then-return" method="post">
-                <input type="text" name="title" placeholder="New tag">
-                <button type="submit">Add tag</button>
-            </form>
-        </p>
-
+            <p align="left">
+                <form action="/create-tag-then-return" method="post">
+                    <input type="text" name="title" placeholder="New tag">
+                    <button type="submit">Add tag</button>
+                </form>
+            </p>
+        </div>
     </p>
 {% endblock %}

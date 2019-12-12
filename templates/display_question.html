@@ -1,6 +1,8 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
+    <div id="add_question_div">
     <p>
     <table class="fos">
      <td class="fos">
@@ -93,8 +95,11 @@
     <p>
         <form action="/send_comment/{{ question_id }}" method="post">
         <textarea name="my_comment" cols="30" rows="5" required placeholder="Comment your opinion"></textarea><br>
-        <input size="18.5" name="image_link" placeholder="Image link( not required)">
-        <button type="submit">Comment</button>
+        <p>
+            <input size="18.5" name="image_link" placeholder="Image link( not required)">
+            <button type="submit">Comment</button>
+        </p>
         </form>
     </p>
+    </div>
 {% endblock %}

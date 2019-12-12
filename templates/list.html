@@ -1,6 +1,7 @@
 {% extends "layout.html" %}
 
 {% block content %}
+
     {% if request.method == 'POST' %}
         <table class="switching_color">
             {% for record in searched_questions %}
@@ -55,4 +56,5 @@
         </table>
         </p>
     {% endif %}
+
 {% endblock %}
