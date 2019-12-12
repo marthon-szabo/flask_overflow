@@ -21,7 +21,7 @@
     </div>
     {% if request.method == 'GET' %}
         <div class="login-register">
-            <table class="login/register">
+            <table class="login/register" align="center">
                 <tbody>
                     <tr>
                         <form action="/register" method="post">
@@ -30,8 +30,11 @@
                             <tr><td style="color: #30799B">* Confirm password!</td></tr>
                             <tr><td><input type="password" value="password" name="c_pw"></td></tr>
                             <tr><td><input type="email" value="E-mail" name="email"></td></tr>
-                            <tr><td><input type="checkbox" value="Gender" name="gender" class="gender1"></td></tr>
-                            <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender2"></td></tr>
+                            <tr><td><select>
+                                <option value="Female" name="gender2">Female</option>
+                                <option value="Male" name="gender">Male</option>
+                                <option value="Helicopter" name="heli">Helicopter</option>
+                            </select></td></tr>
                            <tr><td><button type="submit">Registration</button></td></tr>
                         </form>
                     </tr>
@@ -50,8 +53,11 @@
                                 <tr><td  style="color: red">* Password doesen't match!</td></tr>
                                 <tr><td><input type="password" value="password" name="c_pw"></td></tr>
                                 <tr><td><input type="email" value="E-mail" name="email"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><select>
+                                <option value="Female" name="gender2">Female</option>
+                                <option value="Male" name="gender">Male</option>
+                                <option value="Helicopter" name="heli">Helicopter</option>
+                            </select></td></tr>
                                 <tr><td><button type="submit">Registration</button></td></tr>
                             </form>
                         </tr>
@@ -70,8 +76,11 @@
                                 <tr><td><input type="password" value="password" name="pw"></td></tr>
                                 <tr><td><input type="password" value="password" name="c_pw"></td></tr>
                                 <tr><td><input type="email" value="E-mail" name="email"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><select>
+                                <option value="Female" name="gender2">Female</option>
+                                <option value="Male" name="gender">Male</option>
+                                <option value="Helicopter" name="heli">Helicopter</option>
+                            </select></td></tr>
                                 <tr><td><button type="submit">Registration</button></td>
                             </form>
                         </tr>
@@ -89,8 +98,11 @@
                                 <tr><td><input type="password" value="password" name="c_pw"></td></tr>
                                 <tr><td><h3 style="color: darkred">This e-mail adress has already been used!</h3></td></tr>
                                 <tr><td><input type="email" value="E-mail" name="email"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender" class="gender"></td></tr>
-                                <tr><td><input type="checkbox" value="Gender" name="gender2" class="gender"></td></tr>
+                                <tr><td><select>
+                                <option value="Female" name="gender2">Female</option>
+                                <option value="Male" name="gender">Male</option>
+                                <option value="Helicopter" name="heli">Helicopter</option>
+                            </select></td></tr>
                                 <tr><td><button type="submit">Registration</button></td></tr>
                             </form>
                         </tr>
