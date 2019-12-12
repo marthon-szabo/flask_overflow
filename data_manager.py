@@ -526,7 +526,6 @@ def is_same_pw(pw, c_pw):
         return invalid
 
 def is_same_email(f_email, u_email):
-    print(u_email)
     for dict in u_email:
         if f_email == dict['email']:
             print(dict['email'])
@@ -542,7 +541,7 @@ def is_same_email(f_email, u_email):
 def is_same_username(username, u_email):
     for dict in u_email:
         if username == dict['username']:
-            is_user = True
+            is_user = 'True'
             if is_user:
                return is_user
         else:

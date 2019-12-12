@@ -51,19 +51,22 @@ def register():
         return render_template('register.html')
     else:
         uname = request.form['uname']
+        print(uname)
         pw = request.form['pw']
         c_pw = request.form['c_pw']
         email = request.form['email']
         users_and_emails = data_manager.get_email()
+        print(users_and_emails)
         is_email = data_manager.is_same_email(email, users_and_emails)
         is_same_pw = data_manager.is_same_pw(pw, c_pw)
         is_username = data_manager.is_same_username(uname, users_and_emails)
+        print(is_username)
         if is_same_pw == 'True':
             return render_template('register.html', is_same_pw=is_same_pw)
-        if is_username == 'True':
+        elif is_username == 'True':
             return render_template('register.html', is_username=is_username)
 
-        if is_email == 'True':
+        elif is_email == 'True':
             return render_template('register.html', is_email=is_email)
         else:
             hashed_pw = data_manager.hash_password(pw)
