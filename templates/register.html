@@ -10,8 +10,7 @@
     <title>Register</title>
 
 </head>
-<body>
-
+<body style="background-color: #30799B">
     {% if request.method == 'GET' %}
         <div id="add_question_div">
             <p>
@@ -21,22 +20,22 @@
                 <tbody>
                     <tr>
                         <form action="/register" method="post">
-                            <td><input value="username" name="uname"></td><br>
-                    <tr><td><input type="password" value="password" name="pw"></td></tr>
+                            <td><input placeholder="username" name="uname"></td><br>
+                    <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
                             <tr><td style="color: #30799B">* Confirm password!</td></tr>
-                            <tr><td><input type="password" value="password" name="c_pw"></td></tr>
-                            <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                            <tr><td><input type="password" placeholder="password" name="c_pw"></td></tr>
+                            <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
                             <tr><td><select>
-                                <option value="Female" name="gender2">Female</option>
-                                <option value="Male" name="gender">Male</option>
-                                <option value="Helicopter" name="heli">Helicopter</option>
+                                <option placeholder="Female" name="gender2">Female</option>
+                                <option placeholder="Male" name="gender">Male</option>
+                                <option placeholder="Helicopter" name="heli">Helicopter</option>
                             </select></td></tr>
                            <tr><td><button type="submit">Registration</button></td></tr>
                         </form>
                     </tr>
                 </tbody>
             </table>
-            <p><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></p>
+            <centerp><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
         </div>
     {% elif request.method == 'POST' %}
         {% if is_same_pw %}
@@ -45,11 +44,11 @@
                     <tbody>
                         <tr>
                             <form action="/register" method="post">
-                                <tr><td><input value="username" name="uname"></td><br></tr>
-                                <tr><td><input type="password" value="password" name="pw"></td></tr>
+                                <tr><td><input placeholder="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
                                 <tr><td  style="color: red">* Password doesen't match!</td></tr>
-                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
-                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input type="password" placeholder="password" name="c_pw"></td></tr>
+                                <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
                                 <tr><td><select>
                                 <option value="Female" name="gender2">Female</option>
                                 <option value="Male" name="gender">Male</option>
@@ -60,6 +59,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <centerp><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
             </div>
 
         {% elif is_username %}
@@ -69,10 +69,10 @@
                         <tr>
                             <form action="/register" method="post">
                                 <tr><td><h3 style="color: darkred">This username is taken!</h3></td></tr>
-                                <tr><td><input value="username" name="uname"></td><br></tr>
-                                <tr><td><input type="password" value="password" name="pw"></td></tr>
-                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
-                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input placeholder="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
+                                <tr><td><input type="password" placeholder="password" name="c_pw"></td></tr>
+                                <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
                                 <tr><td><select>
                                 <option value="Female" name="gender2">Female</option>
                                 <option value="Male" name="gender">Male</option>
@@ -83,6 +83,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <centerp><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
             </div>
         {% elif is_email %}
             <div id="add_question_div">
@@ -90,11 +91,11 @@
                     <tbody>
                         <tr>
                             <form action="/register" method="post">
-                                <tr><td><input value="username" name="uname"></td><br></tr>
-                                <tr><td><input type="password" value="password" name="pw"></td></tr>
-                                <tr><td><input type="password" value="password" name="c_pw"></td></tr>
+                                <tr><td><input placeholder="username" name="uname"></td><br></tr>
+                                <tr><td><input type="password" placeholder="password" name="pw"></td></tr>
+                                <tr><td><input type="password" placeholder="password" name="c_pw"></td></tr>
                                 <tr><td><h3 style="color: darkred">This e-mail adress has already been used!</h3></td></tr>
-                                <tr><td><input type="email" value="E-mail" name="email"></td></tr>
+                                <tr><td><input type="email" placeholder="E-mail" name="email"></td></tr>
                                 <tr><td><select>
                                 <option value="Female" name="gender2">Female</option>
                                 <option value="Male" name="gender">Male</option>
@@ -105,6 +106,7 @@
                         </tr>
                     </tbody>
                 </table>
+                <centerp><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></centerp>
             </div>
         {% endif %}
     {% endif %}
