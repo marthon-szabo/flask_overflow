@@ -13,7 +13,10 @@
 <body>
 
     {% if request.method == 'GET' %}
-        <div class="login-register">
+        <div id="add_question_div">
+            <p>
+                <h1 align="center">Registration</h1>
+            </p>
             <table class="login/register" align="center">
                 <tbody>
                     <tr>
@@ -33,6 +36,7 @@
                     </tr>
                 </tbody>
             </table>
+            <p><a href="">Already have an account? Login!</a></p>
         </div>
     {% elif request.method == 'POST' %}
         {% if is_same_pw %}
