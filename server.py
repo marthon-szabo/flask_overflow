@@ -48,30 +48,40 @@ def login():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'GET':
-        return render_template('register.html')
+        return render_template('register.html', email = 'Nem post')
     else:
         uname = request.form['uname']
         pw = request.form['pw']
         c_pw = request.form['c_pw']
         email = request.form['email']
         users_and_emails = data_manager.get_email()
-        is_email = data_manager.is_same_email(email, users_and_emails)
+        is_email = data_manager.is_same_email(email)
         is_same_pw = data_manager.is_same_pw(pw, c_pw)
-        is_username = data_manager.is_same_username(uname, users_and_emails)
-        if is_same_pw == 'True':
-            return render_template('register.html', is_same_pw=is_same_pw)
-        if is_username == 'True':
-            return render_template('register.html', is_username=is_username)
+        is_username = data_manager.is_same_username(uname)
 
-        if is_email == 'True':
-            return render_template('register.html', is_email=is_email)
-        else:
-            hashed_pw = data_manager.hash_password(pw)
-            gender = 'Female'
-            if request.form.get('gender'):
-                gender = 'Male'
-            data_manager.add_user(uname, hashed_pw, email, gender)
-            return redirect(url_for('login'))
+        #render_template('register.html', email= 'EMAIL:'+ str(is_email) + ' ,UN ' + str(is_username) + ' + MATCH' + str(is_same_pw))
+        if is_username != None:
+            return render_template('register.html', is_username = True)
+        if is_email != None:
+            return  render_template('register.html', is_email = True)
+        if not is_same_pw:
+            return render_template('register.html', is_same_pw=not is_same_pw)
+        """
+        if not is_same_pw:
+            return render_template('register.html', is_same_pw=not is_same_pw,email='TESZT2')
+        if is_username != False:
+            if len(is_username) > 0:
+                return render_template('register.html', is_username=is_username, email = 'TESZT2')
+        if is_email != False:
+            if len(is_email) > 0:
+                return render_template('register.html', is_email=True, email = 'Teszt') """
+
+        hashed_pw = data_manager.hash_password(pw)
+        gender = 'Female'
+        if request.form.get('gender'):
+            gender = 'Male'
+        data_manager.add_user(uname, hashed_pw, email, gender)
+        return redirect(url_for('login'))
 
 
 
@@ -327,9 +337,11 @@ def display_user(user_id):
         questions = data_manager.view_user_questions(user_id)
         answers = data_manager.view_user_answers(user_id)
         comments = data_manager.view_user_comments(user_id)
+        all_questions = data_manager.get_questions()
+        all_answers = data_manager.get_all_answers()
         # return redirect('/user/' + str(user_id))
         return render_template('display_user.html', user_id=user_id, user=user, questions=questions, answers=answers,
-                        comments=comments)
+                        comments=comments, all_questions = all_questions, all_answers = all_answers )
     return redirect(url_for('login'))
 
 

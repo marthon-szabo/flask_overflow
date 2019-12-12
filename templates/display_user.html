@@ -1,34 +1,72 @@
 {% extends "layout.html" %}
 
 {% block content %}
-
+    <div id="add_question_div">
     <p>
-        <table>
-            <thead>
-                <td>Questions</td>
-            </thead>
+     <h2> {{ user.username }}'s questions</h2>
+        <table class="user_page_table">
             <tbody>
-                {% for question in questions %}
+                {% if questions|length > 0 %}
+                    {% for question in questions %}
+                        <tr>
+                            <td><a class='userpagelink' href="{{ url_for('display_question', question_id = question.id, plus_view = '1') }}">"{{ question.title }}"</a></td>
+                        </tr>
+                    {% endfor %}
+                {% else %}
                     <tr>
-                        <td><a class='userpagelink' href="{{ url_for('display_question', question_id = question.id, plus_view = '1') }}">{{ question.title }}</a></td>
+                    <td>This user has no questions yet.</td>
                     </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </p>
-    <p>
-        <table>
-            <thead>
-                <td>Answers</td>
-            </thead>
-            <tbody>
-                {% for question in answers %}
-                    <tr>
-                        <td><a class='userpagelink' href="{{ url_for('display_question', question_id = question.id, plus_view = '1') }}">{{ question.title }}</a></td>
-                    </tr>
-                {% endfor %}
+                {% endif %}
             </tbody>
         </table>
     </p>
 
+    <p>
+        <h2> {{ user.username }}'s answers</h2>
+        <table class="user_page_table">
+            <tbody>
+                {% if answers|length > 0 %}
+                    {% for answer in answers %}
+                        {% for question in all_questions %}
+                            {% if question.id == answer.question_id %}
+                            <tr><td><a class="userpagelink" href="{{ url_for('display_question', question_id = question.id, plus_view= '1')}}"> "{{ answer.message }}"</a></td></tr>
+                            {% endif %}
+                        {% endfor %}
+                    {% endfor %}
+                {% else %}
+                    <tr><td>This user has no answers yet.</td></tr>
+                {% endif %}
+            </tbody>
+        </table>
+    </p>
+
+    <p align="center">
+        <h2> {{ user.username }}'s comments</h2>
+        {% if comments|length > 0 %}
+        <table class="user_page_table">
+            {% for comment in comments %}
+                {% if comment.answer_id %}
+                    {% for answer in all_answers %}
+                        {% if answer.id == comment.answer_id %}
+                            {% for question in all_questions %}
+                                {% if question.id == answer.question_id %}
+                                    <tr><td><a class="userpagelink" href="{{ url_for('display_question', question_id = question.id, plus_view= '1')}}">" {{ comment.message }} "</a></td></tr>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    {% endfor %}
+                {% else %}
+                    {% for question in all_questions %}
+                        {% if question.id == comment.question_id %}
+                           <tr><td><a class="userpagelink" href="{{ url_for('display_question', question_id = question.id, plus_view= '1')}}">" {{ comment.message }} "</a></td></tr>
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}
+        </table>
+        {% else %}
+            This user has no comments yet.
+        {% endif %}
+    </p>
+</div>
 {% endblock %}
