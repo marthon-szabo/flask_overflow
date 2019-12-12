@@ -558,3 +558,30 @@ def get_id(cursor, uname):
     u_id = cursor.fetchone()
     return u_id
 
+
+@connection.connection_handler
+def view_user_questions(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM question
+                    WHERE user_id = %(user)s
+                    """, {"user": user_id})
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def view_user_answers(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM answer
+                    WHERE user_id = %(user)s
+                    """, {"user": user_id})
+    return cursor.fetchall()
+
+
+@connection.connection_handler
+def view_user_comments(cursor, user_id):
+    cursor.execute("""
+                    SELECT * FROM comment
+                    WHERE user_id = %(user)s
+                    """, {"user": user_id})
+    return cursor.fetchall()
+
