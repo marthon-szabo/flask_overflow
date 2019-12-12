@@ -1,8 +1,15 @@
-from flask import Flask, request, render_template, redirect, session, escape, url_for
+from flask import Flask, request, render_template, redirect, session, g, escape, url_for
 import data_manager
 
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
+
+@app.before_request
+def before_request():
+    g.user = None
+    if 'username' in session:
+        g.user = session['username']
+    return g.user
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -11,18 +18,16 @@ def login():
         return render_template('login.html')
     else:
         uname = request.form['uname']
-        print(uname)
         pw = request.form['pw']
-        print(pw)
         hashed_pw = data_manager.get_hash_pw(uname, pw)
+        user_id = data_manager.get_id(uname)
         verification = None
         if verification == None:
             verification = False
         else:
             verification = data_manager.verify_password(pw, hashed_pw)
-        print(verification)
         if verification:
-            session['username'] = request.form['username']
+            session['user_id'] = user_id
             session['theme'] = request.form['theme']
             return redirect(url_for('main_page'))
         else:
@@ -64,7 +69,8 @@ def register():
 @app.route('/', methods=['GET', 'POST'])
 def main_page():
     table = data_manager.get_latest_questions()
-    return render_template('list.html', questions=table)
+    user_s = escape(session['username'])
+    return render_template('list.html', questions=table, user_s=user_s)
 
 
 @app.route('/send_comment/<int:question_id>', methods=['GET', 'POST'])

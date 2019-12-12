@@ -412,3 +412,11 @@ def is_same_username(username, u_email):
             is_user = 'False'
             return is_user
 
+@connection.connection_handler
+def get_id(cursor, uname):
+    cursor.execute("""
+                    SELECT id FROM users
+                    WHERE username = %(uname)s
+                    """)
+    u_id = cursor.fetchone()
+    return u_id
