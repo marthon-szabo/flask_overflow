@@ -58,17 +58,21 @@ def register():
         is_email = data_manager.is_same_email(email, users_and_emails)
         is_same_pw = data_manager.is_same_pw(pw, c_pw)
         is_username = data_manager.is_same_username(uname, users_and_emails)
+        gender = request.form.get('heli')
         if is_same_pw == 'True':
             return render_template('register.html', is_same_pw=is_same_pw)
-        if is_username == 'True':
+        elif is_username == 'True':
             return render_template('register.html', is_username=is_username)
 
-        if is_email == 'True':
+        elif is_email == 'True':
             return render_template('register.html', is_email=is_email)
         else:
             hashed_pw = data_manager.hash_password(pw)
-            gender = 'Female'
-            if request.form.get('gender'):
+            if request.form.get('heli'):
+                gender = 'Helicopter'
+            elif request.form.get('gender2'):
+                gender = 'Female'
+            elif request.form.get('gender'):
                 gender = 'Male'
             data_manager.add_user(uname, hashed_pw, email, gender)
             return redirect(url_for('login'))
