@@ -36,11 +36,11 @@
                     </tr>
                 </tbody>
             </table>
-            <p><a href="">Already have an account? Login!</a></p>
+            <p><a class="login_link" style="color: black; horiz-align: center" href="{{ url_for('login') }}">Already have an account? Login!</a></p>
         </div>
     {% elif request.method == 'POST' %}
         {% if is_same_pw %}
-            <div class="login-register">
+            <div id="add_question_div">
                 <table class="login-register">
                     <tbody>
                         <tr>
@@ -63,7 +63,7 @@
             </div>
 
         {% elif is_username %}
-            <div class="login-register">
+            <div id="add_question_div">
                 <table class="login-register">
                     <tbody>
                         <tr>
@@ -85,7 +85,7 @@
                 </table>
             </div>
         {% elif is_email %}
-            <div class="login-register">
+            <div id="add_question_div">
                 <table>
                     <tbody>
                         <tr>
