@@ -26,7 +26,7 @@ def list_tags():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'GET':
-        return render_template('login.html')
+        return render_template('login.html', verification = False)
     else:
         uname = request.form['uname']
         pw = request.form['pw']
@@ -41,9 +41,9 @@ def login():
                 session['user_id'] = user_id
                 return redirect(url_for('main_page'))
             else:
-                return render_template('login.html', verification=not verification)
+                return render_template('login.html', verification=True)
         else:
-            return render_template('login.html', verification = False)
+            return render_template('login.html', verification = True)
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
