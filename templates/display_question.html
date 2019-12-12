@@ -64,18 +64,26 @@
     </tr>
     </table>
 
+
     {% for record in anwsers|reverse %}
         {% if (record['question_id']|int) == (question_id|int) %}
-                <p class="comment">
                     {% for user in users %}
                         {% if user.id == record.user_id %}
                             <a font-size="10px" class="userpagelink" href="{{ url_for('display_user', user_id = user.id) }}">{{ user.username }}'s answer:</a><br>
+
                         {% endif %}
                     {% endfor %}
-                    <i>"{{ record['message']}}"</i><br>
-                    <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
+
+
+
+                    {% if record.id in accepted_answers %}
+                        <p class="max_voted">
+
+                        <i>"{{ record['message']}}"</i><br>
+                                            <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
                     <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
-                    <p class="orange">
+
+                                            <p class="orange">
                         <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
                         <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
                         {% if record.user_id == session.user_id %}
@@ -83,6 +91,27 @@
                         <a href="{{ url_for('edit_answer', question_id=question_id, answer_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
                         {% endif %}
                     </p>
+                        </p>
+                            {% else%}
+                            <p class="comment">
+                            <a href="{{ url_for('accept_answer', answer_id=record.id, question_id=question_id ) }}"><img class="accept_answer_button" align="right" width="16" height="16" src="https://icons-for-free.com/iconfiles/png/512/checkmark-131964752499076639.png"></a>
+
+                             <i>"{{ record['message']}}"</i><br>
+                             <img width="64" height="64" src="{{ record['image'] }}" alt=" "><br>
+                             <img width="16" height="16" src="https://cdn.pixabay.com/photo/2019/02/26/09/19/calender-4021509_960_720.png"> {{ record['submission_time'] }}<br>
+
+                                <p class="orange">
+                                    <a href="{{ url_for('vote_anwser', question_id=question_id, comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://emojis.wiki/emoji-pics/facebook/fire-facebook.png"></a>
+                                    <a href="{{ url_for('devote_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" width="16" height="16" src="https://www.stickpng.com/assets/images/580b57fcd9996e24bc43c39c.png"></a>{{ record['vote_number'] }}
+                                    {% if record.user_id == session.user_id %}
+                                    <a href="{{ url_for('delete_anwser',question_id=question_id,comment_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://www.stickpng.com/assets/images/5a2411fc6003f508dd5d5b37.png"></a>
+                                    <a href="{{ url_for('edit_answer', question_id=question_id, answer_id=record['id'] ) }}"><img class="like_button" align="right" width="16" height="16" src="https://img.icons8.com/cotton/2x/edit.png"></a>
+                                    {% endif %}
+                                </p>
+                            </p>
+                            {% endif %}
+
+
                     <p class="subcomment">
                             Comments<br>
                             {% for comment in comments %}
@@ -102,14 +131,13 @@
                                     </p>
                                 {% endif %}
                             {% endfor %}
-
                             <form method="post" action="/send_subcomment_to_answer/{{ record.id }}/{{ question_id }}">
                                 <input required class="subcomment" type="text" name="message" placeholder="Share your opinion!"><br>
                                 <p>
                                     <button class="subcomment" type="submit">Comment to question</button>
                                 </p>
                             </form>
-                        </p>
+                    </p>
                 </p>
         {%endif%}
     {%endfor%}

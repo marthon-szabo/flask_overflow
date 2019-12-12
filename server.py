@@ -3,13 +3,15 @@ import data_manager
 
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
-"""
+
 @app.before_request
 def before_request():
-    g.user = None
-    if 'username' in session:
-        g.user = session['username']
-    return g.user """
+    if get_user_id() > 0:
+        users = data_manager.get_users()
+        for user in users:
+            if user['id'] == session['user_id']:
+                session['uname'] = user['username']
+
 
 
 @app.route('/list_users', methods=['GET'])
@@ -236,7 +238,7 @@ def display_question(question_id, plus_view="0"):
                                    anwsers=data_manager.get_answers(question_id),
                                    comments=data_manager.get_subcomments(),
                                    qcomments=data_manager.get_question_subcomments(question_id),
-                                   tag=data_manager.view_tags(question_id),users=data_manager.get_users())
+                                   tag=data_manager.view_tags(question_id), users=data_manager.get_users(), accepted_answers=data_manager.get_accepted_answers(question_id))
     return redirect('/list')
 
 
@@ -281,6 +283,7 @@ def super_secret():
 def get_user_id():
     if 'user_id' in session:
         return session['user_id']
+    session['user_id'] = 0
     return 0
 
 @app.route('/edit-answer/<int:question_id>/<int:answer_id>', methods=["GET", 'POST'])
@@ -337,6 +340,14 @@ def display_user(user_id):
         return render_template('display_user.html', user_id=user_id, user=user, questions=questions, answers=answers,
                         comments=comments, all_questions = all_questions, all_answers = all_answers )
     return redirect(url_for('login'))
+
+
+@app.route('/accept_answer<int:question_id>/<int:answer_id>', methods=['GET', 'POST'])
+def accept_answer(question_id, answer_id):
+    if get_user_id() == 0:
+        return redirect(url_for('login'))
+    data_manager.accept_answer(question_id, answer_id)
+    return redirect('/question/'+str(question_id)+'/1')
 
 
 if __name__ == "__main__":

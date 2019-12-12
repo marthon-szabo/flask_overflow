@@ -638,3 +638,20 @@ def view_user_comments(cursor, user_id):
                     """, {"user": user_id})
     return cursor.fetchall()
 
+
+@connection.connection_handler
+def accept_answer(cursor, question_id, answer_id):
+    cursor.execute("""
+                    INSERT INTO accepted_answers (question_id, answer_id) VALUES ( %(question_id)s, %(answer_id)s )""",
+                   {'question_id': question_id, 'answer_id': answer_id})
+@connection.connection_handler
+def get_accepted_answers(cursor, question_id):
+    cursor.execute("""
+                    SELECT * FROM accepted_answers WHERE question_id = %(question_id)s
+                    """, {'question_id': question_id})
+    accepted_answers = cursor.fetchall()
+    return_table = []
+    for answer in accepted_answers:
+        return_table.append(answer['answer_id'])
+    return return_table
+

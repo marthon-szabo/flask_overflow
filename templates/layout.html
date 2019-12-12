@@ -28,9 +28,9 @@
 
             <td>
                 {% if session['user_id'] == 0 %}
-                Vendégként bejelentkezve
+                    <a href = "{{ url_for('login') }}">I wan't to login!</a>
                 {% else %}
-                    Bejelentkezve mint {{ session['user_id'] }}
+                    Logged in as <a href="{{ url_for('display_user', user_id = session['user_id']) }}">{{ session['uname'] }}</a>
                 {% endif %}
             </td>
 
@@ -49,7 +49,7 @@
             <td class="header_shit"><a href="{{ url_for('main_page') }}">Main page</a></td>
             <td class="header_shit"><a href="{{ url_for('listing_questions') }}">Display All Questions</a></td>
             <td class="header_shit"><a href="{{ url_for('add_question') }}">Add Question</a></td>
-            <td class="header_shit"><a href="{{ url_for('super_secret') }}">Super Secret Button</a></td>
+            <td class="header_shit"><a href="{{ url_for('list_users') }}">List Users</a></td>
         </tr>
     </table>
     </div>
