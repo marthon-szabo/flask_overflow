@@ -3,14 +3,13 @@ import data_manager
 
 app = Flask(__name__)
 app.secret_key = 'Tilted Towers'
-
 @app.before_request
 def before_request():
     if get_user_id() > 0:
         users = data_manager.get_users()
         for user in users:
             if user['id'] == session['user_id']:
-                session['uname'] = user['username']
+                session['user'] = user['username']
 
 
 
@@ -41,6 +40,7 @@ def login():
 
             if verification:
                 session['user_id'] = user_id
+                session['user'] = uname
                 return redirect(url_for('main_page'))
             else:
                 return render_template('login.html', verification=True)
@@ -348,6 +348,12 @@ def accept_answer(question_id, answer_id):
         return redirect(url_for('login'))
     data_manager.accept_answer(question_id, answer_id)
     return redirect('/question/'+str(question_id)+'/1')
+
+
+@app.route('/logout')
+def logout():
+    session.pop('user_id', 0)
+    return redirect(url_for('main_page'))
 
 
 if __name__ == "__main__":

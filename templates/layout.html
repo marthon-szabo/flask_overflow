@@ -30,7 +30,8 @@
                 {% if session['user_id'] == 0 %}
                     <a href = "{{ url_for('login') }}">I wan't to login!</a>
                 {% else %}
-                    Logged in as <a href="{{ url_for('display_user', user_id = session['user_id']) }}">{{ session['uname'] }}</a>
+                    Logged in as <a href="{{ url_for('display_user', user_id = session['user_id']) }}">{{ session['user'] }}</a>
+                    <a href="{{ url_for('logout', username = session['user']) }}">Logout</a>
                 {% endif %}
             </td>
 
